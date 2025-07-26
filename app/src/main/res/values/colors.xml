@@ -3,12 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <color name="Primary100">#1D427D</color>
-    <color name="Primary200">#3C5FA0</color>
-    <color name="Primary300">#5D7FC2</color>
-    <color name="Primary400">#87A6E0</color>
-    <color name="Primary500">#B7CDF3</color>
-    <color name="Primary600">#EAF1FD</color>
+    <color name="Primary600">#1D427D</color>
+    <color name="Primary500">#3C5FA0</color>
+    <color name="Primary400">#5D7FC2</color>
+    <color name="Primary300">#87A6E0</color>
+    <color name="Primary200">#B7CDF3</color>
+    <color name="Primary100">#EAF1FD</color>
 
     <color name="Gray800">#191F28</color>
     <color name="Gray700">#222B39</color>
