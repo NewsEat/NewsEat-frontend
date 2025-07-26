@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="Primary100">#1D427D</color>
+    <color name="Primary200">#3C5FA0</color>
+    <color name="Primary300">#5D7FC2</color>
+    <color name="Primary400">#87A6E0</color>
+    <color name="Primary500">#B7CDF3</color>
+    <color name="Primary600">#EAF1FD</color>
+
+    <color name="Gray800">#191F28</color>
+    <color name="Gray700">#222B39</color>
+    <color name="Gray600">#333D4B</color>
+    <color name="Gray500">#4E5868</color>
+    <color name="Gray400">#8490A0</color>
+    <color name="Gray300">#C3C9D0</color>
+    <color name="Gray200">#EFF1F3</color>
+    <color name="Gray100">#F6F7F8</color>
+
+    <color name="StatusError">#FF4242</color>
+    <color name="StatusSuccess">#2DB75D</color>
+    <color name="BackDeemed">#171717</color>
+
 </resources>

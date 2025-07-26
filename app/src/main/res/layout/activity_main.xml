@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="hi!"
+        android:textAppearance="@style/TextAppearance.NewsEat.Display1"
+        android:textColor="@color/Primary200"
         >
-
     </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

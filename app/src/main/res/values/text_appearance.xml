@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.NewsEat" parent="">
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title1" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">24sp</item>
+        <item name="lineHeight">38.4sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title2" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">20sp</item>
+        <item name="lineHeight">32sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title3" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">18sp</item>
+        <!-- LEADING Auto -->
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title4" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">18sp</item>
+        <!-- LEADING Auto -->
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title5" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">25.6sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title6" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">25.6sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Title7" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">19.2sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body1" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">25.6sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body2" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">25.6sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body3" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">22.4sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body4" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">19.2sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body5" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">21.6sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body6" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">12sp</item>
+        <item name="lineHeight">21.6sp</item>
+        <item name="fontFamily">@font/pretendard_light</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body7" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">12sp</item>
+        <!-- LEADING Auto -->
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body8" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">15sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body9" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">9sp</item>
+        <item name="lineHeight">13.5sp</item>
+        <item name="fontFamily">@font/pretendard_light</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body10" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">22.4sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Body11" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">16sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Display1" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">28sp</item>
+        <item name="lineHeight">39.2sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Display2" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">18sp</item>
+        <item name="lineHeight">25.2sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Caption1" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">14sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Caption2" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">9sp</item>
+        <item name="lineHeight">13.5sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="TextAppearance.NewsEat.Caption3" parent="TextAppearance.NewsEat">
+        <item name="android:textSize">8sp</item>
+        <item name="lineHeight">8sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+</resources>
