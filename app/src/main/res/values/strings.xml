@@ -6,6 +6,54 @@
     <string name="menu_category">카테고리</string>
     <string name="menu_bookmark">북마크</string>
     <string name="menu_mypage">마이페이지</string>
+
+    <string name="news_eat_name">뉴잇</string>
+    <!--    <string name="news_eat_name_en">News eat</string>-->
+    <string name="news_eat_slogan">내 취향에 맞게\n편안한 뉴스만</string>
+
+    <!--    회원가입, 로그인-->
+
+    <string name="login_find_email">이메일 찾기</string>
+    <string name="login_find_pw">비밀번호 찾기</string>
+
+    <string name="header_title_sign_up">회원가입</string>
+
+    <string name="sign_up_email_title">이메일 주소</string>
+    <string name="sign_up_email_hint1">이메일</string>
+    <string name="sign_up_email_hint2">인증번호</string>
+
+    <string name="sign_up_pw_title">비밀번호</string>
+    <string name="sign_up_pw_hint1">비밀번호 (영문, 숫자 조합 8-16자)</string>
+    <string name="sign_up_pw_hint2">비밀번호 확인 (영문, 숫자 조합 8-16자)</string>
+    <string name="pw_info_error1">영문, 숫자 조합 8-16자</string>
+    <string name="pw_info_error2">비밀번호를 다시 확인해주세요.</string>
+    
+    <string name="button_login">로그인</string>
+    <string name="button_verify">인증하기</string>
+    <string name="button_confirm">확인</string>
+    <string name="button_next">다음</string>
+    <string name="button_finish">완료</string>
+
+    <string name="email_verify_sent">인증번호가 발송되었습니다.</string>
+    <string name="email_verify_error">인증번호를 다시 확인해주세요.</string>
+    <string name="email_verify_success">인증이 완료되었습니다.</string>
+
+    <string name="sign_up_nickname_title">뉴스잇에 오신걸 환영해요!\n어떻게 불러드릴까요?</string>
+    <string name="sign_up_nickname">닉네임</string>
+    <string name="sign_up_nickname_hint">닉네임을 입력하세요</string>
+
+    <string name="select_category_title">관심있는 주제를 선택해주세요\n(1개 이상 3개 이하)</string>
+    <string name="category_sports">스포츠</string>
+    <string name="category_culture">생활/문화</string>
+    <string name="category_economy">경제</string>
+    <string name="category_entertainment">연예</string>
+    <string name="category_politics">정치</string>
+    <string name="category_science">IT/과학</string>
+    <string name="category_social">사회</string>
+    <string name="category_world">세계</string>
+
+
+    
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
