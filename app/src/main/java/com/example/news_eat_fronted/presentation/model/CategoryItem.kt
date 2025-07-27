@@ -1,4 +1,4 @@
-package com.example.news_eat_fronted.presentation.ui.signup
+package com.example.news_eat_fronted.presentation.model
 
 data class CategoryItem (
     val imgResId: Int,

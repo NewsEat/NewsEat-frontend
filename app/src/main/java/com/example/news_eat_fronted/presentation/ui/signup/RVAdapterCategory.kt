@@ -6,8 +6,12 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.RvCategoryItemBinding
+import com.example.news_eat_fronted.presentation.model.CategoryItem
 
-class RVAdapterCategory(val categoryList: ArrayList<CategoryItem>): RecyclerView.Adapter<RVAdapterCategory.ViewHolder>() {
+class RVAdapterCategory(
+    val categoryList: ArrayList<CategoryItem>,
+    private val onSelectionChanged: (List<String>) -> Unit
+    ): RecyclerView.Adapter<RVAdapterCategory.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): RVAdapterCategory.ViewHolder {
@@ -54,6 +58,10 @@ class RVAdapterCategory(val categoryList: ArrayList<CategoryItem>): RecyclerView
                         // 토스트 메시지 (최대 3개까지 선택가능합니다.)
                     }
                 }
+
+                onSelectionChanged(categoryList
+                    .filter { it.isSelected }
+                    .map { item -> itemView.context.getString(item.nameResId) })
             }
         }
     }

@@ -2,9 +2,11 @@ package com.example.news_eat_fronted.presentation.ui.signup
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentSignupStep3Binding
+import com.example.news_eat_fronted.presentation.model.CategoryItem
 import com.example.news_eat_fronted.util.base.BindingFragment
 
 class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.fragment_signup_step3) {
@@ -18,16 +20,18 @@ class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.
         CategoryItem(R.drawable.category_sports_unselected, R.string.category_sports),
         CategoryItem(R.drawable.category_world_unselected, R.string.category_world),
     )
+    private val signupViewModel by activityViewModels<SignupViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setAdapter()
-
     }
 
     private fun setAdapter() {
-        val adapter = RVAdapterCategory(categoryList = ArrayList(categoryList))
+        val adapter = RVAdapterCategory(categoryList = ArrayList(categoryList)) {
+            selectedList -> signupViewModel.updateSelectedCategory(selectedList)
+        }
         binding.rvCategory.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             this.adapter = adapter

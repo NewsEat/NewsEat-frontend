@@ -45,7 +45,8 @@
         app:layout_constraintStart_toEndOf="@id/input_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/input_email"
-        android:layout_marginLeft="12dp"/>
+        android:layout_marginLeft="12dp"
+        android:enabled="false" />
 
     <EditText
         android:id="@+id/input_verify_code"
@@ -74,7 +75,8 @@
         app:layout_constraintStart_toEndOf="@id/input_verify_code"
         app:layout_constraintTop_toTopOf="@id/input_verify_code"
         android:layout_marginLeft="12dp"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/info_email_verification"
