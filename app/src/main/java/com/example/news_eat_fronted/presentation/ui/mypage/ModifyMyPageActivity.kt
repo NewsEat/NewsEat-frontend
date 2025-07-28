@@ -2,29 +2,42 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivityModifyMypageBinding
 import com.example.news_eat_fronted.presentation.ui.signup.SignupStep2Fragment
 import com.example.news_eat_fronted.presentation.ui.signup.SignupStep3Fragment
 import com.example.news_eat_fronted.util.base.BindingActivity
+import kotlinx.coroutines.launch
 
 class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layout.activity_modify_mypage) {
     private lateinit var type: String
+    private val modifyViewModel by viewModels<ModifyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        type = intent.getStringExtra("fragment_type") ?: "password"
+        type = intent.getStringExtra("fragment_type") ?: "category"
 
         setFragment()
         setHeaderTitle()
         addListeners()
         setButtonVisible()
+        collectData()
     }
 
     private fun addListeners() {
         binding.btnBack.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun collectData() {
+        lifecycleScope.launch {
+            modifyViewModel.isNextBtnEnabled.collect { enabled ->
+                binding.btnModify.isEnabled = enabled
+            }
         }
     }
 
@@ -61,7 +74,17 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
     private fun setButtonVisible() {
         if(type == "userInfo") {
             binding.btnModify.visibility = View.GONE
+        } else {
+            binding.btnModify.visibility = View.VISIBLE
         }
     }
 
+    fun changeToPwModify() {
+        val fragment = ModifyPwFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fcv_modify, fragment)
+            .commit()
+        type = "password"
+        setButtonVisible()
+    }
 }

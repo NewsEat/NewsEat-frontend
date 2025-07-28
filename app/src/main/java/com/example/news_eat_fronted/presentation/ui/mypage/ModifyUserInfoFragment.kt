@@ -11,12 +11,13 @@ class ModifyUserInfoFragment: BindingFragment<FragmentModifyUserInfoBinding>(R.l
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnPwModify.paintFlags = binding.btnPwModify.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.btnPwModify.paintFlags = binding.btnPwModify.paintFlags or Paint.UNDERLINE_TEXT_FLAG  // 밑줄
+        addListeners()
     }
 
     private fun addListeners() {
         binding.btnPwModify.setOnClickListener {
-
+            (activity as ModifyMyPageActivity)?.changeToPwModify()
         }
     }
 }
