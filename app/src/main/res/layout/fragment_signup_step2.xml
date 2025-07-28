@@ -38,9 +38,10 @@
         android:layout_marginTop="12dp" />
 
     <TextView
+        android:id="@+id/nickname_length"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text='@{String.valueOf(signupViewModel.nicknameLength) + "/10"}'
+        android:text=''
         android:textAppearance="@style/TextAppearance.NewsEat.Body4"
         android:textColor="@color/Gray500"
         app:layout_constraintTop_toTopOf="@id/input_nickname"

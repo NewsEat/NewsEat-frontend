@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/title_modify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pw_modify_title"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="55dp" />
+
+    <EditText
+    android:id="@+id/input_pw"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/selector_input"
+    android:hint="@string/sign_up_pw_hint1"
+    android:maxLines="1"
+    android:paddingHorizontal="12dp"
+    android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+    android:textColor="@color/Gray700"
+    android:textColorHint="@color/Gray400"
+    app:layout_constraintTop_toBottomOf="@id/title_modify"
+    android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/info_pw_error1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pw_info_error1"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+        android:textColor="@color/StatusError"
+        app:layout_constraintTop_toBottomOf="@id/input_pw"
+        app:layout_constraintStart_toStartOf="@id/input_pw"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/title_modify_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pw_modify_title2"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintTop_toBottomOf="@id/info_pw_error1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_goneMarginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/input_pw_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/selector_input"
+        android:hint="@string/sign_up_pw_hint2"
+        android:maxLines="1"
+        android:paddingHorizontal="12dp"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+        android:textColor="@color/Gray700"
+        android:textColorHint="@color/Gray400"
+        app:layout_constraintTop_toBottomOf="@id/title_modify_confirm"
+        android:layout_marginTop="6dp"
+        app:layout_goneMarginTop="12dp"/>
+
+    <TextView
+        android:id="@+id/info_pw_error2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pw_info_error2"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+        android:textColor="@color/StatusError"
+        app:layout_constraintTop_toBottomOf="@id/input_pw_confirm"
+        app:layout_constraintStart_toStartOf="@id/input_pw_confirm"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentSignupStep3Binding
 import com.example.news_eat_fronted.presentation.model.CategoryItem
+import com.example.news_eat_fronted.presentation.ui.mypage.ModifyViewModel
 import com.example.news_eat_fronted.util.base.BindingFragment
 
 class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.fragment_signup_step3) {
@@ -21,16 +22,24 @@ class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.
         CategoryItem(R.drawable.category_world_unselected, R.string.category_world),
     )
     private val signupViewModel by activityViewModels<SignupViewModel>()
+    private val modifyViewModel by activityViewModels<ModifyViewModel>()
+    private var isModify: Boolean = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        isModify = arguments?.getBoolean("isModify") ?: false
 
         setAdapter()
     }
 
     private fun setAdapter() {
-        val adapter = RVAdapterCategory(categoryList = ArrayList(categoryList)) {
-            selectedList -> signupViewModel.updateSelectedCategory(selectedList)
+        val adapter = RVAdapterCategory(categoryList = ArrayList(categoryList)) { selectedList ->
+            if(isModify) {
+                modifyViewModel.updateSelectedCategory(selectedList)
+            } else {
+                signupViewModel.updateSelectedCategory(selectedList)
+            }
         }
         binding.rvCategory.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)

@@ -27,12 +27,15 @@
     <string name="sign_up_pw_hint2">비밀번호 확인 (영문, 숫자 조합 8-16자)</string>
     <string name="pw_info_error1">영문, 숫자 조합 8-16자</string>
     <string name="pw_info_error2">비밀번호를 다시 확인해주세요.</string>
+    <string name="pw_modify_title">변경할 비밀번호</string>
+    <string name="pw_modify_title2">비밀번호 확인</string>
     
     <string name="button_login">로그인</string>
     <string name="button_verify">인증하기</string>
     <string name="button_confirm">확인</string>
     <string name="button_next">다음</string>
     <string name="button_finish">완료</string>
+    <string name="button_modify">변경하기</string>
 
     <string name="email_verify_sent">인증번호가 발송되었습니다.</string>
     <string name="email_verify_error">인증번호를 다시 확인해주세요.</string>

@@ -34,8 +34,8 @@ class SignupViewModel: ViewModel() {
     private val _nickname = MutableStateFlow("")
     val nickname: StateFlow<String> = _nickname
 
-    private val _nicknameLength = MutableLiveData(0)
-    val nicknameLength: LiveData<Int> = _nicknameLength
+    private val _nicknameLength = MutableStateFlow(0)
+    val nicknameLength: StateFlow<Int> = _nicknameLength
 
     private val _selectedCategory = MutableStateFlow<List<String>>(emptyList())
     val selectedCategory: StateFlow<List<String>> = _selectedCategory

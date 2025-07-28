@@ -1,4 +1,4 @@
-package com.example.news_eat_fronted.presentation.ui
+package com.example.news_eat_fronted.presentation.ui.mypage
 
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
