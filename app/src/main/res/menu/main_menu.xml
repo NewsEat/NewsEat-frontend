@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/selector_home"
+        android:title="@string/menu_home" />
+
+    <item
+        android:id="@+id/menu_category"
+        android:icon="@drawable/selector_category"
+        android:title="@string/menu_category" />
+
+    <item
+        android:id="@+id/menu_bookmark"
+        android:icon="@drawable/selector_bookmark"
+        android:title="@string/menu_bookmark" />
+
+    <item
+        android:id="@+id/menu_mypage"
+        android:icon="@drawable/selector_mypage"
+        android:title="@string/menu_mypage" />
+</menu>

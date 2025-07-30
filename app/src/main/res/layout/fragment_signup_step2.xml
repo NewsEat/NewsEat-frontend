@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="signupViewModel"
+            type="com.example.news_eat_fronted.presentation.ui.signup.SignupViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/title_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up_nickname_title"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="55dp" />
+
+    <EditText
+        android:id="@+id/input_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/selector_input"
+        android:hint="@string/sign_up_nickname_hint"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:paddingHorizontal="12dp"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+        android:textColor="@color/Gray700"
+        android:textColorHint="@color/Gray400"
+        app:layout_constraintTop_toBottomOf="@id/title_nickname"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/nickname_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=''
+        android:textAppearance="@style/TextAppearance.NewsEat.Body4"
+        android:textColor="@color/Gray500"
+        app:layout_constraintTop_toTopOf="@id/input_nickname"
+        app:layout_constraintBottom_toBottomOf="@id/input_nickname"
+        app:layout_constraintEnd_toEndOf="@id/input_nickname"
+        android:layout_marginRight="12dp" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

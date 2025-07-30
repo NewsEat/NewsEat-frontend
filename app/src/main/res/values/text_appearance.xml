@@ -66,9 +66,9 @@
     </style>
 
     <style name="TextAppearance.NewsEat.Body4" parent="TextAppearance.NewsEat">
-        <item name="android:textSize">12sp</item>
-        <item name="lineHeight">19.2sp</item>
-        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">22.4sp</item>
+        <item name="fontFamily">@font/pretendard_light</item>
     </style>
 
     <style name="TextAppearance.NewsEat.Body5" parent="TextAppearance.NewsEat">

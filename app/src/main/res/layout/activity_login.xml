@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="loginViewModel"
+            type="com.example.news_eat_fronted.presentation.ui.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news_eat_slogan"
+            android:textAppearance="@style/TextAppearance.NewsEat.Title2"
+            android:textColor="@color/Gray800"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="110dp" />
+
+        <TextView
+            android:id="@+id/news_eat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news_eat_name"
+            android:textAppearance="@style/TextAppearance.NewsEat.Title1"
+            android:textColor="@color/Gray800"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/slogan"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="24dp"
+            android:src="@drawable/news_eat_logo"
+            app:layout_constraintStart_toEndOf="@id/news_eat_name"
+            app:layout_constraintTop_toTopOf="@id/news_eat_name"
+            app:layout_constraintBottom_toBottomOf="@id/news_eat_name"
+            android:layout_marginStart="10dp" />
+
+        <EditText
+            android:id="@+id/input_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="56dp"
+            android:background="@drawable/selector_input"
+            android:hint="@string/sign_up_email_hint1"
+            android:maxLines="1"
+            android:paddingHorizontal="12dp"
+            android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray400"
+            app:layout_constraintTop_toBottomOf="@id/news_eat_name"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <EditText
+            android:id="@+id/input_pw"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingHorizontal="12dp"
+            android:background="@drawable/selector_input"
+            android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+            android:hint="@string/sign_up_pw_title"
+            android:inputType="textPassword"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray400"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/input_email"
+            android:layout_marginTop="12dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/selector_button"
+            android:enabled="@{loginViewModel.isLoginEnabledLiveData}"
+            android:text="@string/button_login"
+            android:textAppearance="@style/TextAppearance.NewsEat.Title6"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/input_pw" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/login_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            >
+
+            <TextView
+                android:id="@+id/find_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_find_email"
+                android:textAppearance="@style/TextAppearance.NewsEat.Body10"
+                android:textColor="@color/Gray400" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/Gray300"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/find_pw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_find_pw"
+                android:textAppearance="@style/TextAppearance.NewsEat.Body10"
+                android:textColor="@color/Gray400" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/Gray300"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/goto_sing_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/header_title_sign_up"
+                android:textAppearance="@style/TextAppearance.NewsEat.Body10"
+                android:textColor="@color/Gray400" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
