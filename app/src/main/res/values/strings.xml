@@ -60,8 +60,8 @@
 
     <string name="mypage_edit_nickname"><u>닉네임 변경</u></string>
 
-    <string name="mypage_member_name">%s 님</string>
-    <string name="mypage_greeting">%s 님! \n오늘 하루도 뉴스와 함께 힐링하세요</string>
+    <string name="mypage_member_name">%s님</string>
+    <string name="mypage_greeting">%s님! \n오늘 하루도 뉴스와 함께 힐링하세요</string>
 
     <!--    마이페이지 메뉴 리스트-->
     <string name="mypage_menu_interest_title">관심사 수정</string>
