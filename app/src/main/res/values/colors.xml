@@ -9,6 +9,7 @@
     <color name="Primary300">#87A6E0</color>
     <color name="Primary200">#B7CDF3</color>
     <color name="Primary100">#EAF1FD</color>
+    <color name="Primary100_50percent">#80EAF1FD</color>
 
     <color name="Gray800">#191F28</color>
     <color name="Gray700">#222B39</color>

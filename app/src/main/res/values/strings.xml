@@ -41,7 +41,7 @@
     <string name="email_verify_error">인증번호를 다시 확인해주세요.</string>
     <string name="email_verify_success">인증이 완료되었습니다.</string>
 
-    <string name="sign_up_nickname_title">뉴스에 오신걸 환영해요!\n어떻게 불러드릴까요?</string>
+    <string name="sign_up_nickname_title">뉴잇에 오신걸 환영해요!\n어떻게 불러드릴까요?</string>
     <string name="sign_up_nickname">닉네임</string>
     <string name="sign_up_nickname_hint">닉네임을 입력하세요</string>
 
@@ -55,8 +55,20 @@
     <string name="category_social">사회</string>
     <string name="category_world">세계</string>
 
+    <!--    마이페이지-->
+    <string name="mypage_title">마이페이지</string>
 
-    
+    <string name="mypage_edit_nickname"><u>닉네임 변경</u></string>
+
+    <string name="mypage_member_name">%s님</string>
+    <string name="mypage_greeting">%s님! \n오늘 하루도 뉴스와 함께 힐링하세요</string>
+
+    <!--    마이페이지 메뉴 리스트-->
+    <string name="mypage_menu_interest_title">관심사 수정</string>
+    <string name="mypage_menu_profile_title">회원정보 수정</string>
+    <string name="mypage_menu_logout_title">로그아웃</string>
+    <string name="mypage_menu_withdraw_title">회원탈퇴</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
