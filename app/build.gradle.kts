@@ -76,4 +76,8 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // coil
+    implementation("io.coil-kt:coil:1.2.0")
+    implementation("io.coil-kt:coil-svg:1.2.0")
 }
