@@ -69,6 +69,14 @@
     <string name="mypage_menu_logout_title">로그아웃</string>
     <string name="mypage_menu_withdraw_title">회원탈퇴</string>
 
+    <!-- 북마크 -->
+    <string name="bookmark_title">북마크한 뉴스</string>
+
+    <!-- 북마크 카드 뷰-->
+    <string name="bookmark_card_view_title">%s</string>
+    <string name="bookmark_card_view_category">%s</string>
+    <string name="bookmark_card_view_date">%s</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
