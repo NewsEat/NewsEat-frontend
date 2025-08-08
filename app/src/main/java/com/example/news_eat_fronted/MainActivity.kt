@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import com.example.news_eat_fronted.databinding.ActivityMainBinding
 import com.example.news_eat_fronted.presentation.ui.BookmarkFragment
 import com.example.news_eat_fronted.presentation.ui.CategoryFragment
-import com.example.news_eat_fronted.presentation.ui.HomeFragment
+import com.example.news_eat_fronted.presentation.ui.home.HomeFragment
 import com.example.news_eat_fronted.presentation.ui.mypage.MyPageFragment
 import com.example.news_eat_fronted.util.base.BindingActivity
 

@@ -34,7 +34,7 @@ class RVAdapterCategory(
             binding.categoryImg.setImageResource(category.imgResId)
             binding.categoryName.text = itemView.context.getString(category.nameResId)
 
-            if(category.isSelected) {
+            if(category.isSelected == true) {
                 val color = ContextCompat.getColor(itemView.context, R.color.Primary600)
                 binding.categoryName.setTextColor(color)
                 binding.categoryImg.setColorFilter(color)
@@ -45,8 +45,8 @@ class RVAdapterCategory(
             }
 
             itemView.setOnClickListener {
-                val selectedCount = categoryList.count {it.isSelected}
-                if(category.isSelected) {
+                val selectedCount = categoryList.count {it.isSelected == true}
+                if(category.isSelected == true) {
                     category.isSelected = false
                     notifyItemChanged(adapterPosition)
                 } else {
@@ -60,7 +60,7 @@ class RVAdapterCategory(
                 }
 
                 onSelectionChanged(categoryList
-                    .filter { it.isSelected }
+                    .filter { it.isSelected == true }
                     .map { item -> itemView.context.getString(item.nameResId) })
             }
         }
