@@ -80,4 +80,7 @@ dependencies {
     // coil
     implementation("io.coil-kt:coil:1.2.0")
     implementation("io.coil-kt:coil-svg:1.2.0")
+
+    // glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
