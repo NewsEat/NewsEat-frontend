@@ -25,7 +25,7 @@ class RVAdapterNews: ListAdapter<HomeNewsItem, RVAdapterNews.ViewHolder>(DIFF_CA
 //                .load(binding.root.context.resources.getIdentifier(item.imgResId, "drawable", binding.root.context.packageName))
                 .load(item.imgResId)
                 .into(binding.ivHomeNews)
-            binding.tvHomeNews.text = item.name
+            binding.tvHomeNews.text = item.title
         }
     }
 
