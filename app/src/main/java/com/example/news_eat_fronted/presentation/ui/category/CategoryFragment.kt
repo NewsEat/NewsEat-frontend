@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.category
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentCategoryBinding
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
+import com.example.news_eat_fronted.presentation.ui.search.SearchActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
 import kotlinx.coroutines.launch
 
@@ -21,8 +23,15 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
 
         setAdapter()
         collectData()
-//
+        addListeners()
+
 //        binding.btnMoreNews.visibility = View.GONE
+    }
+
+    private fun addListeners() {
+        binding.btnSearch.setOnClickListener {
+            startActivity(Intent(requireActivity(), SearchActivity::class.java))
+        }
     }
 
     private fun setAdapter() {

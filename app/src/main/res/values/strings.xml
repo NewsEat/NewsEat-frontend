@@ -29,7 +29,7 @@
     <string name="pw_info_error2">비밀번호를 다시 확인해주세요.</string>
     <string name="pw_modify_title">변경할 비밀번호</string>
     <string name="pw_modify_title2">비밀번호 확인</string>
-    
+
     <string name="button_login">로그인</string>
     <string name="button_verify">인증하기</string>
     <string name="button_confirm">확인</string>
@@ -60,7 +60,10 @@
     <string name="home_category_news_title">%s님을 위한 맞춤 뉴스</string>
     <string name="home_positive_news_title">기분 좋아지는 뉴스만 쏙쏙!\n긍정태그가 달린 뉴스들만 모아봤어요😉</string>
 
+    <!--    카테고리-->
     <string name="category_news_more">더보기</string>
+    <string name="search_hint">검색어를 입력하세요.</string>
+    <string name="search_no_content">일치하는 검색 결과가 없어요.</string>
 
 
     <!--    마이페이지-->
