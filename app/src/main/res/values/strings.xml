@@ -88,6 +88,17 @@
     <string name="bookmark_card_view_category">%s</string>
     <string name="bookmark_card_view_date">%s</string>
 
+    <!-- 뉴스 상세 뷰-->
+    <string name="news_detail_title">%s</string>
+    <string name="news_detail_publisher">%s</string>
+    <string name="news_detail_date">%s</string>
+    <string name="news_detail_category">%s</string>
+    <string name="news_detail_sentiment">%s</string>
+    <string name="news_detail_content">%s</string>
+    <string name="news_detail_summary_button">뉴스요약 확인하기</string>
+
+    <string name="news_detail_recommend_title">추천 뉴스 더보기</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

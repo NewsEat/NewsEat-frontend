@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/image_container"
+            android:layout_width="match_parent"
+            android:layout_height="270dp">
+
+            <ImageView
+                android:id="@+id/news_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_gradient_background" />
+
+            <ImageButton
+                android:id="@+id/round_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/btn_round_back"
+                android:contentDescription="뒤로가기"
+                android:layout_gravity="start|top"/>
+
+            <ImageButton
+                android:id="@+id/round_bookmark_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/btn_round_bookmark_unselected"
+                android:contentDescription="북마크"
+                android:layout_gravity="end|top"/>
+        </FrameLayout>
+
+        <!-- 바텀 시트 -->
+        <LinearLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/background_rounded_bottomsheet"
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/news_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clipToPadding="false">
+
+                    <!-- 뉴스 제목-->
+                    <TextView
+                        android:id="@+id/news_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:paddingTop="23dp"
+                        android:paddingBottom="16dp"
+                        android:text="@string/news_detail_title"
+                        android:textAppearance="@style/TextAppearance.NewsEat.Title3"
+                        android:textColor="@color/Gray800"
+                        android:lineSpacingExtra="4dp" />
+
+                    <!-- 언론사, 날짜, 카테고리, 감정-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/news_publisher"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/news_detail_publisher"
+                                android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+                                android:textColor="@color/Gray400" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="12dp"
+                                android:layout_marginHorizontal="7dp"
+                                android:background="@color/Gray300" />
+
+                            <TextView
+                                android:id="@+id/news_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/news_detail_date"
+                                android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+                                android:textColor="@color/Gray400" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="12dp"
+                                android:layout_marginHorizontal="7dp"
+                                android:background="@color/Gray300" />
+
+                            <TextView
+                                android:id="@+id/news_category"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/news_detail_category"
+                                android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+                                android:textColor="@color/Gray400" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="12dp"
+                                android:layout_marginHorizontal="7dp"
+                                android:background="@color/Gray300" />
+
+                            <TextView
+                                android:id="@+id/news_sentiment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/news_detail_sentiment"
+                                android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+                                android:textColor="@color/Gray400" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/rounded_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="7dp"
+                            android:paddingVertical="4dp"
+                            android:text="@string/news_detail_summary_button"
+                            android:textColor="@color/Gray100"
+                            android:textAppearance="@style/TextAppearance.NewsEat.Body11"
+                            android:background="@drawable/background_summary_button" />
+
+                    </LinearLayout>
+
+                    <!-- 뉴스 본문 -->
+                    <TextView
+                        android:id="@+id/news_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:text="@string/news_detail_content"
+                        android:textAppearance="@style/TextAppearance.NewsEat.Body7"
+                        android:textColor="@color/Gray800"
+                        android:lineSpacingExtra="4dp"
+                        android:layout_marginBottom="16dp" />
+
+                    <View
+                        android:id="@+id/news_detail_diver"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="34dp"
+                        android:background="@color/Gray200" />
+
+                    <TextView
+                        android:id="@+id/news_recommend_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/news_detail_recommend_title"
+                        android:textAppearance="@style/TextAppearance.NewsEat.Title4"
+                        android:textColor="@color/Gray800" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_news_recommended"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="30dp"
+                        android:scrollbars="none"
+                        android:nestedScrollingEnabled="false" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="bottom|end"
+            android:backgroundTint="@color/Primary600"
+            android:src="@drawable/icon_tts"
+            app:tint="@color/white" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
