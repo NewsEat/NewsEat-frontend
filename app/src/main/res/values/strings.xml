@@ -103,6 +103,9 @@
     <string name="news_detail_sentiment">%s</string>
     <string name="news_detail_content">%s</string>
     <string name="news_detail_summary_button">뉴스요약 확인하기</string>
+    <string name="news_summary_title">%s</string>
+    <string name="news_summary_positive">긍정</string>
+    <string name="news_summary_negative">부정</string>
 
     <string name="news_detail_recommend_title">추천 뉴스 더보기</string>
 
