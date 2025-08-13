@@ -68,9 +68,7 @@
 
     <!--    마이페이지-->
     <string name="mypage_title">마이페이지</string>
-
     <string name="mypage_edit_nickname"><u>닉네임 변경</u></string>
-
     <string name="mypage_member_name">%s님</string>
     <string name="mypage_greeting">%s님! \n오늘 하루도 뉴스와 함께 힐링하세요</string>
 
@@ -79,6 +77,15 @@
     <string name="mypage_menu_profile_title">회원정보 수정</string>
     <string name="mypage_menu_logout_title">로그아웃</string>
     <string name="mypage_menu_withdraw_title">회원탈퇴</string>
+
+    <!--    마이페이지 다이얼로그-->
+    <string name="mypage_logout_title">로그아웃 하시겠어요?</string>
+    <string name="mypage_logout_content">언제든지 다시 로그인하실 수 있어요.</string>
+    <string name="mypage_delete_title">정말 탈퇴하시겠어요?</string>
+    <string name="mypage_delete_content">탈퇴시, 계정은 삭제되며 복구되지 않습니다.</string>
+    <string name="dialog_btn_cancel">취소하기</string>
+    <string name="dialog_btn_logout">로그아웃</string>
+    <string name="dialog_btn_delete">탈퇴하기</string>
 
     <!-- 북마크 -->
     <string name="bookmark_title">북마크한 뉴스</string>

@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.databinding.FragmentMypageBinding
 import com.example.news_eat_fronted.util.base.BindingFragment
+import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -84,20 +86,50 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     }
 
     private fun addListeners() {
+        binding.btnEditNickname.setOnClickListener {
+            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+                putExtra("fragment_type", "nickname")
+            })
+        }
+
         binding.menuInterest.setOnClickListener {
-            // TODO: 관심사 설정 페이지
+            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+                putExtra("fragment_type", "category")
+            })
         }
 
         binding.menuProfile.setOnClickListener {
-            // TODO: 회원정보 수정 페이지
+            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+                putExtra("fragment_type", "userInfo")
+            })
         }
 
         binding.menuLogout.setOnClickListener {
-            // TODO: 로그아웃 페이지
+            val dialog = DialogPopupFragment(
+                title = getString(R.string.mypage_logout_title),
+                content = getString(R.string.mypage_logout_content),
+                leftBtnText = getString(R.string.dialog_btn_cancel),
+                rightBtnText = getString(R.string.dialog_btn_logout),
+                clickLeftBtn = {},
+                clickRightBtn = {
+                    // 로그아웃 API
+                }
+            )
+            dialog.show(parentFragmentManager, "DialogLogout")
         }
 
         binding.menuWithdraw.setOnClickListener {
-            // TODO: 회원탈퇴 페이지
+            val dialog = DialogPopupFragment(
+                title = getString(R.string.mypage_delete_title),
+                content = getString(R.string.mypage_delete_content),
+                leftBtnText = getString(R.string.dialog_btn_cancel),
+                rightBtnText = getString(R.string.dialog_btn_delete),
+                clickLeftBtn = {},
+                clickRightBtn = {
+                    // 회원탈퇴 API
+                }
+            )
+            dialog.show(parentFragmentManager, "DialogLogout")
         }
     }
 }
