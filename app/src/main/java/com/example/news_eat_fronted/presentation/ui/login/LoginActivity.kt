@@ -15,7 +15,6 @@ import com.example.news_eat_fronted.util.base.BindingActivity
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val loginViewModel by viewModels<LoginViewModel>()
-    var isPwVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +47,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
     private fun setPwVisibility() {
         binding.showPwBtn.setOnClickListener {
-            isPwVisible = !isPwVisible
+            loginViewModel.togglePwVisible()
+
             val selection = binding.inputPw.selectionStart
 
-            if(isPwVisible) {
+            if(loginViewModel.isPwVisible.value) {
                 binding.inputPw.inputType = InputType.TYPE_CLASS_TEXT
                 binding.showPwBtn.setImageResource(R.drawable.btn_pw_visible)
             }

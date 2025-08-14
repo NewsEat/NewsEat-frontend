@@ -17,6 +17,9 @@ class LoginViewModel: ViewModel() {
     private  val _pw = MutableStateFlow("")
     val pw: StateFlow<String> = _pw
 
+    private val _isPwVisible = MutableStateFlow(false)
+    val isPwVisible: StateFlow<Boolean> = _isPwVisible
+
     val isLoginEnabled: StateFlow<Boolean> = combine(_email, _pw) { email, pw ->
         email.isNotEmpty() && pw.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
@@ -30,5 +33,9 @@ class LoginViewModel: ViewModel() {
 
     fun onPwChanged(newPw: String) {
         _pw.value = newPw
+    }
+
+    fun togglePwVisible() {
+        _isPwVisible.value = !_isPwVisible.value
     }
 }

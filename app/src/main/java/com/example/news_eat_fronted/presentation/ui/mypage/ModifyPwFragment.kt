@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 
 class ModifyPwFragment: BindingFragment<FragmentModifyPwBinding>(R.layout.fragment_modify_pw) {
     private val modifyViewModel by activityViewModels<ModifyViewModel>()
-    var isPwVisible = false
-    var isPwConfirmVisible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,10 +66,11 @@ class ModifyPwFragment: BindingFragment<FragmentModifyPwBinding>(R.layout.fragme
 
     private fun setPwVisibility() {
         binding.showPwBtn.setOnClickListener {
-            isPwVisible = !isPwVisible
+            modifyViewModel.togglePwVisible()
+
             val selection = binding.inputPw.selectionStart
 
-            if(isPwVisible) {
+            if(modifyViewModel.isPwVisible.value) {
                 binding.inputPw.inputType = InputType.TYPE_CLASS_TEXT
                 binding.showPwBtn.setImageResource(R.drawable.btn_pw_visible)
             }
@@ -84,10 +83,11 @@ class ModifyPwFragment: BindingFragment<FragmentModifyPwBinding>(R.layout.fragme
         }
 
         binding.showPwConfirmBtn.setOnClickListener {
-            isPwConfirmVisible = !isPwConfirmVisible
-            val selection = binding.inputPw.selectionStart
+            modifyViewModel.togglePwConfirmVisible()
 
-            if(isPwConfirmVisible) {
+            val selection = binding.inputPwConfirm.selectionStart
+
+            if(modifyViewModel.isPwConfirmVisible.value) {
                 binding.inputPwConfirm.inputType = InputType.TYPE_CLASS_TEXT
                 binding.showPwConfirmBtn.setImageResource(R.drawable.btn_pw_visible)
             }
