@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.presentation.ui.signup
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import com.example.news_eat_fronted.R
@@ -14,11 +15,15 @@ import kotlinx.coroutines.launch
 
 class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout.fragment_signup_step1) {
     private val signupViewModel by activityViewModels<SignupViewModel>()
+    var isPwVisible = false
+    var isPwConfirmVisible = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         addListeners()
         collectData()
+        setPwVisibility()
     }
 
     private fun collectData() {
@@ -73,10 +78,46 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
 
         binding.inputPw.addTextChangedListener {
             signupViewModel.onPwChanged(it.toString())
+            binding.showPwBtn.visibility = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
         }
 
         binding.inputPwConfirm.addTextChangedListener {
             signupViewModel.onPwConfirmChanged(it.toString())
+            binding.showPwConfirmBtn.visibility = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+    }
+
+    private fun setPwVisibility() {
+        binding.showPwBtn.setOnClickListener {
+            isPwVisible = !isPwVisible
+            val selection = binding.inputPw.selectionStart
+
+            if(isPwVisible) {
+                binding.inputPw.inputType = InputType.TYPE_CLASS_TEXT
+                binding.showPwBtn.setImageResource(R.drawable.btn_pw_visible)
+            }
+            else {
+                binding.inputPw.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.showPwBtn.setImageResource(R.drawable.btn_pw_invisible)
+            }
+
+            binding.inputPw.setSelection(selection)
+        }
+
+        binding.showPwConfirmBtn.setOnClickListener {
+            isPwConfirmVisible = !isPwConfirmVisible
+            val selection = binding.inputPw.selectionStart
+
+            if(isPwConfirmVisible) {
+                binding.inputPwConfirm.inputType = InputType.TYPE_CLASS_TEXT
+                binding.showPwConfirmBtn.setImageResource(R.drawable.btn_pw_visible)
+            }
+            else {
+                binding.inputPwConfirm.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.showPwConfirmBtn.setImageResource(R.drawable.btn_pw_invisible)
+            }
+
+            binding.inputPwConfirm.setSelection(selection)
         }
     }
 }

@@ -24,6 +24,7 @@
     android:layout_height="48dp"
     android:background="@drawable/selector_input"
     android:hint="@string/sign_up_pw_hint1"
+    android:inputType="textPassword"
     android:maxLines="1"
     android:paddingHorizontal="12dp"
     android:textAppearance="@style/TextAppearance.NewsEat.Body3"
@@ -31,6 +32,17 @@
     android:textColorHint="@color/Gray400"
     app:layout_constraintTop_toBottomOf="@id/title_modify"
     android:layout_marginTop="12dp" />
+
+    <ImageView
+        android:id="@+id/show_pw_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/btn_pw_invisible"
+        app:layout_constraintTop_toTopOf="@id/input_pw"
+        app:layout_constraintBottom_toBottomOf="@id/input_pw"
+        app:layout_constraintEnd_toEndOf="@id/input_pw"
+        android:layout_marginEnd="12dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/info_pw_error1"
@@ -63,6 +75,7 @@
         android:layout_height="48dp"
         android:background="@drawable/selector_input"
         android:hint="@string/sign_up_pw_hint2"
+        android:inputType="textPassword"
         android:maxLines="1"
         android:paddingHorizontal="12dp"
         android:textAppearance="@style/TextAppearance.NewsEat.Body3"
@@ -71,6 +84,17 @@
         app:layout_constraintTop_toBottomOf="@id/title_modify_confirm"
         android:layout_marginTop="6dp"
         app:layout_goneMarginTop="12dp"/>
+
+    <ImageView
+        android:id="@+id/show_pw_confirm_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/btn_pw_invisible"
+        app:layout_constraintTop_toTopOf="@id/input_pw_confirm"
+        app:layout_constraintBottom_toBottomOf="@id/input_pw_confirm"
+        app:layout_constraintEnd_toEndOf="@id/input_pw_confirm"
+        android:layout_marginEnd="12dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/info_pw_error2"
