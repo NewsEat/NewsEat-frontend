@@ -34,7 +34,7 @@ open class BindingDialogFragment<T: ViewDataBinding>(@LayoutRes private val layo
             WindowManager.LayoutParams.MATCH_PARENT,
         )
 
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#50000000")))
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(true)
     }

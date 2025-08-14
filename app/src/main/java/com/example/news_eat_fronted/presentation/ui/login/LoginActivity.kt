@@ -7,6 +7,7 @@ import androidx.core.widget.addTextChangedListener
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivityLoginBinding
 import com.example.news_eat_fronted.presentation.ui.signup.SignupActivity
+import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingActivity
 
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -28,7 +29,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
 
         binding.loginBtn.setOnClickListener {
-            // 로그인
+            // 로그인 실패 시
+            CustomSnackBar.make(binding.root, getString(R.string.snackbar_login_error)).show()
         }
 
         binding.gotoSingUp.setOnClickListener {
