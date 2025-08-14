@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivityNewsDetailBinding
 import com.example.news_eat_fronted.util.base.BindingActivity
+import com.example.news_eat_fronted.util.dialog.DialogSummaryFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.activity_news_detail) {
@@ -26,9 +27,9 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         setupRecyclerView()
         setupBottomSheet()
         observeViewModel()
-        setupBackButton()
         setupFloatingButton()
         setupBookmarkButton()
+        addListeners()
     }
 
     private fun setupRecyclerView() {
@@ -94,7 +95,17 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         }
     }
 
-    private fun setupBackButton() {
+    private fun addListeners() {
+        binding.summaryButton.setOnClickListener {
+            // 요약 API 가져와서 붙여주기
+            val dialog = DialogSummaryFragment(
+                title = "김도영, 복귀 후 첫 홈런… \nKIA 3연패 탈출 견인",
+                content = "김도영바보선수가 복귀 이틀 만에 시즌 첫 홈런을 기록하며 KIA의 3연패를 끊는 데 결정적인 역할을 했습니다. 이날 경기에서 4타수 2안타 2타점을 기록하며 팀 승리에 기여했습니다.",
+                tag = getString(R.string.news_summary_positive)
+            )
+            dialog.show(supportFragmentManager, "DialogSummary")
+        }
+
         binding.roundBackButton.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }

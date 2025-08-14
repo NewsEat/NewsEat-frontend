@@ -22,6 +22,5 @@
 
     <color name="StatusError">#FF4242</color>
     <color name="StatusSuccess">#2DB75D</color>
-    <color name="BackDeemed">#171717</color>
-
+    <color name="BackDeemed">#CC171717</color>
 </resources>

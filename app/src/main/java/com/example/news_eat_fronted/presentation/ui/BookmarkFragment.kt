@@ -9,6 +9,7 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentBookmarkBinding
 import com.example.news_eat_fronted.presentation.ui.bookmark.BookmarkViewModel
 import com.example.news_eat_fronted.presentation.ui.bookmark.RVAdapterBookmark
+import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,6 +28,7 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
     private fun setAdapter() {
         adapter = RVAdapterBookmark(arrayListOf()) { item ->
             bookmarkViewModel.updateBookmarkStatus(item)
+            CustomSnackBar.make(binding.root, getString(R.string.snackbar_bookmark_deleted)).show()
         }
         binding.rvBookmarkedArticles.apply {
             layoutManager = LinearLayoutManager(requireContext())

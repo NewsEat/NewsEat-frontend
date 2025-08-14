@@ -40,6 +40,15 @@ class SignupViewModel: ViewModel() {
     private val _selectedCategory = MutableStateFlow<List<String>>(emptyList())
     val selectedCategory: StateFlow<List<String>> = _selectedCategory
 
+    private val _isPwVisible = MutableStateFlow(false)
+    val isPwVisible: StateFlow<Boolean> = _isPwVisible
+
+    private val _isPwConfirmVisible = MutableStateFlow(false)
+    val isPwConfirmVisible: StateFlow<Boolean> = _isPwConfirmVisible
+
+    private val _isTimeOver = MutableStateFlow(false)
+    val isTimeOver: StateFlow<Boolean> =  _isTimeOver
+
 
     fun goNextStep() {
         if (_currentStep.value < 3) {
@@ -113,5 +122,17 @@ class SignupViewModel: ViewModel() {
 
     private fun updateEnabledForCategory() {
         _isNextBtnEnabled.value = _selectedCategory.value.isNotEmpty()
+    }
+
+    fun updateTimeOver(isTimeOver: Boolean) {
+        _isTimeOver.value = isTimeOver
+    }
+
+    fun togglePwVisible() {
+        _isPwVisible.value = !_isPwVisible.value
+    }
+
+    fun togglePwConfirmVisible() {
+        _isPwConfirmVisible.value = !_isPwConfirmVisible.value
     }
 }

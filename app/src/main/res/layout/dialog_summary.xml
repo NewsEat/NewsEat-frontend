@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/dialog_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackDeemed">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="40dp"
+        android:background="@drawable/background_rounded_image"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="20dp">
+        
+        <TextView
+            android:id="@+id/summary_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/news_summary_title"
+            android:textAppearance="@style/TextAppearance.NewsEat.Title6"
+            android:textColor="@color/Primary600"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_back"/>
+        
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/btn_x"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/summary_title"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/summary_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_category_tag"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="@string/news_summary_positive"
+            android:textAppearance="@style/TextAppearance.NewsEat.Body4"
+            android:textColor="@color/Primary600"
+            app:layout_constraintTop_toBottomOf="@id/summary_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/summary_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="김도영이 복귀 이틀 만에 시즌 첫 홈런을 기록하며 KIA의 3연패를 끊는 데 결정적인 역할을 했습니다. 이날 경기에서 4타수 2안타 2타점을 기록하며 팀 승리에 기여했습니다."
+            android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+            android:textColor="@color/Gray600"
+            app:layout_constraintTop_toBottomOf="@id/summary_tag"
+            android:layout_marginTop="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
