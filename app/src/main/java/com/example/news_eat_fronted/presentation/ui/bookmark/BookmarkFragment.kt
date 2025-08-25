@@ -1,4 +1,4 @@
-package com.example.news_eat_fronted.presentation.ui
+package com.example.news_eat_fronted.presentation.ui.bookmark
 
 import android.os.Bundle
 import android.view.View
@@ -7,8 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentBookmarkBinding
-import com.example.news_eat_fronted.presentation.ui.bookmark.BookmarkViewModel
-import com.example.news_eat_fronted.presentation.ui.bookmark.RVAdapterBookmark
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingFragment
 import kotlinx.coroutines.flow.collectLatest

@@ -7,8 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivitySignUpBinding
 import com.example.news_eat_fronted.util.base.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SignupActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_sign_up) {
     private val signupViewModel by viewModels<SignupViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
