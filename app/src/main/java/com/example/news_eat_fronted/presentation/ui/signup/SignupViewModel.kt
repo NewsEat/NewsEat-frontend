@@ -3,10 +3,21 @@ package com.example.news_eat_fronted.presentation.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
+import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignupViewModel: ViewModel() {
+@HiltViewModel
+class SignupViewModel @Inject constructor(
+    private val sendEmailUseCase: SendEmailUseCase
+): ViewModel() {
     private val _currentStep = MutableStateFlow(0)
     val currentStep: StateFlow<Int> = _currentStep
 
@@ -49,6 +60,23 @@ class SignupViewModel: ViewModel() {
     private val _isTimeOver = MutableStateFlow(false)
     val isTimeOver: StateFlow<Boolean> =  _isTimeOver
 
+    private val _sendEmailState = MutableStateFlow<SendEmailResponseEntity?>(null)
+    val sendEmailState: StateFlow<SendEmailResponseEntity?> = _sendEmailState.asStateFlow()
+
+
+    fun sendEmail() {
+        viewModelScope.launch {
+            try {
+                val sendEmailResponseEntity = sendEmailUseCase(
+                    sendEmailRequestEntity = SendEmailRequestEntity(
+                        email = _email.value,
+                        purpose = 1
+                    )
+                )
+                _sendEmailState.value = sendEmailResponseEntity
+            } catch (ex:Exception) {}
+        }
+    }
 
     fun goNextStep() {
         if (_currentStep.value < 3) {

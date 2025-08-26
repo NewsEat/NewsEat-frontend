@@ -1,0 +1,15 @@
+package com.example.news_eat_fronted.data.datasourceImpl
+
+import com.example.news_eat_fronted.data.datasource.AuthRemoteDataSource
+import com.example.news_eat_fronted.data.model.BaseResponse
+import com.example.news_eat_fronted.data.model.request.auth.SendEmailRequestDto
+import com.example.news_eat_fronted.data.model.response.auth.SendEmailResponseDto
+import com.example.news_eat_fronted.data.service.AuthService
+import javax.inject.Inject
+
+class AuthRemoteDataSourceImpl @Inject constructor(
+    private val authService: AuthService
+): AuthRemoteDataSource {
+    override suspend fun sendEmail(sendEmailRequestDto: SendEmailRequestDto): BaseResponse<SendEmailResponseDto>
+    = authService.sendEmail(sendEmailRequestDto)
+}

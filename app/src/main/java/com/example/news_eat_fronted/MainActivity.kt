@@ -3,7 +3,7 @@ package com.example.news_eat_fronted
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.news_eat_fronted.databinding.ActivityMainBinding
-import com.example.news_eat_fronted.presentation.ui.BookmarkFragment
+import com.example.news_eat_fronted.presentation.ui.bookmark.BookmarkFragment
 import com.example.news_eat_fronted.presentation.ui.category.CategoryFragment
 import com.example.news_eat_fronted.presentation.ui.home.HomeFragment
 import com.example.news_eat_fronted.presentation.ui.mypage.MyPageFragment

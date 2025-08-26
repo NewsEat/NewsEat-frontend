@@ -11,10 +11,12 @@ import com.example.news_eat_fronted.util.base.BindingFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.util.CustomSnackBar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout.fragment_signup_step1) {
     private val signupViewModel by activityViewModels<SignupViewModel>()
 
@@ -88,6 +90,7 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
 
         binding.btnVerifyEmail.setOnClickListener {
             setTimer()
+            signupViewModel.sendEmail()  // 인증번호 전송 API
         }
 
         binding.btnConfirmCode.setOnClickListener {
