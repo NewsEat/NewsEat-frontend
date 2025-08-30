@@ -92,17 +92,30 @@
         android:enabled="false" />
 
     <TextView
-        android:id="@+id/info_email_verification"
+        android:id="@+id/info_email_success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/email_verify_sent"
+        android:text="@string/email_verify_success"
         android:textAppearance="@style/TextAppearance.NewsEat.Body8"
-        android:textColor="@color/Gray500"
+        android:textColor="@color/StatusSuccess"
         app:layout_constraintTop_toBottomOf="@id/input_verify_code"
         app:layout_constraintStart_toStartOf="@id/input_verify_code"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="8dp"
         android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/info_email_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email_verify_error"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+        android:textColor="@color/StatusError"
+        app:layout_constraintTop_toBottomOf="@id/info_email_success"
+        app:layout_constraintStart_toStartOf="@id/input_verify_code"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/pw_title"
@@ -111,7 +124,7 @@
         android:text="@string/sign_up_pw_title"
         android:textAppearance="@style/TextAppearance.NewsEat.Body1"
         android:textColor="@color/Gray700"
-        app:layout_constraintTop_toBottomOf="@id/info_email_verification"
+        app:layout_constraintTop_toBottomOf="@id/info_email_error"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent" />
 

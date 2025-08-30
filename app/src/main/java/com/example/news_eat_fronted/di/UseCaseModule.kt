@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.domain.repository.AuthRepository
+import com.example.news_eat_fronted.domain.usecase.auth.CheckEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,4 +16,9 @@ class UseCaseModule {
     @Singleton
     fun provideEmailSendUseCase(authRepository: AuthRepository): SendEmailUseCase =
         SendEmailUseCase(authRepository = authRepository)
+
+    @Provides
+    @Singleton
+    fun provideCheckEmailUseCase(authRepository: AuthRepository): CheckEmailUseCase =
+        CheckEmailUseCase(authRepository = authRepository)
 }
