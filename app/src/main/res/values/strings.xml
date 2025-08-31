@@ -114,6 +114,7 @@
     <string name="snackbar_login_error">아이디 또는 비밀번호가 잘못되었습니다.</string>
     <string name="snackbar_bookmark_deleted">북마크에서 제거됐어요.</string>
     <string name="sanckbar_time_out">인증시간이 만료되었습니다.</string>
+    <string name="sanckbar_select_maximum">최대 3개까지 선택가능합니다.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

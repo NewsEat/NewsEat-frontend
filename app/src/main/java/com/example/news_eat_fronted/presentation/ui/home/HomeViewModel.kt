@@ -15,14 +15,14 @@ class HomeViewModel: ViewModel() {
     val interests: StateFlow<List<String>> = _interests
 
     val categoryListMap = mapOf(
-        "정치" to CategoryItem(R.drawable.category_politics_unselected, R.string.category_politics),
-        "경제" to CategoryItem(R.drawable.category_economy_unselected, R.string.category_economy),
-        "사회" to CategoryItem(R.drawable.category_social_unselected, R.string.category_social),
-        "생활/문화" to CategoryItem(R.drawable.category_culture_unselected, R.string.category_culture),
-        "IT/과학" to CategoryItem(R.drawable.category_science_unselected, R.string.category_science),
-        "연예" to CategoryItem(R.drawable.category_entertainment_unselected, R.string.category_entertainment),
-        "스포츠" to CategoryItem(R.drawable.category_sports_unselected, R.string.category_sports),
-        "세계" to CategoryItem(R.drawable.category_world_unselected, R.string.category_world),
+        "정치" to CategoryItem(1, R.drawable.category_politics_unselected, R.string.category_politics),
+        "경제" to CategoryItem(2, R.drawable.category_economy_unselected, R.string.category_economy),
+        "사회" to CategoryItem(3, R.drawable.category_social_unselected, R.string.category_social),
+        "생활/문화" to CategoryItem(4, R.drawable.category_culture_unselected, R.string.category_culture),
+        "IT/과학" to CategoryItem(5, R.drawable.category_science_unselected, R.string.category_science),
+        "연예" to CategoryItem(6, R.drawable.category_entertainment_unselected, R.string.category_entertainment),
+        "스포츠" to CategoryItem(7, R.drawable.category_sports_unselected, R.string.category_sports),
+        "세계" to CategoryItem(8, R.drawable.category_world_unselected, R.string.category_world),
     )
 
     private val _recommendList = MutableStateFlow<List<HomeNewsItem>>(emptyList())
