@@ -2,9 +2,11 @@ package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.AuthRemoteDataSource
 import com.example.news_eat_fronted.domain.entity.request.auth.CheckEmailRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SignupResponseEntity
 import com.example.news_eat_fronted.domain.repository.AuthRepository
@@ -31,6 +33,13 @@ class AuthRepositoryImpl @Inject constructor(
         return runCatching {
             authDataSource.signup(signupRequestEntity.toSignupRequestDto())
                 .result.toSignupResponseEntity()
+        }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun login(loginRequestEntity: LoginRequestEntity): LoginResponseEntity {
+        return kotlin.runCatching {
+            authDataSource.login(loginRequestEntity.toLoginRequestDto())
+                .result.toLoginResponseEntity()
         }.getOrElse { err -> throw  err }
     }
 }
