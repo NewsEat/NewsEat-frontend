@@ -7,10 +7,13 @@ data class LoginResponseDto (
     @SerializedName("role")
     val role: String,
     @SerializedName("accessToken")
-    val accessToken: String
+    val accessToken: String,
+    @SerializedName("refreshToken")
+    val refreshToken: String
 ) {
     fun toLoginResponseEntity() = LoginResponseEntity(
         role = role,
-        accessToken = accessToken
+        accessToken = accessToken,
+        refreshToken = refreshToken
     )
 }

@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -8,9 +9,11 @@ import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntit
 import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
@@ -39,6 +42,9 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow<LoginResponseEntity?>(null)
     val loginState: StateFlow<LoginResponseEntity?> = _loginState.asStateFlow()
 
+    private val _loginError = MutableSharedFlow<Unit>()
+    val loginError = _loginError.asSharedFlow()
+
     fun login() {
         viewModelScope.launch {
             try {
@@ -49,7 +55,10 @@ class LoginViewModel @Inject constructor(
                     )
                 )
                 _loginState.value = loginResponseEntity
-            } catch (ex: Exception) {}
+
+            } catch (ex: Exception) {
+                _loginError.emit(Unit)
+            }
         }
     }
 
