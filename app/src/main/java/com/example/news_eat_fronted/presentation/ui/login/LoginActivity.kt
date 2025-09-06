@@ -6,20 +6,31 @@ import android.text.InputType
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.news_eat_fronted.MainActivity
 import com.example.news_eat_fronted.R
+import com.example.news_eat_fronted.data.token.TokenManager
 import com.example.news_eat_fronted.databinding.ActivityLoginBinding
 import com.example.news_eat_fronted.presentation.ui.signup.SignupActivity
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val loginViewModel by viewModels<LoginViewModel>()
+    @Inject
+    lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.loginViewModel = loginViewModel
 
+        collectData()
         addListeners()
         setPwVisibility()
     }
@@ -35,13 +46,41 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
 
         binding.loginBtn.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            loginViewModel.login()  // 로그인 API
             // 로그인 실패 시
 //            CustomSnackBar.make(binding.root, getString(R.string.snackbar_login_error)).show()
         }
 
         binding.gotoSingUp.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
+        }
+    }
+
+    private fun collectData() {
+        lifecycleScope.launch {
+            loginViewModel.loginState.collect { loginState ->
+                loginState?.let { state ->
+                    state.accessToken?.let { accessToken ->
+                        tokenManager.saveAccessToken(accessToken)
+                    }
+                    state.refreshToken?.let { refreshToken ->
+                        tokenManager.saveRefreshToken(refreshToken)
+                    }
+
+                    if(!state.accessToken.isNullOrEmpty() && !state.refreshToken.isNullOrEmpty()) {
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        finish()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.loginError.collect {
+                    CustomSnackBar.make(binding.root, getString(R.string.snackbar_login_error)).show()
+                }
+            }
         }
     }
 

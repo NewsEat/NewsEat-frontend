@@ -1,12 +1,16 @@
 package com.example.news_eat_fronted.presentation.ui.signup
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.auth.CheckEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.SignupResponseEntity
+import com.example.news_eat_fronted.domain.usecase.auth.CheckEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
+import com.example.news_eat_fronted.domain.usecase.auth.SignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-    private val sendEmailUseCase: SendEmailUseCase
+    private val sendEmailUseCase: SendEmailUseCase,
+    private val checkEmailUseCase: CheckEmailUseCase,
+    private val signupUseCase: SignupUseCase
 ): ViewModel() {
     private val _currentStep = MutableStateFlow(0)
     val currentStep: StateFlow<Int> = _currentStep
@@ -48,8 +54,8 @@ class SignupViewModel @Inject constructor(
     private val _nicknameLength = MutableStateFlow(0)
     val nicknameLength: StateFlow<Int> = _nicknameLength
 
-    private val _selectedCategory = MutableStateFlow<List<String>>(emptyList())
-    val selectedCategory: StateFlow<List<String>> = _selectedCategory
+    private val _selectedCategory = MutableStateFlow<List<Int>>(emptyList())
+    val selectedCategory: StateFlow<List<Int>> = _selectedCategory
 
     private val _isPwVisible = MutableStateFlow(false)
     val isPwVisible: StateFlow<Boolean> = _isPwVisible
@@ -63,6 +69,21 @@ class SignupViewModel @Inject constructor(
     private val _sendEmailState = MutableStateFlow<SendEmailResponseEntity?>(null)
     val sendEmailState: StateFlow<SendEmailResponseEntity?> = _sendEmailState.asStateFlow()
 
+    private val _emailAuthId = MutableStateFlow(0)
+    val emailAuthId: StateFlow<Int> = _emailAuthId
+
+    private val _checkEmailState = MutableStateFlow<CheckEmailResponseEntity?>(null)
+    val checkEmailState: StateFlow<CheckEmailResponseEntity?> = _checkEmailState.asStateFlow()
+
+    private val _isErrorVerify = MutableStateFlow<Boolean>(false)
+    val isErrorVerify: StateFlow<Boolean> = _isErrorVerify
+
+    private val _isSuccessVerify =MutableStateFlow<Boolean>(false)
+    val isSuccessVerify: StateFlow<Boolean> = _isSuccessVerify
+
+    private val _signupState = MutableStateFlow<SignupResponseEntity?>(null)
+    val signupState: StateFlow<SignupResponseEntity?> = _signupState.asStateFlow()
+
 
     fun sendEmail() {
         viewModelScope.launch {
@@ -75,6 +96,40 @@ class SignupViewModel @Inject constructor(
                 )
                 _sendEmailState.value = sendEmailResponseEntity
             } catch (ex:Exception) {}
+        }
+    }
+
+    fun checkEmail() {
+        viewModelScope.launch {
+            try {
+                val checkEmailResponseEntity = checkEmailUseCase(
+                    checkEmailRequestEntity = CheckEmailRequestEntity(
+                        emailAuthId = _emailAuthId.value,
+                        emailAuthCode = _emailVerifyCode.value
+                    )
+                )
+                _checkEmailState.value = checkEmailResponseEntity
+            } catch (ex:Exception) {
+                _isErrorVerify.value = true
+                updateEnabled()
+            }
+        }
+    }
+
+    fun signup() {
+        viewModelScope.launch {
+            try {
+                val signupResponseEntity = signupUseCase(
+                    signupRequestEntity = SignupRequestEntity(
+                        emailAuthId = _emailAuthId.value,
+                        email = _email.value,
+                        password = _pw.value,
+                        nickname = _nickname.value,
+                        categoryIds = _selectedCategory.value
+                    )
+                )
+                _signupState.value = signupResponseEntity
+            } catch (ex: Exception) {}
         }
     }
 
@@ -117,7 +172,7 @@ class SignupViewModel @Inject constructor(
         updateEnabledForNickname()
     }
 
-    fun updateSelectedCategory(selectedList: List<String>) {
+    fun updateSelectedCategory(selectedList: List<Int>) {
         _selectedCategory.value = selectedList
         updateEnabledForCategory()
     }
@@ -142,6 +197,8 @@ class SignupViewModel @Inject constructor(
                 && _pwConfirm.value.isNotEmpty()
                 && _isPwValid.value
                 && _isPwConfirmValid.value
+                && !_isErrorVerify.value
+                && _isSuccessVerify.value
     }
 
     private fun updateEnabledForNickname() {
@@ -162,5 +219,15 @@ class SignupViewModel @Inject constructor(
 
     fun togglePwConfirmVisible() {
         _isPwConfirmVisible.value = !_isPwConfirmVisible.value
+    }
+
+    fun setEmailAuthId(id: Int) {
+        _emailAuthId.value = id
+    }
+
+    fun setEmailVerifySuccess() {
+        _isErrorVerify.value = false
+        _isSuccessVerify.value = true
+        updateEnabled()
     }
 }

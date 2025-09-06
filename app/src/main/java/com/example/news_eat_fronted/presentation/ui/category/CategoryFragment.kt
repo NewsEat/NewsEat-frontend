@@ -11,8 +11,10 @@ import com.example.news_eat_fronted.databinding.FragmentCategoryBinding
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.presentation.ui.search.SearchActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private val categoryViewModel: CategoryViewModel by viewModels()
     private lateinit var categoryAdapter: RVAdapterCategoryTab

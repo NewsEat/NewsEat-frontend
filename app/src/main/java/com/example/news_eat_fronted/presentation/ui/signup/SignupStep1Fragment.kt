@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout.fragment_signup_step1) {
     private val signupViewModel by activityViewModels<SignupViewModel>()
+    private var countDownTimer: CountDownTimer? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,6 +27,12 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
         addListeners()
         collectData()
         setPwVisibility()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        countDownTimer?.cancel()
+        countDownTimer = null
     }
 
     private fun collectData() {
@@ -67,6 +74,37 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
                 }
             }
         }
+
+        // 이메일 전송
+        lifecycleScope.launch {
+            signupViewModel.sendEmailState.collect { sendEmailState ->
+                sendEmailState?.let {
+                    CustomSnackBar.make(binding.root, getString(R.string.email_verify_sent)).show()
+                    signupViewModel.setEmailAuthId(it.emailAuthId)
+                }
+            }
+        }
+
+        // 이메일 인증
+        lifecycleScope.launch {
+            signupViewModel.isErrorVerify.collect { isError ->
+                if(signupViewModel.isErrorVerify.value) {
+                    binding.infoEmailError.visibility = View.VISIBLE
+                    binding.infoEmailSuccess.visibility = View.GONE
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            signupViewModel.checkEmailState.collect { checkEmailState ->
+                if(checkEmailState?.isChecked == true) {
+                    binding.infoEmailSuccess.visibility = View.VISIBLE
+                    binding.infoEmailError.visibility = View.GONE
+                    signupViewModel.setEmailVerifySuccess()
+                    binding.timer.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun addListeners() {
@@ -91,6 +129,7 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
         binding.btnVerifyEmail.setOnClickListener {
             setTimer()
             signupViewModel.sendEmail()  // 인증번호 전송 API
+            binding.btnVerifyEmail.text = getString(R.string.button_resend)
         }
 
         binding.btnConfirmCode.setOnClickListener {
@@ -98,7 +137,7 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
                 CustomSnackBar.make(binding.root, getString(R.string.sanckbar_time_out)).show()
             }
             else {
-                // 인증번호 검증 API
+                signupViewModel.checkEmail()  // 인증번호 검증 API
             }
         }
     }
@@ -140,12 +179,14 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
     }
 
     private fun setTimer() {
+        countDownTimer?.cancel()
+
         binding.timer.visibility = View.VISIBLE
 
         val totalTime = (3 * 60 + 1) * 1000L
         val interval = 1000L
 
-        object : CountDownTimer(totalTime, interval) {
+        countDownTimer = object : CountDownTimer(totalTime, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = (millisUntilFinished / 1000) / 60
                 val seconds = (millisUntilFinished / 1000) % 60

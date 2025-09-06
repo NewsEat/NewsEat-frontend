@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.RvCategoryItemBinding
 import com.example.news_eat_fronted.presentation.model.CategoryItem
+import com.example.news_eat_fronted.util.CustomSnackBar
 
 class RVAdapterCategory(
     val categoryList: ArrayList<CategoryItem>,
-    private val onSelectionChanged: (List<String>) -> Unit
+    private val onSelectionChanged: (List<Int>) -> Unit
     ): RecyclerView.Adapter<RVAdapterCategory.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -55,13 +56,13 @@ class RVAdapterCategory(
                         notifyItemChanged(adapterPosition)
                     }
                     else {
-                        // 토스트 메시지 (최대 3개까지 선택가능합니다.)
+                        CustomSnackBar.make(binding.root, itemView.context.getString(R.string.sanckbar_select_maximum)).show()
                     }
                 }
 
                 onSelectionChanged(categoryList
                     .filter { it.isSelected == true }
-                    .map { item -> itemView.context.getString(item.nameResId) })
+                    .map { item -> item.id })
             }
         }
     }

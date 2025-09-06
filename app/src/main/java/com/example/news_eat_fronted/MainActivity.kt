@@ -8,7 +8,9 @@ import com.example.news_eat_fronted.presentation.ui.category.CategoryFragment
 import com.example.news_eat_fronted.presentation.ui.home.HomeFragment
 import com.example.news_eat_fronted.presentation.ui.mypage.MyPageFragment
 import com.example.news_eat_fronted.util.base.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,8 +1,14 @@
 package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.AuthRemoteDataSource
+import com.example.news_eat_fronted.domain.entity.request.auth.CheckEmailRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.SignupResponseEntity
 import com.example.news_eat_fronted.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -16,4 +22,31 @@ class AuthRepositoryImpl @Inject constructor(
         }.getOrElse { err -> throw  err }
     }
 
+    override suspend fun checkEmail(checkEmailRequestEntity: CheckEmailRequestEntity): CheckEmailResponseEntity {
+        return runCatching {
+            authDataSource.checkEmail(checkEmailRequestEntity.toCheckEmailRequestDto())
+                .result.toCheckEmailResponseEntity()
+        }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun signup(signupRequestEntity: SignupRequestEntity): SignupResponseEntity {
+        return runCatching {
+            authDataSource.signup(signupRequestEntity.toSignupRequestDto())
+                .result.toSignupResponseEntity()
+        }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun login(loginRequestEntity: LoginRequestEntity): LoginResponseEntity {
+        return runCatching {
+            authDataSource.login(loginRequestEntity.toLoginRequestDto())
+                .result.toLoginResponseEntity()
+        }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun reissueToken(refreshToken: String): LoginResponseEntity {
+        return runCatching {
+            authDataSource.reissueToken(refreshToken)
+                .result.toLoginResponseEntity()
+        }.getOrElse { err -> throw err }
+    }
 }

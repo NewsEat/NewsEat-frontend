@@ -34,15 +34,24 @@ class SignupActivity : BindingActivity<ActivitySignUpBinding>(R.layout.activity_
                 binding.btnSignUp.isEnabled = enabled
             }
         }
+
+        lifecycleScope.launch {
+            signupViewModel.signupState.collect { state ->
+                if(state != null) {
+                    signupViewModel.goNextStep()
+                }
+            }
+        }
     }
 
     private fun addListeners() {
         binding.btnSignUp.setOnClickListener {
-            signupViewModel.goNextStep()
-            signupViewModel.updateNextEnabled(false)
-
-            if(signupViewModel.currentStep.value == 3) {
-                // 회원가입 API
+            if(signupViewModel.currentStep.value == 2) {
+                signupViewModel.signup()  // 회원가입 API
+            }
+            else {
+                signupViewModel.goNextStep()
+                signupViewModel.updateNextEnabled(false)
             }
         }
 

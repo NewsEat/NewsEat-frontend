@@ -1,16 +1,29 @@
 package com.example.news_eat_fronted.presentation.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
+import com.example.news_eat_fronted.domain.usecase.auth.LoginUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+): ViewModel() {
     private  val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
@@ -26,6 +39,28 @@ class LoginViewModel: ViewModel() {
 
     val isLoginEnabledLiveData: LiveData<Boolean> = isLoginEnabled.asLiveData()
 
+    private val _loginState = MutableStateFlow<LoginResponseEntity?>(null)
+    val loginState: StateFlow<LoginResponseEntity?> = _loginState.asStateFlow()
+
+    private val _loginError = MutableSharedFlow<Unit>()
+    val loginError = _loginError.asSharedFlow()
+
+    fun login() {
+        viewModelScope.launch {
+            try {
+                val loginResponseEntity = loginUseCase(
+                    loginRequestEntity = LoginRequestEntity(
+                        email = _email.value,
+                        password = _pw.value
+                    )
+                )
+                _loginState.value = loginResponseEntity
+
+            } catch (ex: Exception) {
+                _loginError.emit(Unit)
+            }
+        }
+    }
 
     fun onEmailChanged(newEmail: String) {
         _email.value = newEmail

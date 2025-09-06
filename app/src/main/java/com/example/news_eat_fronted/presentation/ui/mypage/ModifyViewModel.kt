@@ -14,8 +14,8 @@ class ModifyViewModel: ViewModel() {
     private val _nicknameLength = MutableStateFlow(0)
     val nicknameLength: StateFlow<Int> = _nicknameLength
 
-    private val _selectedCategory = MutableStateFlow<List<String>>(emptyList())
-    val selectedCategory: StateFlow<List<String>> = _selectedCategory
+    private val _selectedCategory = MutableStateFlow<List<Int>>(emptyList())
+    val selectedCategory: StateFlow<List<Int>> = _selectedCategory
 
     private val _pw = MutableStateFlow("")
     val pw: StateFlow<String> = _pw
@@ -44,7 +44,7 @@ class ModifyViewModel: ViewModel() {
         updateEnabledForNickname()
     }
 
-    fun updateSelectedCategory(selectedList: List<String>) {
+    fun updateSelectedCategory(selectedList: List<Int>) {
         _selectedCategory.value = selectedList
         updateEnabledForCategory()
     }
