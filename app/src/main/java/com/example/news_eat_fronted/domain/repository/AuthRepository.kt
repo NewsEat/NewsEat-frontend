@@ -17,4 +17,6 @@ interface AuthRepository {
     suspend fun signup(signupRequestEntity: SignupRequestEntity): SignupResponseEntity
 
     suspend fun login(loginRequestEntity: LoginRequestEntity): LoginResponseEntity
+
+    suspend fun reissueToken(refreshToken: String): LoginResponseEntity
 }

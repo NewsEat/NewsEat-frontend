@@ -37,9 +37,16 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun login(loginRequestEntity: LoginRequestEntity): LoginResponseEntity {
-        return kotlin.runCatching {
+        return runCatching {
             authDataSource.login(loginRequestEntity.toLoginRequestDto())
                 .result.toLoginResponseEntity()
         }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun reissueToken(refreshToken: String): LoginResponseEntity {
+        return runCatching {
+            authDataSource.reissueToken(refreshToken)
+                .result.toLoginResponseEntity()
+        }.getOrElse { err -> throw err }
     }
 }

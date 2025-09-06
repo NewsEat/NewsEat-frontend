@@ -10,6 +10,7 @@ import com.example.news_eat_fronted.data.model.response.auth.LoginResponseDto
 import com.example.news_eat_fronted.data.model.response.auth.SendEmailResponseDto
 import com.example.news_eat_fronted.data.model.response.auth.SignupResponseDto
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface AuthService {
@@ -31,5 +32,10 @@ interface AuthService {
     @POST("auth/login")
     suspend fun login(
         @Body loginRequestDto: LoginRequestDto
+    ): BaseResponse<LoginResponseDto>
+
+    @POST("auth/token/reissue")
+    suspend fun reissueToken(
+        @Header("refreshToken") refreshToken: String
     ): BaseResponse<LoginResponseDto>
 }

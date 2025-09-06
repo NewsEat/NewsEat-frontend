@@ -18,4 +18,6 @@ interface AuthRemoteDataSource {
         suspend fun signup(signupRequestDto: SignupRequestDto): BaseResponse<SignupResponseDto>
 
         suspend fun login(loginRequestDto: LoginRequestDto): BaseResponse<LoginResponseDto>
+
+        suspend fun reissueToken(refreshToken: String): BaseResponse<LoginResponseDto>
 }

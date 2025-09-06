@@ -27,4 +27,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun login(loginRequestDto: LoginRequestDto): BaseResponse<LoginResponseDto>
     = authService.login(loginRequestDto)
+
+    override suspend fun reissueToken(refreshToken: String): BaseResponse<LoginResponseDto>
+    = authService.reissueToken(refreshToken)
 }
