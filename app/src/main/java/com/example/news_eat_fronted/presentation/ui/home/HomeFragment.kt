@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.util.base.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var recommendAdapter: RVAdapterNews

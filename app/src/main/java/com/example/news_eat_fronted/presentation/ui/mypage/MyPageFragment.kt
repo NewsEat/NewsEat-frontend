@@ -13,11 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.databinding.FragmentMypageBinding
+import com.example.news_eat_fronted.presentation.ui.login.LoginActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
 import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
 
     private val viewModel: MyPageViewModel by viewModels()
@@ -48,6 +51,16 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
         lifecycleScope.launch {
             viewModel.interests.collectLatest { tags ->
                 updateInterestTags(tags)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.withdrawState.collect {
+                startActivity(
+                    Intent(requireContext(), LoginActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                )
             }
         }
     }
@@ -126,7 +139,7 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
                 rightBtnText = getString(R.string.dialog_btn_delete),
                 clickLeftBtn = {},
                 clickRightBtn = {
-                    // 회원탈퇴 API
+                    viewModel.withdraw()
                 }
             )
             dialog.show(parentFragmentManager, "DialogLogout")

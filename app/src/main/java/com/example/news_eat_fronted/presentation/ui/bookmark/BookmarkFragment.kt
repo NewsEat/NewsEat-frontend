@@ -9,9 +9,11 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentBookmarkBinding
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragment_bookmark) {
 
     private val bookmarkViewModel: BookmarkViewModel by viewModels()

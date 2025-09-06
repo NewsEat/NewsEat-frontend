@@ -1,11 +1,13 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.domain.repository.AuthRepository
+import com.example.news_eat_fronted.domain.repository.UserRepository
 import com.example.news_eat_fronted.domain.usecase.auth.CheckEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.LoginUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.ReissueTokenUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SignupUseCase
+import com.example.news_eat_fronted.domain.usecase.user.WithdrawUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,4 +41,9 @@ class UseCaseModule {
     @Singleton
     fun provideReissueToken(authRepository: AuthRepository): ReissueTokenUseCase =
         ReissueTokenUseCase(authRepository = authRepository)
+
+    @Provides
+    @Singleton
+    fun provideWithdraw(userRepository: UserRepository): WithdrawUseCase =
+        WithdrawUseCase(userRepository = userRepository)
 }
