@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.RvCategoryTabItemBinding
 
-class RVAdapterCategoryTab(val categoryList: ArrayList<String>): RecyclerView.Adapter<RVAdapterCategoryTab.ViewHolder>() {
-
-    private var selectedPosition = 0
+class RVAdapterCategoryTab(
+    private val categoryList: ArrayList<String>,
+    private var selectedPosition: Int = 0,
+    private val onItemSelected: (Int) -> Unit,
+): RecyclerView.Adapter<RVAdapterCategoryTab.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapterCategoryTab.ViewHolder {
         val binding = RvCategoryTabItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -44,8 +46,17 @@ class RVAdapterCategoryTab(val categoryList: ArrayList<String>): RecyclerView.Ad
                     selectedPosition = position
                     notifyItemChanged(previousPosition)
                     notifyItemChanged(position)
+
+                    onItemSelected(position)
                 }
             }
         }
+    }
+
+    fun updateSelectedPosition(position: Int) {
+        val previous = selectedPosition
+        selectedPosition = position
+        notifyItemChanged(previous)
+        notifyItemChanged(position)
     }
 }

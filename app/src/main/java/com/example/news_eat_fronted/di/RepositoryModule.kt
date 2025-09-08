@@ -1,8 +1,10 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.data.repositoryImpl.AuthRepositoryImpl
+import com.example.news_eat_fronted.data.repositoryImpl.NewsRepositoryImpl
 import com.example.news_eat_fronted.data.repositoryImpl.UserRepositoryImpl
 import com.example.news_eat_fronted.domain.repository.AuthRepository
+import com.example.news_eat_fronted.domain.repository.NewsRepository
 import com.example.news_eat_fronted.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,9 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         impl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    abstract fun bindNewsRepository(
+        impl: NewsRepositoryImpl
+    ): NewsRepository
 }

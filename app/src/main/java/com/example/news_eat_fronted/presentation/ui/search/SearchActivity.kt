@@ -45,12 +45,12 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     }
 
     private fun collectData() {
-        lifecycleScope.launch {
-            launch {
-                searchViewModel.newsList.collect { newsList ->
-                    newListAdapter.submitList(newsList)
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            launch {
+//                searchViewModel.newsList.collect { newsList ->
+//                    newListAdapter.submitList(newsList)
+//                }
+//            }
+//        }
     }
 }

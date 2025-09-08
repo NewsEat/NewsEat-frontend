@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.news_eat_fronted.databinding.RvCategoryNewsItemBinding
-import com.example.news_eat_fronted.presentation.model.HomeNewsItem
+import com.example.news_eat_fronted.domain.entity.response.news.CategoryNewsResponseEntity
 
-class RVAdapterNewsList: ListAdapter<HomeNewsItem, RVAdapterNewsList.ViewHolder>(DIFF_CALLBACK) {
+class RVAdapterNewsList: ListAdapter<CategoryNewsResponseEntity, RVAdapterNewsList.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RvCategoryNewsItemBinding.inflate(
@@ -25,24 +25,24 @@ class RVAdapterNewsList: ListAdapter<HomeNewsItem, RVAdapterNewsList.ViewHolder>
     }
 
     inner class ViewHolder(private val binding: RvCategoryNewsItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: HomeNewsItem) {
+        fun bind(item: CategoryNewsResponseEntity) {
             Glide.with(binding.root)
-                .load(item.imgResId)
+                .load(item.imgUrl)
                 .into(binding.newsImage)
             binding.newsTitle.text = item.title
             binding.publisher.text = item.publisher
-            binding.date.text = item.date
+            binding.date.text = item.publishedAt
         }
     }
 
     companion object {
-        private val DIFF_CALLBACK = object :  DiffUtil.ItemCallback<HomeNewsItem>() {
-            override fun areContentsTheSame(oldItem: HomeNewsItem, newItem: HomeNewsItem): Boolean {
+        private val DIFF_CALLBACK = object :  DiffUtil.ItemCallback<CategoryNewsResponseEntity>() {
+            override fun areContentsTheSame(oldItem: CategoryNewsResponseEntity, newItem: CategoryNewsResponseEntity): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areItemsTheSame(oldItem: HomeNewsItem, newItem: HomeNewsItem): Boolean {
-                return oldItem.id== newItem.id
+            override fun areItemsTheSame(oldItem: CategoryNewsResponseEntity, newItem: CategoryNewsResponseEntity): Boolean {
+                return oldItem.newsId== newItem.newsId
             }
         }
     }

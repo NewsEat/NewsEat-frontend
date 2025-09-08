@@ -1,8 +1,10 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.data.datasource.AuthRemoteDataSource
+import com.example.news_eat_fronted.data.datasource.NewsRemoteDataSource
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
 import com.example.news_eat_fronted.data.datasourceImpl.AuthRemoteDataSourceImpl
+import com.example.news_eat_fronted.data.datasourceImpl.NewsRemoteDataSourceImpl
 import com.example.news_eat_fronted.data.datasourceImpl.UserRemoteDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,9 @@ abstract class DataSourceModule {
     abstract fun bindUserRemoteDataSource (
         impl: UserRemoteDataSourceImpl
     ): UserRemoteDataSource
+
+    @Binds
+    abstract fun bindNewsRemoteDataSource (
+        impl: NewsRemoteDataSourceImpl
+    ): NewsRemoteDataSource
 }

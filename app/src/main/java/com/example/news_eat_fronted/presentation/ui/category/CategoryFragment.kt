@@ -37,7 +37,10 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
     }
 
     private fun setAdapter() {
-        categoryAdapter = RVAdapterCategoryTab(categoryViewModel.categoryList)
+        categoryAdapter = RVAdapterCategoryTab(
+            categoryList = categoryViewModel.categoryList,
+            onItemSelected = { position -> categoryViewModel.updateSelectedPosition(position) }
+        )
         newListAdapter = RVAdapterNewsList()
 
         binding.rvCategory.apply {
@@ -53,9 +56,21 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
 
     private fun collectData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            launch {
-                categoryViewModel.newsList.collect { newsList ->
-                    newListAdapter.submitList(newsList)
+            categoryViewModel.selectedPosition.collect { position ->
+                categoryAdapter.updateSelectedPosition(position)
+
+                categoryViewModel.getCategoryNews()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            categoryViewModel.getCategoryNewsState.collect { getCategoryNewsState ->
+                newListAdapter.submitList(getCategoryNewsState?.categoryNewsResponses)
+
+                getCategoryNewsState?.hasNext?.let {
+                    if(!it) {
+                        binding.btnMoreNews.visibility = View.GONE
+                    }
                 }
             }
         }
