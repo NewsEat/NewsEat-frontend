@@ -27,15 +27,20 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.setNewsId(intent.getLongExtra("newsId", -1L))
-        viewModel.getNewsDetail()
-
+        getNews()
         setupRecyclerView()
         setupBottomSheet()
         collectData()
         setupFloatingButton()
         setupBookmarkButton()
         addListeners()
+    }
+
+    private fun getNews() {
+        viewModel.setNewsId(intent.getLongExtra("newsId", -1L))
+
+        viewModel.getNewsDetail()
+        viewModel.getNewsSummary()
     }
 
     private fun setupRecyclerView() {
@@ -94,13 +99,14 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
 
     private fun addListeners() {
         binding.summaryButton.setOnClickListener {
-            // 요약 API 가져와서 붙여주기
-            val dialog = DialogSummaryFragment(
-                title = "김도영, 복귀 후 첫 홈런… \nKIA 3연패 탈출 견인",
-                content = "김도영바보선수가 복귀 이틀 만에 시즌 첫 홈런을 기록하며 KIA의 3연패를 끊는 데 결정적인 역할을 했습니다. 이날 경기에서 4타수 2안타 2타점을 기록하며 팀 승리에 기여했습니다.",
-                tag = getString(R.string.news_summary_positive)
-            )
-            dialog.show(supportFragmentManager, "DialogSummary")
+            viewModel.newsSummaryState.value?.let { newsSummaryState ->
+                val dialog = DialogSummaryFragment(
+                    title = newsSummaryState.title,
+                    content = newsSummaryState.summaryResult,
+                    tag = newsSummaryState.sentiment
+                )
+                dialog.show(supportFragmentManager, "DialogSummary")
+            }
         }
 
         binding.roundBackButton.setOnClickListener {

@@ -3,7 +3,9 @@ package com.example.news_eat_fronted.data.service
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -19,4 +21,9 @@ interface NewsService {
     suspend fun getNewsDetail(
         @Path("newsId") newsId: Long
     ): BaseResponse<GetNewsDetailResponseDto>
+
+    @POST("news/summary/{newsId}")
+    suspend fun getNewsSummary(
+        @Path("newsId") newsId: Long
+    ): BaseResponse<NewsSummaryResponseDto>
 }

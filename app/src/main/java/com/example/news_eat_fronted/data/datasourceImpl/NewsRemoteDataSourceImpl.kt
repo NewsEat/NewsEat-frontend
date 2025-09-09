@@ -5,6 +5,7 @@ import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResponseDto
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import com.example.news_eat_fronted.data.service.NewsService
 import javax.inject.Inject
 
@@ -20,6 +21,11 @@ class NewsRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getNewsDetail(newsId: Long): BaseResponse<GetNewsDetailResponseDto>
     = newsService.getNewsDetail(
+        newsId = newsId
+    )
+
+    override suspend fun getNewsSummary(newsId: Long): BaseResponse<NewsSummaryResponseDto>
+    = newsService.getNewsSummary(
         newsId = newsId
     )
 }
