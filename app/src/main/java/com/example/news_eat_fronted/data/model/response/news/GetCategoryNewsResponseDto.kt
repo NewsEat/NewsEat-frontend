@@ -1,4 +1,4 @@
-package com.example.news_eat_fronted.data.model
+package com.example.news_eat_fronted.data.model.response.news
 
 import com.example.news_eat_fronted.domain.entity.response.news.CategoryNewsResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity

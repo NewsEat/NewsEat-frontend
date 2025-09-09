@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.NewsRemoteDataSource
 import com.example.news_eat_fronted.domain.entity.request.news.GetCategoryNewsRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.news.GetNewsDetailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity
 import com.example.news_eat_fronted.domain.repository.NewsRepository
 import javax.inject.Inject
@@ -14,5 +15,12 @@ class NewsRepositoryImpl @Inject constructor(
             newsDataSource.getCategoryNews(getCategoryNewsRequestEntity.toGetCategoryNewsRequestDto())
                 .result.toGetCategoryNewsResponseEntity()
         }.getOrElse { err -> throw  err }
+    }
+
+    override suspend fun getNewsDetail(newsId: Long): GetNewsDetailResponseEntity {
+        return runCatching {
+            newsDataSource.getNewsDetail(newsId)
+                .result.toGetNewsDetailResponseEntity()
+        }.getOrElse { err -> throw err }
     }
 }

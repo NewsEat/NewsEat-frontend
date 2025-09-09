@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivitySearchBinding
 import com.example.news_eat_fronted.presentation.ui.category.RVAdapterNewsList
+import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
 import com.example.news_eat_fronted.util.base.BindingActivity
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,13 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     }
 
     private fun setAdapter() {
-        newListAdapter = RVAdapterNewsList()
+        newListAdapter = RVAdapterNewsList(
+            onItemClick = { categoryNewsResponseEntity ->
+                startActivity(Intent(this, NewsDetailActivity::class.java).apply {
+                    putExtra("newsId", categoryNewsResponseEntity.newsId)
+                })
+            }
+        )
 
         binding.rvSearchedNews.apply {
             layoutManager = LinearLayoutManager(context)
