@@ -26,4 +26,11 @@ interface NewsService {
     suspend fun getNewsSummary(
         @Path("newsId") newsId: Long
     ): BaseResponse<NewsSummaryResponseDto>
+
+    @GET("news/search")
+    suspend fun getSearchedNews(
+        @Query("keyword") keyword: String,
+        @Query("lastNewsId") lastNewsId: Long,
+        @Query("size") size: Int
+    ): BaseResponse<GetCategoryNewsResponseDto>
 }

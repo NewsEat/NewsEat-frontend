@@ -10,5 +10,6 @@ data class CategoryNewsResponseEntity(
     val title: String,
     val imgUrl: String,
     val publisher: String,
-    val publishedAt: String
+    val publishedAt: String?,
+    val content: String?,
 )

@@ -20,14 +20,17 @@ data class GetCategoryNewsResponseDto(
         @SerializedName("publisher")
         val publisher: String,
         @SerializedName("publishedAt")
-        val publishedAt: String
+        val publishedAt: String?,
+        @SerializedName("content")
+        val content: String?
     ) {
         fun toCategoryNewsResponseEntity() = CategoryNewsResponseEntity(
             newsId = newsId,
             title = title,
             imgUrl = imgUrl,
             publisher = publisher,
-            publishedAt = publishedAt
+            publishedAt = publishedAt,
+            content = content
         )
     }
 

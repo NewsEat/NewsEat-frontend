@@ -3,6 +3,7 @@ package com.example.news_eat_fronted.data.repositoryImpl
 import com.example.news_eat_fronted.data.datasource.NewsRemoteDataSource
 import com.example.news_eat_fronted.domain.entity.request.news.GetCategoryNewsRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.news.GetNewsDetailResponseEntity
+import com.example.news_eat_fronted.domain.entity.request.news.GetSearchedNewsRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.news.NewsSummaryResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity
 import com.example.news_eat_fronted.domain.repository.NewsRepository
@@ -29,6 +30,13 @@ class NewsRepositoryImpl @Inject constructor(
         return runCatching {
             newsDataSource.getNewsSummary(newsId)
                 .result.toNewsSummaryResponseEntity()
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun getSearchedNews(getSearchedNewsRequestEntity: GetSearchedNewsRequestEntity): GetCategoryNewsResponseEntity {
+        return runCatching {
+            newsDataSource.getSearchedNews(getSearchedNewsRequestEntity.toGetSearchedNewsRequestDto())
+                .result.toGetCategoryNewsResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }

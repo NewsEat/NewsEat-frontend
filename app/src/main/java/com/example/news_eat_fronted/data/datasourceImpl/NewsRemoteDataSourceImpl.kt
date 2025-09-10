@@ -4,6 +4,7 @@ import com.example.news_eat_fronted.data.datasource.NewsRemoteDataSource
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResponseDto
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
+import com.example.news_eat_fronted.data.model.request.news.GetSearchedNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
 import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import com.example.news_eat_fronted.data.service.NewsService
@@ -27,5 +28,12 @@ class NewsRemoteDataSourceImpl @Inject constructor(
     override suspend fun getNewsSummary(newsId: Long): BaseResponse<NewsSummaryResponseDto>
     = newsService.getNewsSummary(
         newsId = newsId
+    )
+
+    override suspend fun getSearchedNews(getSearchedNewsRequestDto: GetSearchedNewsRequestDto): BaseResponse<GetCategoryNewsResponseDto>
+    = newsService.getSearchedNews(
+        keyword = getSearchedNewsRequestDto.keyword,
+        lastNewsId = getSearchedNewsRequestDto.lastNewsId,
+        size = getSearchedNewsRequestDto.size
     )
 }
