@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentCategoryBinding
 import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
@@ -27,7 +28,7 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
         collectData()
         addListeners()
 
-//        binding.btnMoreNews.visibility = View.GONE
+        categoryViewModel.getCategoryNews(isLoadMore = false)
     }
 
     private fun addListeners() {
@@ -57,6 +58,19 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
         binding.rvNewsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = newListAdapter
+
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = layoutManager.itemCount
+
+                    if(lastVisible == totalCount - 1) {
+                        categoryViewModel.getCategoryNews(isLoadMore = true)
+                    }
+                }
+            })
         }
     }
 
@@ -64,20 +78,12 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
         viewLifecycleOwner.lifecycleScope.launch {
             categoryViewModel.selectedPosition.collect { position ->
                 categoryAdapter.updateSelectedPosition(position)
-
-                categoryViewModel.getCategoryNews()
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            categoryViewModel.getCategoryNewsState.collect { getCategoryNewsState ->
-                newListAdapter.submitList(getCategoryNewsState?.categoryNewsResponses)
-
-                getCategoryNewsState?.hasNext?.let {
-                    if(!it) {
-                        binding.btnMoreNews.visibility = View.GONE
-                    }
-                }
+            categoryViewModel.newsList.collect { newsList ->
+                newListAdapter.submitList(newsList)
             }
         }
     }

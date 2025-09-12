@@ -1,13 +1,15 @@
 package com.example.news_eat_fronted.presentation.ui.search
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.ActivitySearchBinding
 import com.example.news_eat_fronted.presentation.ui.category.RVAdapterNewsList
@@ -32,8 +34,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     private fun addListeners() {
         binding.btnBack.setOnClickListener {
             finish()
-            binding.rvSearchedNews.visibility = View.GONE
-            binding.tvNoContent.visibility = View.GONE
         }
 
         binding.inputSearch.addTextChangedListener {
@@ -41,8 +41,13 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
 
         binding.btnSearch.setOnClickListener {
-            // 검색 API 호출 후 searchViewModel.newsList 연결
-            searchViewModel.getSearchedNews()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(binding.inputSearch.windowToken, 0)
+
+            searchViewModel.apply {
+                resetNewsList()
+                getSearchedNews(isLoadMore = false)
+            }
         }
     }
 
@@ -58,29 +63,32 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.rvSearchedNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newListAdapter
+
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = layoutManager.itemCount
+
+                    if(lastVisible == totalCount - 1) {
+                        searchViewModel.getSearchedNews(isLoadMore = true)
+                    }
+                }
+            })
         }
     }
 
     private fun collectData() {
         lifecycleScope.launch {
-            Log.d("okhttp", "collectData start")
-            searchViewModel.getSearchedNewsState.collect { getSearchedNewsState ->
-                Log.d("okhttp", "collectData collect triggered: $getSearchedNewsState")
-                Log.d("okhttp", getSearchedNewsState.toString())
+            searchViewModel.newsList.collect { newsList ->
+                newListAdapter.submitList(newsList)
 
-                newListAdapter.submitList(getSearchedNewsState?.searchNewsResponses)
-
-                if(getSearchedNewsState !== null) {
-                    if((getSearchedNewsState?.searchNewsResponses?.size ?: 0) > 0) {
-                        binding.rvSearchedNews.visibility = View.VISIBLE
-                        binding.tvNoContent.visibility = View.GONE
-                    } else {
-                        binding.rvSearchedNews.visibility = View.GONE
-                        binding.tvNoContent.visibility = View.VISIBLE
-                    }
+                if(searchViewModel.getSearchedNewsState.value != null) {
+                    binding.rvSearchedNews.visibility = if(newsList.isNotEmpty()) View.VISIBLE else View.GONE
+                    binding.tvNoContent.visibility = if(newsList.isEmpty()) View.VISIBLE else View.GONE
                 }
             }
-
         }
     }
 }
