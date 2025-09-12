@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.data.service.AuthService
+import com.example.news_eat_fronted.data.service.NewsService
 import com.example.news_eat_fronted.data.service.UserService
 import dagger.Module
 import dagger.Provides
@@ -22,4 +23,9 @@ object ServiceModule {
     @Singleton
     fun provideUserService(@Auth retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNewsService(@Auth retrofit: Retrofit): NewsService =
+        retrofit.create(NewsService::class.java)
 }

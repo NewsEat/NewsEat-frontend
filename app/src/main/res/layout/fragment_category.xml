@@ -60,7 +60,8 @@
         android:text="@string/category_news_more"
         android:textAppearance="@style/TextAppearance.NewsEat.Body5"
         android:textColor="@color/Gray500"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" />
     
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

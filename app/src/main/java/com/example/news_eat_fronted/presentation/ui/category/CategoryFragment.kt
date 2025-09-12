@@ -6,9 +6,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentCategoryBinding
-import com.example.news_eat_fronted.databinding.FragmentHomeBinding
+import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
 import com.example.news_eat_fronted.presentation.ui.search.SearchActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,7 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
         collectData()
         addListeners()
 
-//        binding.btnMoreNews.visibility = View.GONE
+        categoryViewModel.getCategoryNews(isLoadMore = false)
     }
 
     private fun addListeners() {
@@ -37,8 +38,17 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
     }
 
     private fun setAdapter() {
-        categoryAdapter = RVAdapterCategoryTab(categoryViewModel.categoryList)
-        newListAdapter = RVAdapterNewsList()
+        categoryAdapter = RVAdapterCategoryTab(
+            categoryList = categoryViewModel.categoryList,
+            onItemSelected = { position -> categoryViewModel.updateSelectedPosition(position) }
+        )
+        newListAdapter = RVAdapterNewsList(
+            onItemClick = { categoryNewsResponseEntity ->
+                startActivity(Intent(requireContext(), NewsDetailActivity::class.java).apply {
+                    putExtra("newsId", categoryNewsResponseEntity.newsId)
+                })
+            }
+        )
 
         binding.rvCategory.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -48,15 +58,32 @@ class CategoryFragment: BindingFragment<FragmentCategoryBinding>(R.layout.fragme
         binding.rvNewsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = newListAdapter
+
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+                    val totalCount = layoutManager.itemCount
+
+                    if(lastVisible == totalCount - 1) {
+                        categoryViewModel.getCategoryNews(isLoadMore = true)
+                    }
+                }
+            })
         }
     }
 
     private fun collectData() {
         viewLifecycleOwner.lifecycleScope.launch {
-            launch {
-                categoryViewModel.newsList.collect { newsList ->
-                    newListAdapter.submitList(newsList)
-                }
+            categoryViewModel.selectedPosition.collect { position ->
+                categoryAdapter.updateSelectedPosition(position)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            categoryViewModel.newsList.collect { newsList ->
+                newListAdapter.submitList(newsList)
             }
         }
     }
