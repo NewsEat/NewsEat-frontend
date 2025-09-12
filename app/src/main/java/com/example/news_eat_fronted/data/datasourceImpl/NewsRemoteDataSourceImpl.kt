@@ -6,6 +6,7 @@ import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResp
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
 import com.example.news_eat_fronted.data.model.request.news.GetSearchedNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.GetSearchedNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import com.example.news_eat_fronted.data.service.NewsService
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
         newsId = newsId
     )
 
-    override suspend fun getSearchedNews(getSearchedNewsRequestDto: GetSearchedNewsRequestDto): BaseResponse<GetCategoryNewsResponseDto>
+    override suspend fun getSearchedNews(getSearchedNewsRequestDto: GetSearchedNewsRequestDto): BaseResponse<GetSearchedNewsResponseDto>
     = newsService.getSearchedNews(
         keyword = getSearchedNewsRequestDto.keyword,
         lastNewsId = getSearchedNewsRequestDto.lastNewsId,

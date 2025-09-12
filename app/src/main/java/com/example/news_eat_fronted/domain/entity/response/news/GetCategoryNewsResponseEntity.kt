@@ -4,12 +4,3 @@ data class GetCategoryNewsResponseEntity(
     val categoryNewsResponses: List<CategoryNewsResponseEntity>,
     val hasNext: Boolean
 )
-
-data class CategoryNewsResponseEntity(
-    val newsId: Long,
-    val title: String,
-    val imgUrl: String,
-    val publisher: String,
-    val publishedAt: String?,
-    val content: String?,
-)

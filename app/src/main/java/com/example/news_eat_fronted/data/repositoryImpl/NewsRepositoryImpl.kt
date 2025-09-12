@@ -6,6 +6,7 @@ import com.example.news_eat_fronted.domain.entity.request.news.GetNewsDetailResp
 import com.example.news_eat_fronted.domain.entity.request.news.GetSearchedNewsRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.news.NewsSummaryResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.news.GetSearchedNewsResponseEntity
 import com.example.news_eat_fronted.domain.repository.NewsRepository
 import javax.inject.Inject
 
@@ -33,10 +34,10 @@ class NewsRepositoryImpl @Inject constructor(
         }.getOrElse { err -> throw err }
     }
 
-    override suspend fun getSearchedNews(getSearchedNewsRequestEntity: GetSearchedNewsRequestEntity): GetCategoryNewsResponseEntity {
+    override suspend fun getSearchedNews(getSearchedNewsRequestEntity: GetSearchedNewsRequestEntity): GetSearchedNewsResponseEntity {
         return runCatching {
             newsDataSource.getSearchedNews(getSearchedNewsRequestEntity.toGetSearchedNewsRequestDto())
-                .result.toGetCategoryNewsResponseEntity()
+                .result.toGetSearchedNewsResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }

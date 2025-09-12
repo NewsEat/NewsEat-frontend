@@ -1,11 +1,11 @@
 package com.example.news_eat_fronted.presentation.ui.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.domain.entity.request.news.GetSearchedNewsRequestEntity
-import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.news.GetSearchedNewsResponseEntity
 import com.example.news_eat_fronted.domain.usecase.news.GetSearchedNewsUseCase
-import com.example.news_eat_fronted.presentation.model.HomeNewsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +20,8 @@ class SearchViewModel @Inject constructor(
     private val _keyword = MutableStateFlow<String>("")
     val keyword: StateFlow<String> = _keyword
 
-    private val _getSearchedNewsState = MutableStateFlow<GetCategoryNewsResponseEntity?>(null)
-    val getSearchedNewsState: StateFlow<GetCategoryNewsResponseEntity?> = _getSearchedNewsState
+    private val _getSearchedNewsState = MutableStateFlow<GetSearchedNewsResponseEntity?>(null)
+    val getSearchedNewsState: StateFlow<GetSearchedNewsResponseEntity?> = _getSearchedNewsState
 
     fun getSearchedNews() {
         viewModelScope.launch {
@@ -33,6 +33,7 @@ class SearchViewModel @Inject constructor(
                         size = 10
                     )
                 )
+                Log.d("okhttp-viewModel", searchedNewsResponseEntity.toString())
                 _getSearchedNewsState.value = searchedNewsResponseEntity
             } catch (ex: Exception) {}
         }

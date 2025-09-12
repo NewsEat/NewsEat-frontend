@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.presentation.ui.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -31,6 +32,8 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
     private fun addListeners() {
         binding.btnBack.setOnClickListener {
             finish()
+            binding.rvSearchedNews.visibility = View.GONE
+            binding.tvNoContent.visibility = View.GONE
         }
 
         binding.inputSearch.addTextChangedListener {
@@ -40,8 +43,6 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         binding.btnSearch.setOnClickListener {
             // 검색 API 호출 후 searchViewModel.newsList 연결
             searchViewModel.getSearchedNews()
-            binding.rvSearchedNews.visibility = View.VISIBLE
-//            binding.tvNoContent.visibility = View.VISIBLE
         }
     }
 
@@ -62,10 +63,24 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
 
     private fun collectData() {
         lifecycleScope.launch {
+            Log.d("okhttp", "collectData start")
             searchViewModel.getSearchedNewsState.collect { getSearchedNewsState ->
-                newListAdapter.submitList(getSearchedNewsState?.categoryNewsResponses)
+                Log.d("okhttp", "collectData collect triggered: $getSearchedNewsState")
+                Log.d("okhttp", getSearchedNewsState.toString())
 
+                newListAdapter.submitList(getSearchedNewsState?.searchNewsResponses)
+
+                if(getSearchedNewsState !== null) {
+                    if((getSearchedNewsState?.searchNewsResponses?.size ?: 0) > 0) {
+                        binding.rvSearchedNews.visibility = View.VISIBLE
+                        binding.tvNoContent.visibility = View.GONE
+                    } else {
+                        binding.rvSearchedNews.visibility = View.GONE
+                        binding.tvNoContent.visibility = View.VISIBLE
+                    }
+                }
             }
+
         }
     }
 }
