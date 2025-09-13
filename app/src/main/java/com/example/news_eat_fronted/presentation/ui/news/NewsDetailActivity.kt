@@ -87,12 +87,24 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                 binding.newsDate.text = newsDetailState?.publishedAt
                 binding.newsCategory.text = newsDetailState?.category
                 binding.newsSentiment.text = newsDetailState?.sentiment
+                newsDetailState?.isBookmarked?.let { viewModel.setBookmarked(it) }
+            }
+        }
 
-                if(newsDetailState?.isBookmarked == true) {
+        lifecycleScope.launch {
+            viewModel.isBookmarked.collect { isBookmarked ->
+                if(isBookmarked) {
                     binding.roundBookmarkButton.setImageResource(R.drawable.btn_round_bookmark_selected)
                 } else {
                     binding.roundBookmarkButton.setImageResource(R.drawable.btn_round_bookmark_unselected)
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.postBookmarkState.collect { postBookmarkState ->
+                viewModel.setBookmarked(true)
+                postBookmarkState?.bookmarkId?.let { viewModel.setBookmarkId(it) }
             }
         }
     }
@@ -128,15 +140,12 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
 
     private fun setupBookmarkButton() {
         binding.roundBookmarkButton.setOnClickListener {
-            // 북마크 API 추가
 
-//            isBookmarked = !isBookmarked
-//
-//            if (isBookmarked) {
-//                binding.roundBookmarkButton.setImageResource(R.drawable.btn_round_bookmark_selected)
-//            } else {
-//                binding.roundBookmarkButton.setImageResource(R.drawable.btn_round_bookmark_unselected)
-//            }
+            if(!viewModel.isBookmarked.value) {
+                viewModel.postBookmark() // 북마크 추가
+            } else {
+                viewModel.deleteBookmark() // 북마크 삭제
+            }
         }
     }
 }
