@@ -23,12 +23,15 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
         observeBookmarkList()
+
+        bookmarkViewModel.getBookmarkList()
     }
 
     private fun setAdapter() {
         adapter = RVAdapterBookmark(arrayListOf()) { item ->
-            bookmarkViewModel.updateBookmarkStatus(item)
-            CustomSnackBar.make(binding.root, getString(R.string.snackbar_bookmark_deleted)).show()
+//            bookmarkViewModel.updateBookmarkStatus(item)
+//            CustomSnackBar.make(binding.root, getString(R.string.snackbar_bookmark_deleted)).show()
+            // 북마크 취소 API 붙이기
         }
         binding.rvBookmarkedArticles.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -38,10 +41,18 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
 
     private fun observeBookmarkList() {
         lifecycleScope.launch {
-            bookmarkViewModel.bookmarkList.collectLatest { list ->
+//            bookmarkViewModel.bookmarkList.collectLatest { list ->
+//                adapter.apply {
+//                    bookmarkList.clear()
+//                    bookmarkList.addAll(list.filter { it.isBookmarked })
+//                    notifyDataSetChanged()
+//                }
+//            }
+
+            bookmarkViewModel.getBookmarkListState.collect { bookmarkListState ->
                 adapter.apply {
                     bookmarkList.clear()
-                    bookmarkList.addAll(list.filter { it.isBookmarked })
+                    bookmarkListState?.let { bookmarkList.addAll(it.bookmarkResponseList) }
                     notifyDataSetChanged()
                 }
             }

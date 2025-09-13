@@ -1,7 +1,9 @@
 package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.BookmarkRemoteDataSource
+import com.example.news_eat_fronted.domain.entity.request.bookmark.GetBookmarkListRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkIdResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarkListResponseEntity
 import com.example.news_eat_fronted.domain.repository.BookmarkRepository
 import javax.inject.Inject
 
@@ -19,6 +21,13 @@ class BookmarkRepositoryImpl @Inject constructor(
         return runCatching {
             bookmarkRemoteDataSource.deleteBookmark(bookmarkId)
                 .result
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun getBookmarkList(getBookmarkListRequestEntity: GetBookmarkListRequestEntity): GetBookmarkListResponseEntity {
+        return runCatching {
+            bookmarkRemoteDataSource.getBookmarkList(getBookmarkListRequestEntity.toGetBookmarkListRequestDto())
+                .result.toGetBookmarkListResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }

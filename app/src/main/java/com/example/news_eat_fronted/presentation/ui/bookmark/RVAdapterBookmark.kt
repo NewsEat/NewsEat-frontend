@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.RvBookmarkItemBinding
+import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkResponseEntity
 import com.example.news_eat_fronted.presentation.model.BookmarkItem
 
 class RVAdapterBookmark (
-    val bookmarkList: ArrayList<BookmarkItem>,
+    val bookmarkList: ArrayList<BookmarkResponseEntity>,
     private val onSelectionChanged: (BookmarkItem) -> Unit
 ): RecyclerView.Adapter<RVAdapterBookmark.ViewHolder>() {
     
@@ -29,25 +30,26 @@ class RVAdapterBookmark (
     }
 
     inner class ViewHolder(private val binding: RvBookmarkItemBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: BookmarkItem) {
+        fun bind(item: BookmarkResponseEntity) {
             binding.bookmarkNewsTitle.text = item.title
             binding.bookmarkNewsCategory.text = item.category
-            binding.bookmarkNewsDate.text = item.date
+            binding.bookmarkNewsDate.text = item.publishedAt
 
-            binding.bookmarkNewsThumbnail.load(item.thumbnailUrl) {
+            binding.bookmarkNewsThumbnail.load(item.imgUrl) {
                 crossfade(true)
             }
 
-            val bookmarkIcon = if (item.isBookmarked) {
-                R.drawable.icon_bookmark_selected
-            } else {
-                R.drawable.icon_bookmark_unselected
-            }
+//            val bookmarkIcon = if (item.isBookmarked) {
+//                R.drawable.icon_bookmark_selected
+//            } else {
+//                R.drawable.icon_bookmark_unselected
+//            }
 
-            binding.iconBookmark.setImageResource(bookmarkIcon)
+            binding.iconBookmark.setImageResource(R.drawable.icon_bookmark_selected)
 
             binding.iconBookmark.setOnClickListener {
-                onSelectionChanged(item)
+                // 북마크 취소 API 붙이기
+//                onSelectionChanged(item)
             }
         }
     }
