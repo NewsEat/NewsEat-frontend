@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.news
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -53,13 +54,16 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
             viewModel.setNewsId(intent.getLongExtra("newsId", -1L))
             viewModel.getNewsDetail()
             viewModel.getNewsSummary()
+            viewModel.getNewsRecommendations()
         }
     }
 
     private fun setupRecyclerView() {
         adapter = RVAdapterRecommendNews { item ->
-            // 추천 뉴스 API 붙이기
-//            viewModel.selectNews(item)
+            // 추천 뉴스 상세로 이동
+            startActivity(Intent(this, NewsDetailActivity::class.java).apply {
+                putExtra("newsId", item.newsId)
+            })
         }
         binding.rvNewsRecommended.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -149,6 +153,14 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                     binding.root.postDelayed({
                         finish()
                     }, 800)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.newsRecommendationsState.collect { newsRecommendationsState ->
+                if(!viewModel.getBookmarkedNews.value) {
+                    adapter.submitList(newsRecommendationsState?.suggestedNewsResponses)
                 }
             }
         }

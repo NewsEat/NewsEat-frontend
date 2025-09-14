@@ -6,6 +6,7 @@ import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResp
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
 import com.example.news_eat_fronted.data.model.request.news.GetSearchedNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.GetRecommendationsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetSearchedNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import com.example.news_eat_fronted.data.service.NewsService
@@ -37,4 +38,7 @@ class NewsRemoteDataSourceImpl @Inject constructor(
         lastNewsId = getSearchedNewsRequestDto.lastNewsId,
         size = getSearchedNewsRequestDto.size
     )
+
+    override suspend fun getRecommendations(newsId: Long): BaseResponse<GetRecommendationsResponseDto>
+    = newsService.getRecommendations(newsId)
 }

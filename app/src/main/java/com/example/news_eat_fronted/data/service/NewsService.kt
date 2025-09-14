@@ -3,6 +3,7 @@ package com.example.news_eat_fronted.data.service
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.GetRecommendationsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetSearchedNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import retrofit2.http.GET
@@ -34,4 +35,9 @@ interface NewsService {
         @Query("lastNewsId") lastNewsId: Long,
         @Query("size") size: Int
     ): BaseResponse<GetSearchedNewsResponseDto>
+
+    @GET("news/{newsId}/recommendations")
+    suspend fun getRecommendations(
+        @Path("newsId") newsId: Long
+    ): BaseResponse<GetRecommendationsResponseDto>
 }

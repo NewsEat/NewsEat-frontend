@@ -6,11 +6,13 @@ import com.example.news_eat_fronted.domain.entity.request.news.GetNewsDetailResp
 import com.example.news_eat_fronted.domain.entity.request.news.NewsSummaryResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkIdResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarkedNewsDetailResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.news.GetRecommendationsResponseEntity
 import com.example.news_eat_fronted.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.example.news_eat_fronted.domain.usecase.bookmark.GetBookmarkedNewsDetailUseCase
 import com.example.news_eat_fronted.domain.usecase.bookmark.PostBookmarkUseCase
 import com.example.news_eat_fronted.domain.usecase.news.GetNewsDetailUseCase
 import com.example.news_eat_fronted.domain.usecase.news.GetNewsSummaryUseCase
+import com.example.news_eat_fronted.domain.usecase.news.GetRecommendationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +27,8 @@ class NewsViewModel @Inject constructor(
     private val getNewsSummaryUseCase: GetNewsSummaryUseCase,
     private val postBookmarkUseCase: PostBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
-    private val getBookmarkedNewsDetailUseCase: GetBookmarkedNewsDetailUseCase
+    private val getBookmarkedNewsDetailUseCase: GetBookmarkedNewsDetailUseCase,
+    private val getRecommendationsUseCase: GetRecommendationsUseCase
 ) : ViewModel() {
 
     private val _newsId = MutableStateFlow<Long>(-1L)
@@ -42,6 +45,9 @@ class NewsViewModel @Inject constructor(
 
     private val _newsSummaryState = MutableStateFlow<NewsSummaryResponseEntity?>(null)
     val newsSummaryState: StateFlow<NewsSummaryResponseEntity?> = _newsSummaryState
+
+    private val _newsRecommendationsState = MutableStateFlow<GetRecommendationsResponseEntity?>(null)
+    val newsRecommendationsState: StateFlow<GetRecommendationsResponseEntity?> = _newsRecommendationsState
 
     private val _postBookmarkState = MutableStateFlow<BookmarkIdResponseEntity?>(null)
     val postBookmarkState: StateFlow<BookmarkIdResponseEntity?> = _postBookmarkState
@@ -73,6 +79,17 @@ class NewsViewModel @Inject constructor(
                     newsId = _newsId.value
                 )
                 _newsSummaryState.value = newsSummaryResponseEntity
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun getNewsRecommendations() {
+        viewModelScope.launch {
+            try {
+                val newsRecommendationsResponseEntity = getRecommendationsUseCase(
+                    newsId = _newsId.value
+                )
+                _newsRecommendationsState.value = newsRecommendationsResponseEntity
             } catch (ex: Exception) {}
         }
     }
