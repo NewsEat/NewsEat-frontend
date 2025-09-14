@@ -11,7 +11,7 @@ import com.example.news_eat_fronted.presentation.model.BookmarkItem
 
 class RVAdapterBookmark (
     val bookmarkList: ArrayList<BookmarkResponseEntity>,
-    private val onSelectionChanged: (BookmarkItem) -> Unit
+    private val onSelectionChanged: (BookmarkResponseEntity) -> Unit
 ): RecyclerView.Adapter<RVAdapterBookmark.ViewHolder>() {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapterBookmark.ViewHolder {
@@ -34,22 +34,17 @@ class RVAdapterBookmark (
             binding.bookmarkNewsTitle.text = item.title
             binding.bookmarkNewsCategory.text = item.category
             binding.bookmarkNewsDate.text = item.publishedAt
-
             binding.bookmarkNewsThumbnail.load(item.imgUrl) {
                 crossfade(true)
             }
-
-//            val bookmarkIcon = if (item.isBookmarked) {
-//                R.drawable.icon_bookmark_selected
-//            } else {
-//                R.drawable.icon_bookmark_unselected
-//            }
-
             binding.iconBookmark.setImageResource(R.drawable.icon_bookmark_selected)
 
+            binding.root.setOnClickListener {
+                // 뉴스 단건 조회
+            }
+
             binding.iconBookmark.setOnClickListener {
-                // 북마크 취소 API 붙이기
-//                onSelectionChanged(item)
+                onSelectionChanged(item) // 북마크 취소
             }
         }
     }

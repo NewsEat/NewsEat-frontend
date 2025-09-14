@@ -88,6 +88,8 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                 binding.newsCategory.text = newsDetailState?.category
                 binding.newsSentiment.text = newsDetailState?.sentiment
                 newsDetailState?.isBookmarked?.let { viewModel.setBookmarked(it) }
+
+                newsDetailState?.bookmarkId?.let { viewModel.setBookmarkId(it) }
             }
         }
 
@@ -105,6 +107,12 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
             viewModel.postBookmarkState.collect { postBookmarkState ->
                 viewModel.setBookmarked(true)
                 postBookmarkState?.bookmarkId?.let { viewModel.setBookmarkId(it) }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.deleteBookmarkState.collect { deleteBookmarkState ->
+                viewModel.setBookmarked(false)
             }
         }
     }

@@ -9,5 +9,6 @@ data class GetNewsDetailResponseEntity (
     val publishedAt: String,
     val category: String,
     val sentiment: String,
-    val isBookmarked: Boolean
+    val isBookmarked: Boolean,
+    val bookmarkId: Long
 )

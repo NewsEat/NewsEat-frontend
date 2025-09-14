@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/btn_round_bookmark_unselected"
                 android:contentDescription="북마크"
                 android:layout_gravity="end|top"/>
         </FrameLayout>

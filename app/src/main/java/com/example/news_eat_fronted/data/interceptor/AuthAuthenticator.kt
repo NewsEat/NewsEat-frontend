@@ -42,8 +42,10 @@ class AuthAuthenticator @Inject constructor(
         } catch (e: Exception) {
             // 토큰 재발급 실패 시 로그인 화면 이동
             Handler(Looper.getMainLooper()).post {
-                val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val intent = Intent(context, LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    putExtra("EXTRA_SESSION_EXPIRED", true)
+                }
                 context.startActivity(intent)
             }
             null

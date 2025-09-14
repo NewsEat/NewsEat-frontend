@@ -21,7 +21,9 @@ data class GetNewsDetailResponseDto (
     @SerializedName("sentiment")
     val sentiment: String,
     @SerializedName("isBookmarked")
-    val isBookmarked: Boolean
+    val isBookmarked: Boolean,
+    @SerializedName("bookmarkId")
+    val bookmarkId: Long
 ) {
     fun toGetNewsDetailResponseEntity() = GetNewsDetailResponseEntity(
         newsId = newsId,
@@ -32,6 +34,7 @@ data class GetNewsDetailResponseDto (
         publishedAt = publishedAt,
         category = category,
         sentiment = sentiment,
-        isBookmarked = isBookmarked
+        isBookmarked = isBookmarked,
+        bookmarkId = bookmarkId
     )
 }
