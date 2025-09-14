@@ -4,10 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.domain.entity.request.bookmark.GetBookmarkListRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkResponseEntity
-import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarkListResponseEntity
 import com.example.news_eat_fronted.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.example.news_eat_fronted.domain.usecase.bookmark.GetBookmarkListUseCase
-import com.example.news_eat_fronted.presentation.model.BookmarkItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +30,9 @@ class BookmarkViewModel @Inject constructor(
     private var hasNext: Boolean = true
     private var isLoading: Boolean = false
 
-    fun getBookmarkList(isLoadMore: Boolean = false) {
-        if(!hasNext || isLoading) return
+    fun getBookmarkList(isLoadMore: Boolean = false, forceRefresh: Boolean = false) {
+        if(!hasNext && !forceRefresh) return
+        if(isLoading) return
 
         viewModelScope.launch {
             try {

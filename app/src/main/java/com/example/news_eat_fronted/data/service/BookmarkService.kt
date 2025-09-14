@@ -3,6 +3,7 @@ package com.example.news_eat_fronted.data.service
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.bookmark.BookmarkIdResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkListResponseDto
+import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkedNewsDetailResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -25,4 +26,9 @@ interface BookmarkService {
         @Query("lastBookmarkId") lastBookmarkId: Long,
         @Query("size") size: Int
     ): BaseResponse<GetBookmarkListResponseDto>
+
+    @GET("bookmarks/{bookmarkId}")
+    suspend fun getBookmarkedNewsDetail(
+        @Path("bookmarkId") bookmarkId: Long
+    ): BaseResponse<GetBookmarkedNewsDetailResponseDto>
 }

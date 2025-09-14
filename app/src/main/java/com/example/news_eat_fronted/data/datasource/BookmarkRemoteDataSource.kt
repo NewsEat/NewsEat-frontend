@@ -5,6 +5,7 @@ import com.example.news_eat_fronted.data.model.request.bookmark.GetBookmarkListR
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.bookmark.BookmarkIdResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkListResponseDto
+import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkedNewsDetailResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResponseDto
 
 interface BookmarkRemoteDataSource {
@@ -13,4 +14,6 @@ interface BookmarkRemoteDataSource {
     suspend fun deleteBookmark(bookmarkId: Long): BaseResponse<Unit>
 
     suspend fun getBookmarkList(getBookmarkListRequestDto: GetBookmarkListRequestDto): BaseResponse<GetBookmarkListResponseDto>
+
+    suspend fun getBookmarkedNewsDetail(bookmarkId: Long): BaseResponse<GetBookmarkedNewsDetailResponseDto>
 }

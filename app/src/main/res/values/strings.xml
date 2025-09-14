@@ -88,6 +88,11 @@
     <string name="dialog_btn_logout">로그아웃</string>
     <string name="dialog_btn_delete">탈퇴하기</string>
 
+    <!--    북마크된 뉴스 다이얼로그-->
+    <string name="bookmarked_news_delete_title">정말 삭제하시겠어요?</string>
+    <string name="bookmarked_news_delete_content">뉴스잇은 최신 뉴스만 제공하므로, 삭제 후에는 뉴스를 다시 확인할 수 없습니다.</string>
+    <string name="dialog_btn_delete_bookmarked_news">삭제하기</string>
+
     <!-- 북마크 -->
     <string name="bookmark_title">북마크한 뉴스</string>
 
