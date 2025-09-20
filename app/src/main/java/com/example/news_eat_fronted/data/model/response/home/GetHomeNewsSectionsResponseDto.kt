@@ -20,15 +20,6 @@ data class GetHomeNewsSectionsResponseDto(
         val newsList: List<NewsItemDto>
     )
 
-    data class NewsItemDto(
-        @SerializedName("newsId")
-        val newsId: Long,
-        @SerializedName("imgUrl")
-        val imgUrl: String,
-        @SerializedName("title")
-        val title: String
-    )
-
     fun toGetHomeNewsSectionResponseEntity() = GetHomeNewsSectionResponseEntity(
         isDetox = isDetox,
         sections = sections.map { sectionDto ->
@@ -36,11 +27,7 @@ data class GetHomeNewsSectionsResponseDto(
                 type = sectionDto.type,
                 title = sectionDto.title,
                 newsList = sectionDto.newsList.map { newsDto ->
-                    NewsItemEntity(
-                        newsId = newsDto.newsId,
-                        imgUrl = newsDto.imgUrl,
-                        title = newsDto.title
-                    )
+                    newsDto.toNewsItemEntity()
                 }
             )
         }

@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.home.GetHomeNewsSectionResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.home.GetLatestNewsResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.home.NewsItemEntity
 import com.example.news_eat_fronted.domain.entity.response.user.SetDetoxModeResponseEntity
 import com.example.news_eat_fronted.domain.usecase.home.GetHomeNewsSectionsUseCase
+import com.example.news_eat_fronted.domain.usecase.home.GetLatestNewsUseCase
 import com.example.news_eat_fronted.domain.usecase.user.SetDetoxModeUseCase
 import com.example.news_eat_fronted.presentation.model.CategoryItem
 import com.example.news_eat_fronted.presentation.model.HomeNewsItem
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val setDetoxModeUseCase: SetDetoxModeUseCase,
-    private val getHomeNewsSectionsUseCase: GetHomeNewsSectionsUseCase
+    private val getHomeNewsSectionsUseCase: GetHomeNewsSectionsUseCase,
+    private val getLatestNewsUseCase: GetLatestNewsUseCase
 ): ViewModel() {
     private val _nickname = MutableStateFlow("쫀득물만두")
     val nickname: StateFlow<String> = _nickname
@@ -46,6 +49,9 @@ class HomeViewModel @Inject constructor(
     private val _homeNewsSectionsState = MutableStateFlow<GetHomeNewsSectionResponseEntity?>(null)
     val homeNewsSectionsState: StateFlow<GetHomeNewsSectionResponseEntity?> = _homeNewsSectionsState
 
+    private val _latestNewsState = MutableStateFlow<GetLatestNewsResponseEntity?>(null)
+    val latestNewsState: StateFlow<GetLatestNewsResponseEntity?> = _latestNewsState
+
     fun setDetoxMode(isChecked: Boolean) {
         viewModelScope.launch {
             try {
@@ -63,6 +69,15 @@ class HomeViewModel @Inject constructor(
             try {
                 val getHomeNewsSectionsResponseEntity = getHomeNewsSectionsUseCase()
                 _homeNewsSectionsState.value = getHomeNewsSectionsResponseEntity
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun getLatestNews() {
+        viewModelScope.launch {
+            try {
+                val getLatestNewsResponseEntity = getLatestNewsUseCase()
+                _latestNewsState.value = getLatestNewsResponseEntity
             } catch (ex: Exception) {}
         }
     }

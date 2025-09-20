@@ -28,6 +28,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         switchDetoxMode()
 
         homeViewModel.getHomeNewsSections()
+        homeViewModel.getLatestNews()
     }
 
     private fun setAdapter() {
@@ -131,6 +132,14 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                         positiveNews?.let { section ->
                             positiveAdapter.submitList(section.newsList)
                         }
+                    }
+                }
+            }
+
+            launch {
+                homeViewModel.latestNewsState.collect { latestNewsState ->
+                    latestNewsState?.let {
+                        recommendAdapter.submitList(latestNewsState.homeNewsResponses)
                     }
                 }
             }

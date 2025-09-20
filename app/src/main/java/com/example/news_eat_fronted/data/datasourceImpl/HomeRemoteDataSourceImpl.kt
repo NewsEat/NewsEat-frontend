@@ -3,6 +3,7 @@ package com.example.news_eat_fronted.data.datasourceImpl
 import com.example.news_eat_fronted.data.datasource.HomeRemoteDataSource
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.home.GetHomeNewsSectionsResponseDto
+import com.example.news_eat_fronted.data.model.response.home.GetLatestNewsResponseDto
 import com.example.news_eat_fronted.data.service.HomeService
 import javax.inject.Inject
 
@@ -11,4 +12,7 @@ class HomeRemoteDataSourceImpl @Inject constructor(
 ): HomeRemoteDataSource {
     override suspend fun getHomeNewsSections(): BaseResponse<GetHomeNewsSectionsResponseDto>
     = homeService.getHomeNewsSections()
+
+    override suspend fun getLatestNews(): BaseResponse<GetLatestNewsResponseDto>
+    = homeService.getLatestNews()
 }
