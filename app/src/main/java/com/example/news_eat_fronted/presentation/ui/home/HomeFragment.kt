@@ -25,6 +25,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
         setAdapter()
         collectData()
+        switchDetoxMode()
     }
 
     private fun setAdapter() {
@@ -148,6 +149,12 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                     positiveAdapter.submitList(newsList)
                 }
             }
+        }
+    }
+
+    private fun switchDetoxMode() {
+        binding.switchDetoxMode.setOnCheckedChangeListener { _, isChecked ->
+            homeViewModel.setDetoxMode(isChecked)
         }
     }
 }

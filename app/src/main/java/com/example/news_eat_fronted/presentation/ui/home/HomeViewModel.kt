@@ -1,13 +1,23 @@
 package com.example.news_eat_fronted.presentation.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.R
+import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.user.SetDetoxModeResponseEntity
+import com.example.news_eat_fronted.domain.usecase.user.SetDetoxModeUseCase
 import com.example.news_eat_fronted.presentation.model.CategoryItem
 import com.example.news_eat_fronted.presentation.model.HomeNewsItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel: ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val setDetoxModeUseCase: SetDetoxModeUseCase
+): ViewModel() {
     private val _nickname = MutableStateFlow("쫀득물만두")
     val nickname: StateFlow<String> = _nickname
 
@@ -39,6 +49,22 @@ class HomeViewModel: ViewModel() {
 
     private val _positiveList = MutableStateFlow<List<HomeNewsItem>>(emptyList())
     val positiveList: StateFlow<List<HomeNewsItem>> = _positiveList
+
+    private val _setDetoxModeState = MutableStateFlow<SetDetoxModeResponseEntity?>(null)
+    val setDetoxModeState: StateFlow<SetDetoxModeResponseEntity?> = _setDetoxModeState
+
+    fun setDetoxMode(isChecked: Boolean) {
+        viewModelScope.launch {
+            try {
+                val setDetoxModeResponseEntity = setDetoxModeUseCase(
+                    setDetoxModeRequestEntity = SetDetoxModeRequestEntity(
+                        isDetoxMode = isChecked
+                    )
+                )
+                _setDetoxModeState.value = setDetoxModeResponseEntity
+            } catch (ex: Exception) {}
+        }
+    }
 
     init {
         // 더미데이터 초기화
