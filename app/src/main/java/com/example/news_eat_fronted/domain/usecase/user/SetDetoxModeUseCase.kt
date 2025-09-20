@@ -8,6 +8,6 @@ import javax.inject.Inject
 class SetDetoxModeUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend operator fun invoke(setDetoxModeRequestEntity: SetDetoxModeRequestEntity): SetDetoxModeResponseEntity
+    suspend operator fun invoke(setDetoxModeRequestEntity: SetDetoxModeRequestEntity)
     = userRepository.setDetoxMode(setDetoxModeRequestEntity)
 }

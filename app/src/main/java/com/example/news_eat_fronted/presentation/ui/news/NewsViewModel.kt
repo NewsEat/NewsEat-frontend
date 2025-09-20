@@ -9,6 +9,7 @@ import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarke
 import com.example.news_eat_fronted.domain.entity.response.news.GetRecommendationsResponseEntity
 import com.example.news_eat_fronted.domain.usecase.bookmark.DeleteBookmarkUseCase
 import com.example.news_eat_fronted.domain.usecase.bookmark.GetBookmarkedNewsDetailUseCase
+import com.example.news_eat_fronted.domain.usecase.bookmark.GetBookmarkedNewsSummaryUseCase
 import com.example.news_eat_fronted.domain.usecase.bookmark.PostBookmarkUseCase
 import com.example.news_eat_fronted.domain.usecase.news.GetNewsDetailUseCase
 import com.example.news_eat_fronted.domain.usecase.news.GetNewsSummaryUseCase
@@ -28,7 +29,8 @@ class NewsViewModel @Inject constructor(
     private val postBookmarkUseCase: PostBookmarkUseCase,
     private val deleteBookmarkUseCase: DeleteBookmarkUseCase,
     private val getBookmarkedNewsDetailUseCase: GetBookmarkedNewsDetailUseCase,
-    private val getRecommendationsUseCase: GetRecommendationsUseCase
+    private val getRecommendationsUseCase: GetRecommendationsUseCase,
+    private val getBookmarkedNewsSummaryUseCase: GetBookmarkedNewsSummaryUseCase
 ) : ViewModel() {
 
     private val _newsId = MutableStateFlow<Long>(-1L)
@@ -121,6 +123,17 @@ class NewsViewModel @Inject constructor(
                     bookmarkId = _bookmarkId.value
                 )
                 _bookmarkedNewsDetail.value = getBookmarkedNewsDetail
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun getBookmarkedNewsSummary() {
+        viewModelScope.launch {
+            try {
+                val bookmarkedNewsSummaryResponse = getBookmarkedNewsSummaryUseCase(
+                    bookmarkId = _bookmarkId.value
+                )
+                _newsSummaryState.value = bookmarkedNewsSummaryResponse
             } catch (ex: Exception) {}
         }
     }

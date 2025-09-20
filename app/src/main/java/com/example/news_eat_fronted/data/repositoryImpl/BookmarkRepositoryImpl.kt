@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.BookmarkRemoteDataSource
 import com.example.news_eat_fronted.domain.entity.request.bookmark.GetBookmarkListRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.news.NewsSummaryResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkIdResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarkListResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.bookmark.GetBookmarkedNewsDetailResponseEntity
@@ -36,6 +37,13 @@ class BookmarkRepositoryImpl @Inject constructor(
         return runCatching {
             bookmarkRemoteDataSource.getBookmarkedNewsDetail(bookmarkId)
                 .result.toGetBookmarkedNewsDetailResponseEntity()
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun getBookmarkedNewsSummary(bookmarkId: Long): NewsSummaryResponseEntity {
+        return runCatching {
+            bookmarkRemoteDataSource.getBookmarkedNewsSummary(bookmarkId)
+                .result.toNewsSummaryResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }

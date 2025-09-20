@@ -4,6 +4,7 @@ import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.response.bookmark.BookmarkIdResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkListResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkedNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -31,4 +32,9 @@ interface BookmarkService {
     suspend fun getBookmarkedNewsDetail(
         @Path("bookmarkId") bookmarkId: Long
     ): BaseResponse<GetBookmarkedNewsDetailResponseDto>
+
+    @POST("bookmarks/summary/{bookmarkId}")
+    suspend fun getBookmarkedNewsSummary(
+        @Path("bookmarkId") bookmarkId: Long
+    ): BaseResponse<NewsSummaryResponseDto>
 }

@@ -44,6 +44,7 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
             viewModel.setGetBookmarkedNews(true)
             viewModel.setBookmarkId(intent.getLongExtra("bookmarkId", -1L))
             viewModel.getBookmarkedNewsDetail()
+            viewModel.getBookmarkedNewsSummary()
 
             binding.apply {
                 newsDetailDiver.visibility = View.GONE
@@ -168,6 +169,7 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
 
     private fun addListeners() {
         binding.summaryButton.setOnClickListener {
+            // 뉴스 요약
             viewModel.newsSummaryState.value?.let { newsSummaryState ->
                 val dialog = DialogSummaryFragment(
                     title = newsSummaryState.title,
