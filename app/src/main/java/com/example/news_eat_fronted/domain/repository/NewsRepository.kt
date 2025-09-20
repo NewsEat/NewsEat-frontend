@@ -5,6 +5,7 @@ import com.example.news_eat_fronted.domain.entity.request.news.GetNewsDetailResp
 import com.example.news_eat_fronted.domain.entity.request.news.GetSearchedNewsRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.news.NewsSummaryResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetCategoryNewsResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.news.GetRecommendationsResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.news.GetSearchedNewsResponseEntity
 
 interface NewsRepository {
@@ -15,4 +16,6 @@ interface NewsRepository {
     suspend fun getNewsSummary(newsId: Long): NewsSummaryResponseEntity
 
     suspend fun getSearchedNews(getSearchedNewsRequestEntity: GetSearchedNewsRequestEntity): GetSearchedNewsResponseEntity
+
+    suspend fun getRecommendations(newsId: Long): GetRecommendationsResponseEntity
 }

@@ -88,6 +88,11 @@
     <string name="dialog_btn_logout">로그아웃</string>
     <string name="dialog_btn_delete">탈퇴하기</string>
 
+    <!--    북마크된 뉴스 다이얼로그-->
+    <string name="bookmarked_news_delete_title">정말 삭제하시겠어요?</string>
+    <string name="bookmarked_news_delete_content">뉴잇은 최신 뉴스만 제공하므로, 삭제 후에는 뉴스를 다시 확인할 수 없습니다.</string>
+    <string name="dialog_btn_delete_bookmarked_news">삭제하기</string>
+
     <!-- 북마크 -->
     <string name="bookmark_title">북마크한 뉴스</string>
 
@@ -115,6 +120,7 @@
     <string name="snackbar_bookmark_deleted">북마크에서 제거됐어요.</string>
     <string name="sanckbar_time_out">인증시간이 만료되었습니다.</string>
     <string name="sanckbar_select_maximum">최대 3개까지 선택가능합니다.</string>
+    <string name="snackbar_session_expired">세션이 만료되었습니다. 다시 로그인해 주세요.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

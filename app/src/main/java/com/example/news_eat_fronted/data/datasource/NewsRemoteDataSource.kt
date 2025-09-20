@@ -5,6 +5,7 @@ import com.example.news_eat_fronted.data.model.response.news.GetCategoryNewsResp
 import com.example.news_eat_fronted.data.model.request.news.GetCategoryNewsRequestDto
 import com.example.news_eat_fronted.data.model.request.news.GetSearchedNewsRequestDto
 import com.example.news_eat_fronted.data.model.response.news.GetNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.GetRecommendationsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.GetSearchedNewsResponseDto
 import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 
@@ -16,4 +17,6 @@ interface NewsRemoteDataSource {
     suspend fun getNewsSummary(newsId: Long): BaseResponse<NewsSummaryResponseDto>
 
     suspend fun getSearchedNews(getSearchedNewsRequestDto: GetSearchedNewsRequestDto): BaseResponse<GetSearchedNewsResponseDto>
+
+    suspend fun getRecommendations(newsId: Long): BaseResponse<GetRecommendationsResponseDto>
 }

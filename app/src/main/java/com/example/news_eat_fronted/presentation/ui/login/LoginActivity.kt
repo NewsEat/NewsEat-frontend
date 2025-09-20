@@ -33,6 +33,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         collectData()
         addListeners()
         setPwVisibility()
+        showSessionExpired()
     }
 
     private fun addListeners() {
@@ -47,8 +48,6 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
         binding.loginBtn.setOnClickListener {
             loginViewModel.login()  // 로그인 API
-            // 로그인 실패 시
-//            CustomSnackBar.make(binding.root, getString(R.string.snackbar_login_error)).show()
         }
 
         binding.gotoSingUp.setOnClickListener {
@@ -100,6 +99,12 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
             }
 
             binding.inputPw.setSelection(selection)
+        }
+    }
+
+    private fun showSessionExpired() {
+        if(intent.getBooleanExtra("EXTRA_SESSION_EXPIRED", false)) {
+            CustomSnackBar(binding.root, getString(R.string.snackbar_session_expired)).show()
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.data.datasource.AuthRemoteDataSource
+import com.example.news_eat_fronted.data.datasource.BookmarkRemoteDataSource
 import com.example.news_eat_fronted.data.datasource.NewsRemoteDataSource
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
 import com.example.news_eat_fronted.data.datasourceImpl.AuthRemoteDataSourceImpl
+import com.example.news_eat_fronted.data.datasourceImpl.BookmarkRemoteDataSourceImpl
 import com.example.news_eat_fronted.data.datasourceImpl.NewsRemoteDataSourceImpl
 import com.example.news_eat_fronted.data.datasourceImpl.UserRemoteDataSourceImpl
 import dagger.Binds
@@ -28,4 +30,9 @@ abstract class DataSourceModule {
     abstract fun bindNewsRemoteDataSource (
         impl: NewsRemoteDataSourceImpl
     ): NewsRemoteDataSource
+
+    @Binds
+    abstract fun bindBookmarkRemoteDataSource (
+        impl: BookmarkRemoteDataSourceImpl
+    ): BookmarkRemoteDataSource
 }

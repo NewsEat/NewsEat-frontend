@@ -1,79 +1,73 @@
 package com.example.news_eat_fronted.presentation.ui.bookmark
 
 import androidx.lifecycle.ViewModel
-import com.example.news_eat_fronted.presentation.model.BookmarkItem
+import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.bookmark.GetBookmarkListRequestEntity
+import com.example.news_eat_fronted.domain.entity.response.bookmark.BookmarkResponseEntity
+import com.example.news_eat_fronted.domain.usecase.bookmark.DeleteBookmarkUseCase
+import com.example.news_eat_fronted.domain.usecase.bookmark.GetBookmarkListUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BookmarkViewModel  : ViewModel() {
-    // 더미 데이터
-    private val _bookmarkList = MutableStateFlow(
-        listOf(
-            BookmarkItem(
-                title = "혈당 주범 흰 쌀밥…\"이렇게 먹으면 '슈퍼푸드' 된다\"",
-                category = "IT/과학",
-                date = "2025.08.06",
-                thumbnailUrl = "https://cphoto.asiae.co.kr/listimglink/1/2025051719272061633_1747477641.jpg",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "'데이비슨과 결별' 롯데, 벨라스케즈 영입 공식 발표…33만달러 계약",
-                category = "스포츠",
-                date = "2025.08.05",
-                thumbnailUrl = "https://imgnews.pstatic.net/image/003/2025/08/07/NISI20250807_0001912788_web_20250807103749_20250807104215055.jpg?type=w647",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "정치",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "경제",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "사회",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "생활/문화",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "연예",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            ),
-            BookmarkItem(
-                title = "뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다. 뉴스 제목 입니다.",
-                category = "세계",
-                date = "2025.08.05",
-                thumbnailUrl = "https://raw.githubusercontent.com/NewsEat/assets/refs/heads/main/news_eat_logo.png",
-                isBookmarked = true
-            )
-        )
-    )
+@HiltViewModel
+class BookmarkViewModel @Inject constructor(
+    private val getBookmarkListUseCase: GetBookmarkListUseCase,
+    private val deleteBookmarkUseCase: DeleteBookmarkUseCase
+)  : ViewModel() {
 
-    val bookmarkList: StateFlow<List<BookmarkItem>> = _bookmarkList
+    private val _bookmarkListState = MutableStateFlow<List<BookmarkResponseEntity>>(emptyList())
+    val bookmarkListState: StateFlow<List<BookmarkResponseEntity>> = _bookmarkListState
 
-    fun updateBookmarkStatus(item: BookmarkItem) {
-        val updatedList = _bookmarkList.value.map {
-            if (it == item) it.copy(isBookmarked = !it.isBookmarked) else it
+    private val _deleteBookmarkState = MutableSharedFlow<Unit?>()
+    val deleteBookmarkState: SharedFlow<Unit?> = _deleteBookmarkState
+
+    private var lastBookmarkId: Long = 0
+    private var hasNext: Boolean = true
+    private var isLoading: Boolean = false
+
+    fun getBookmarkList(isLoadMore: Boolean = false, forceRefresh: Boolean = false) {
+        if(!hasNext && !forceRefresh) return
+        if(isLoading) return
+
+        viewModelScope.launch {
+            try {
+                isLoading = true
+
+                val getBookmarkListResponse = getBookmarkListUseCase(
+                    getBookmarkListRequestEntity = GetBookmarkListRequestEntity(
+                        lastBookmarkId = if(isLoadMore) lastBookmarkId else 0,
+                        size = 10
+                    )
+                )
+                getBookmarkListResponse.bookmarkResponseList.lastOrNull()?.bookmarkId?.let {
+                    lastBookmarkId = it
+                }
+                hasNext = getBookmarkListResponse.hasNext
+
+                _bookmarkListState.value =
+                    if(isLoadMore) _bookmarkListState.value + getBookmarkListResponse.bookmarkResponseList
+                    else getBookmarkListResponse.bookmarkResponseList
+
+            } catch (ex: Exception) {
+            } finally {
+                isLoading = false
+            }
         }
-        _bookmarkList.value = updatedList
+    }
+
+    fun deleteBookmark(bookmarkId: Long) {
+        viewModelScope.launch {
+            try {
+                deleteBookmarkUseCase(bookmarkId)
+                _deleteBookmarkState.emit(Unit)
+
+                _bookmarkListState.value = _bookmarkListState.value.filterNot { it.bookmarkId == bookmarkId }
+            } catch (ex: Exception) {}
+        }
     }
 }
