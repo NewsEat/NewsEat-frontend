@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.di
 
 import com.example.news_eat_fronted.data.service.AuthService
 import com.example.news_eat_fronted.data.service.BookmarkService
+import com.example.news_eat_fronted.data.service.HomeService
 import com.example.news_eat_fronted.data.service.NewsService
 import com.example.news_eat_fronted.data.service.UserService
 import dagger.Module
@@ -34,4 +35,9 @@ object ServiceModule {
     @Singleton
     fun provideBookmarkService(@Auth retrofit: Retrofit): BookmarkService =
         retrofit.create(BookmarkService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideHomeService(@Auth retrofit: Retrofit): HomeService =
+        retrofit.create(HomeService::class.java)
 }
