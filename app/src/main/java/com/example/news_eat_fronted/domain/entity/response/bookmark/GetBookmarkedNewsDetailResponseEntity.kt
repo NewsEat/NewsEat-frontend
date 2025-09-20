@@ -8,5 +8,6 @@ data class GetBookmarkedNewsDetailResponseEntity (
     val sentiment: String,
     val publishedAt: String,
     val imgUrl: String,
-    val category: String
+    val category: String,
+    val newsDeleted: Boolean
 )

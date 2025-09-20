@@ -209,15 +209,19 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                 }
             } else {
                 // 북마크된 뉴스 삭제
-                val dialog = DialogPopupFragment(
-                    title = getString(R.string.bookmarked_news_delete_title),
-                    content = getString(R.string.bookmarked_news_delete_content),
-                    leftBtnText = getString(R.string.dialog_btn_cancel),
-                    rightBtnText = getString(R.string.dialog_btn_delete_bookmarked_news),
-                    clickLeftBtn = {},
-                    clickRightBtn = { viewModel.deleteBookmark() }
-                )
-                dialog.show(supportFragmentManager, "DialogDelete")
+                if(viewModel.bookmarkedNewsDetail.value?.newsDeleted == true) {
+                    val dialog = DialogPopupFragment(
+                        title = getString(R.string.bookmarked_news_delete_title),
+                        content = getString(R.string.bookmarked_news_delete_content),
+                        leftBtnText = getString(R.string.dialog_btn_cancel),
+                        rightBtnText = getString(R.string.dialog_btn_delete_bookmarked_news),
+                        clickLeftBtn = {},
+                        clickRightBtn = { viewModel.deleteBookmark() }
+                    )
+                    dialog.show(supportFragmentManager, "DialogDelete")
+                } else {
+                    viewModel.deleteBookmark()
+                }
             }
         }
     }

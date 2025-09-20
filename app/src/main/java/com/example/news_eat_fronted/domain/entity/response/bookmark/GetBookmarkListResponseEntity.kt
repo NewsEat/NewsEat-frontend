@@ -10,5 +10,6 @@ data class BookmarkResponseEntity(
     val title: String,
     val category: String,
     val imgUrl: String,
-    val publishedAt: String
+    val publishedAt: String,
+    val newsDeleted: Boolean
 )

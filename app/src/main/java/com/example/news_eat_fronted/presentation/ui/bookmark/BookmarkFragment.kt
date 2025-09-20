@@ -12,6 +12,7 @@ import com.example.news_eat_fronted.databinding.FragmentBookmarkBinding
 import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingFragment
+import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -39,7 +40,20 @@ class BookmarkFragment : BindingFragment<FragmentBookmarkBinding>(R.layout.fragm
         adapter = RVAdapterBookmark(
             bookmarkList = arrayListOf(),
             onSelectionChanged = { item ->
-                bookmarkViewModel.deleteBookmark(item.bookmarkId) // 북마크 취소
+                // 북마크 취소
+                if(item.newsDeleted) {
+                    val dialog = DialogPopupFragment(
+                        title = getString(R.string.bookmarked_news_delete_title),
+                        content = getString(R.string.bookmarked_news_delete_content),
+                        leftBtnText = getString(R.string.dialog_btn_cancel),
+                        rightBtnText = getString(R.string.dialog_btn_delete_bookmarked_news),
+                        clickLeftBtn = {},
+                        clickRightBtn = { bookmarkViewModel.deleteBookmark(item.bookmarkId)  }
+                    )
+                    dialog.show(parentFragmentManager, "DialogDelete")
+                } else {
+                    bookmarkViewModel.deleteBookmark(item.bookmarkId)
+                }
             },
             onSelectItem = { item ->
                 startActivity(Intent(requireContext(), NewsDetailActivity::class.java).apply {
