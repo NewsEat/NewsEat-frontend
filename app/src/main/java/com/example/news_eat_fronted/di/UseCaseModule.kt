@@ -7,6 +7,7 @@ import com.example.news_eat_fronted.domain.usecase.auth.LoginUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.ReissueTokenUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SignupUseCase
+import com.example.news_eat_fronted.domain.usecase.user.GetMyPageProfileUseCase
 import com.example.news_eat_fronted.domain.usecase.user.WithdrawUseCase
 import dagger.Module
 import dagger.Provides
@@ -46,4 +47,9 @@ class UseCaseModule {
     @Singleton
     fun provideWithdraw(userRepository: UserRepository): WithdrawUseCase =
         WithdrawUseCase(userRepository = userRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetMyPageProfileUseCase(userRepository: UserRepository): GetMyPageProfileUseCase =
+        GetMyPageProfileUseCase(userRepository = userRepository)
 }

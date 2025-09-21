@@ -28,6 +28,8 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadProfile()
+
         collectData()
         addListeners()
     }
