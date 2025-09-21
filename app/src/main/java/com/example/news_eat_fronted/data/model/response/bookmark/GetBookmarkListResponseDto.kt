@@ -20,14 +20,17 @@ data class GetBookmarkListResponseDto(
         @SerializedName("imgUrl")
         val imgUrl: String,
         @SerializedName("publishedAt")
-        val publishedAt: String
+        val publishedAt: String,
+        @SerializedName("newsDeleted")
+        val newsDeleted: Boolean
     ) {
         fun toBookmarkResponseEntity() = BookmarkResponseEntity(
             bookmarkId = bookmarkId,
             title = title,
             category = category,
             imgUrl = imgUrl,
-            publishedAt = publishedAt
+            publishedAt = publishedAt,
+            newsDeleted = newsDeleted
         )
     }
 

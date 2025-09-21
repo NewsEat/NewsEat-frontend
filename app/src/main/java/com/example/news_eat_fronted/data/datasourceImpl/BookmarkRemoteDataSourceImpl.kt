@@ -6,6 +6,7 @@ import com.example.news_eat_fronted.data.model.request.bookmark.GetBookmarkListR
 import com.example.news_eat_fronted.data.model.response.bookmark.BookmarkIdResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkListResponseDto
 import com.example.news_eat_fronted.data.model.response.bookmark.GetBookmarkedNewsDetailResponseDto
+import com.example.news_eat_fronted.data.model.response.news.NewsSummaryResponseDto
 import com.example.news_eat_fronted.data.service.BookmarkService
 import javax.inject.Inject
 
@@ -26,4 +27,7 @@ class BookmarkRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getBookmarkedNewsDetail(bookmarkId: Long): BaseResponse<GetBookmarkedNewsDetailResponseDto>
     = bookmarkService.getBookmarkedNewsDetail(bookmarkId)
+
+    override suspend fun getBookmarkedNewsSummary(bookmarkId: Long): BaseResponse<NewsSummaryResponseDto>
+    = bookmarkService.getBookmarkedNewsSummary(bookmarkId)
 }

@@ -44,6 +44,7 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
             viewModel.setGetBookmarkedNews(true)
             viewModel.setBookmarkId(intent.getLongExtra("bookmarkId", -1L))
             viewModel.getBookmarkedNewsDetail()
+            viewModel.getBookmarkedNewsSummary()
 
             binding.apply {
                 newsDetailDiver.visibility = View.GONE
@@ -168,6 +169,7 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
 
     private fun addListeners() {
         binding.summaryButton.setOnClickListener {
+            // 뉴스 요약
             viewModel.newsSummaryState.value?.let { newsSummaryState ->
                 val dialog = DialogSummaryFragment(
                     title = newsSummaryState.title,
@@ -207,15 +209,19 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                 }
             } else {
                 // 북마크된 뉴스 삭제
-                val dialog = DialogPopupFragment(
-                    title = getString(R.string.bookmarked_news_delete_title),
-                    content = getString(R.string.bookmarked_news_delete_content),
-                    leftBtnText = getString(R.string.dialog_btn_cancel),
-                    rightBtnText = getString(R.string.dialog_btn_delete_bookmarked_news),
-                    clickLeftBtn = {},
-                    clickRightBtn = { viewModel.deleteBookmark() }
-                )
-                dialog.show(supportFragmentManager, "DialogDelete")
+                if(viewModel.bookmarkedNewsDetail.value?.newsDeleted == true) {
+                    val dialog = DialogPopupFragment(
+                        title = getString(R.string.bookmarked_news_delete_title),
+                        content = getString(R.string.bookmarked_news_delete_content),
+                        leftBtnText = getString(R.string.dialog_btn_cancel),
+                        rightBtnText = getString(R.string.dialog_btn_delete_bookmarked_news),
+                        clickLeftBtn = {},
+                        clickRightBtn = { viewModel.deleteBookmark() }
+                    )
+                    dialog.show(supportFragmentManager, "DialogDelete")
+                } else {
+                    viewModel.deleteBookmark()
+                }
             }
         }
     }

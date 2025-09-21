@@ -19,7 +19,9 @@ data class GetBookmarkedNewsDetailResponseDto (
     @SerializedName("imgUrl")
     val imgUrl: String,
     @SerializedName("category")
-    val category: String
+    val category: String,
+    @SerializedName("newsDeleted")
+    val newsDeleted: Boolean
 ) {
     fun toGetBookmarkedNewsDetailResponseEntity() = GetBookmarkedNewsDetailResponseEntity(
         bookmarkId = bookmarkId,
@@ -29,6 +31,7 @@ data class GetBookmarkedNewsDetailResponseDto (
         sentiment = sentiment,
         publishedAt = publishedAt,
         imgUrl = imgUrl,
-        category = category
+        category = category,
+        newsDeleted = newsDeleted
     )
 }

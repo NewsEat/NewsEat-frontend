@@ -26,6 +26,9 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
         setAdapter()
         collectData()
         switchDetoxMode()
+
+        homeViewModel.getHomeNewsSections()
+        homeViewModel.getLatestNews()
     }
 
     private fun setAdapter() {
@@ -109,44 +112,35 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             }
 
             launch {
-                homeViewModel.recommendList.collect { newsList ->
-                    recommendAdapter.submitList(newsList)
-                }
-            }
+                homeViewModel.homeNewsSectionsState.collect { homeNewsSectionsState ->
+                    homeNewsSectionsState?.let { state ->
+                        binding.switchDetoxMode.isChecked = state.isDetox
 
-            launch {
-                homeViewModel.category1List.collect { newList ->
-                    category1Adapter.submitList(newList)
-                }
-            }
+                        val prefCategoryNews = state.sections.filter { it.type == "prefCategoryNews" }
+                        prefCategoryNews.forEachIndexed { index, section ->
+                            when(index) {
+                                0 -> category1Adapter.submitList(section.newsList)
+                                1 -> category2Adapter.submitList(section.newsList)
+                                2 -> category3Adapter.submitList(section.newsList)
+                            }
+                        }
 
-            launch {
-                homeViewModel.category2List.collect { newList ->
-                    if(newList.isNullOrEmpty()) {
-                        binding.rvNewsCategory2.visibility = View.GONE
-                    }
-                    else {
-                        binding.rvNewsCategory2.visibility = View.VISIBLE
-                        category2Adapter.submitList(newList)
-                    }
-                }
-            }
+                        val interest = prefCategoryNews.map { it.title }
+                        homeViewModel.setInterest(interest)
 
-            launch {
-                homeViewModel.category3List.collect { newList ->
-                    if(newList.isNullOrEmpty()) {
-                        binding.rvNewsCategory3.visibility = View.GONE
-                    }
-                    else {
-                        binding.rvNewsCategory3.visibility = View.VISIBLE
-                        category3Adapter.submitList(newList)
+                        val positiveNews = state.sections.find { it.type == "positiveNews" }
+                        positiveNews?.let { section ->
+                            positiveAdapter.submitList(section.newsList)
+                        }
                     }
                 }
             }
 
             launch {
-                homeViewModel.positiveList.collect { newsList ->
-                    positiveAdapter.submitList(newsList)
+                homeViewModel.latestNewsState.collect { latestNewsState ->
+                    latestNewsState?.let {
+                        recommendAdapter.submitList(latestNewsState.homeNewsResponses)
+                    }
                 }
             }
         }
