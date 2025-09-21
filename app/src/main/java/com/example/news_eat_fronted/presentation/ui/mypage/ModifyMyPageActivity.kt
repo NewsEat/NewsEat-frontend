@@ -43,9 +43,10 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
     private fun setFragment() {
         val fragment = when(type){
-            "nickname" -> SignupStep2Fragment().apply {
-                arguments = Bundle().apply { putBoolean("isModify", true) }
-            }
+            "nickname" -> ModifyNicknameFragment()
+//            "nickname" -> SignupStep2Fragment().apply {
+//                arguments = Bundle().apply { putBoolean("isModify", true) }
+//            }
             "userInfo" -> ModifyUserInfoFragment()
             "password" -> ModifyPwFragment()
             "category" -> SignupStep3Fragment().apply {
