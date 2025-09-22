@@ -33,6 +33,7 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
         homeViewModel.getHomeNewsSections()
         homeViewModel.getLatestNews()
+        homeViewModel.getNickname()
     }
 
     private fun setAdapter() {
@@ -72,8 +73,8 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     private fun collectData() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
-                homeViewModel.nickname.collect { nickname ->
-                    binding.categoryNewsTitle.text = getString(R.string.home_category_news_title, nickname)
+                homeViewModel.nicknameState.collect { nicknameState ->
+                    binding.categoryNewsTitle.text = getString(R.string.home_category_news_title, nicknameState?.nickname)
                 }
             }
 
