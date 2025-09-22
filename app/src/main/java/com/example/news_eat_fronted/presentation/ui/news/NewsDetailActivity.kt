@@ -2,6 +2,8 @@ package com.example.news_eat_fronted.presentation.ui.news
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +18,7 @@ import com.example.news_eat_fronted.util.dialog.DialogSummaryFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.activity_news_detail) {
@@ -25,7 +28,10 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
     private lateinit var adapter: RVAdapterRecommendNews
 
     private val offsetFromTopDp = 250
+
+    private lateinit var tts: TextToSpeech
     private var isTTSActive = false
+    private var ttsCurrentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +40,17 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         setupRecyclerView()
         setupBottomSheet()
         collectData()
+        setTTS()
         setupFloatingButton()
         setupBookmarkButton()
         addListeners()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        tts.stop()
+        tts.shutdown()
     }
 
     private fun getNews() {
@@ -185,14 +199,66 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         }
     }
 
+    private fun setTTS() {
+        tts = TextToSpeech(this) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                tts.language = Locale.KOREAN
+                tts.setPitch(0.8f) // 목소리 톤
+                tts.setSpeechRate(1.0f) // 말하는 속도
+
+                tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                    override fun onStart(utteranceId: String?) { }
+
+                    override fun onDone(utteranceId: String?) {
+                        if (utteranceId == "NewsContent") {
+                            runOnUiThread {
+                                isTTSActive = false
+                                ttsCurrentIndex = 0
+                                binding.fabWrite.setImageResource(R.drawable.icon_tts)
+                            }
+                        }
+                    }
+
+                    override fun onError(utteranceId: String?) {
+                        if (utteranceId == "NewsContent") {
+                            runOnUiThread {
+                                isTTSActive = false
+                                binding.fabWrite.setImageResource(R.drawable.icon_tts)
+                            }
+                        }
+                    }
+
+                    override fun onRangeStart(utteranceId: String?, start: Int, end: Int, frame: Int) {
+                        if (utteranceId == "NewsContent") {
+                            ttsCurrentIndex = start
+                        }
+                    }
+                })
+            }
+        }
+    }
+
     private fun setupFloatingButton() {
         binding.fabWrite.setOnClickListener {
-            isTTSActive = !isTTSActive
+            val newsContent = binding.newsContent.text.toString()
+            if (newsContent.isBlank()) return@setOnClickListener
 
-            if (isTTSActive) {
+            if (!isTTSActive) {
+                // 재생 시작 / 재개
                 binding.fabWrite.setImageResource(R.drawable.icon_tts_stop)
+                isTTSActive = true
+                val textToSpeak = newsContent.substring(ttsCurrentIndex)
+                tts.speak(textToSpeak, TextToSpeech.QUEUE_FLUSH, null, "NewsContent")
             } else {
-                binding.fabWrite.setImageResource(R.drawable.icon_tts)
+                if (tts.isSpeaking) {
+                    tts.stop()
+                }
+                isTTSActive = false
+                if(ttsCurrentIndex < newsContent.length) {
+                    binding.fabWrite.setImageResource(R.drawable.icon_tts_restart)
+                } else {
+                    binding.fabWrite.setImageResource(R.drawable.icon_tts)
+                }
             }
         }
     }
