@@ -38,6 +38,13 @@ class ModifyViewModel: ViewModel() {
     private val _isPwConfirmVisible = MutableStateFlow(false)
     val isPwConfirmVisible: StateFlow<Boolean> = _isPwConfirmVisible
 
+    private var originalNickname: String = ""
+
+    fun setOriginalNickname(original: String) {
+        originalNickname = original
+        updateEnabledForNickname()
+    }
+
     fun onNicknameChanged(newNickname: String) {
         _nickname.value = newNickname
         _nicknameLength.value = newNickname.length
@@ -79,7 +86,8 @@ class ModifyViewModel: ViewModel() {
     }
 
     private fun updateEnabledForNickname() {
-        _isNextBtnEnabled.value = _nickname.value.isNotEmpty()
+        _isNextBtnEnabled.value =
+            _nickname.value.isNotEmpty() && _nickname.value != originalNickname
     }
 
     private fun updateEnabledForCategory() {

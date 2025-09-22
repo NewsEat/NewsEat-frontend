@@ -22,6 +22,7 @@ class ModifyNicknameFragment : BindingFragment<FragmentModifyNicknameBinding>(R.
             ?.intent?.getStringExtra("current_nickname") ?: ""
 
         binding.inputNickname.setText(currentNickname)
+        modifyViewModel.setOriginalNickname(currentNickname)
         modifyViewModel.onNicknameChanged(currentNickname)
 
         collectData()
