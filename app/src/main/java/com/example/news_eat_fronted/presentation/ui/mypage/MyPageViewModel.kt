@@ -2,7 +2,9 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
 import com.example.news_eat_fronted.domain.usecase.user.GetMyPageProfileUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateNicknameUseCase
 import com.example.news_eat_fronted.domain.usecase.user.WithdrawUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val withdrawUseCase: WithdrawUseCase,
-    private val getMyPageProfileUseCase: GetMyPageProfileUseCase
+    private val getMyPageProfileUseCase: GetMyPageProfileUseCase,
+    private val updateNicknameUseCase: UpdateNicknameUseCase
 ): ViewModel() {
 
     private val _nickname = MutableStateFlow("")
@@ -26,6 +29,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _withdrawState = MutableSharedFlow<Unit?>()
     val withdrawState: SharedFlow<Unit?> = _withdrawState
+
+    private val _updateNicknameState = MutableSharedFlow<Boolean>()
+    val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
 
     fun withdraw() {
         viewModelScope.launch {
@@ -43,6 +49,18 @@ class MyPageViewModel @Inject constructor(
                 _nickname.value = profile.nickname
                 _interests.value = profile.categories
             } catch (ex: Exception) {}
+        }
+    }
+
+    fun updateNickname(newNickname: String) {
+        viewModelScope.launch {
+            try {
+                updateNicknameUseCase(UpdateNicknameRequestEntity(newNickname))
+                _nickname.value = newNickname
+                _updateNicknameState.emit(true)
+            } catch (ex: Exception) {
+                _updateNicknameState.emit(false)
+            }
         }
     }
 }

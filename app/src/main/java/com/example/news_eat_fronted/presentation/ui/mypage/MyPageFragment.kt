@@ -34,6 +34,11 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
         addListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadProfile()
+    }
+
     private fun collectData() {
 
         lifecycleScope.launch {
