@@ -11,6 +11,8 @@ import com.example.news_eat_fronted.util.base.BindingFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.util.CustomSnackBar
+import com.example.news_eat_fronted.util.hideKeyboard
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
         addListeners()
         collectData()
         setPwVisibility()
+        setupKeyboardHide()
     }
 
     override fun onDestroyView() {
@@ -85,6 +88,14 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
             }
         }
 
+        lifecycleScope.launch {
+            signupViewModel.isEmailDuplicate.collect { isDuplicate ->
+                if (isDuplicate) {
+                    binding.infoEmailDuplicate.visibility = View.VISIBLE
+                }
+            }
+        }
+
         // 이메일 인증
         lifecycleScope.launch {
             signupViewModel.isErrorVerify.collect { isError ->
@@ -110,6 +121,7 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
     private fun addListeners() {
         binding.inputEmail.addTextChangedListener {
             signupViewModel.onEmailChanged(it.toString())
+            binding.infoEmailDuplicate.visibility = View.GONE
         }
 
         binding.inputVerifyCode.addTextChangedListener {
@@ -127,12 +139,14 @@ class SignupStep1Fragment : BindingFragment<FragmentSignupStep1Binding>(R.layout
         }
 
         binding.btnVerifyEmail.setOnClickListener {
+            it.hideKeyboard()
             setTimer()
             signupViewModel.sendEmail()  // 인증번호 전송 API
             binding.btnVerifyEmail.text = getString(R.string.button_resend)
         }
 
         binding.btnConfirmCode.setOnClickListener {
+            it.hideKeyboard()
             if(signupViewModel.isTimeOver.value) {
                 CustomSnackBar.make(binding.root, getString(R.string.sanckbar_time_out)).show()
             }

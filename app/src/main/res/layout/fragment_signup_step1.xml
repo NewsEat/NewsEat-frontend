@@ -48,6 +48,19 @@
         android:layout_marginLeft="12dp"
         android:enabled="false" />
 
+    <TextView
+        android:id="@+id/info_email_duplicate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email_verify_duplicate"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body8"
+        android:textColor="@color/StatusError"
+        app:layout_constraintTop_toBottomOf="@id/input_email"
+        app:layout_constraintStart_toStartOf="@id/input_email"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:visibility="gone"/>
+
     <EditText
         android:id="@+id/input_verify_code"
         android:layout_width="0dp"
@@ -60,7 +73,7 @@
         android:textColor="@color/Gray700"
         android:textColorHint="@color/Gray400"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/input_email"
+        app:layout_constraintTop_toBottomOf="@id/info_email_duplicate"
         app:layout_constraintEnd_toStartOf="@id/btn_confirm_code"
         android:layout_marginTop="12dp" />
 

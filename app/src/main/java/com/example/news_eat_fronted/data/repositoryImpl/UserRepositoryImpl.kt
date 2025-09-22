@@ -1,10 +1,10 @@
 package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
-import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.user.GetMyPageProfileResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.user.GetNicknameResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.user.SetDetoxModeResponseEntity
 import com.example.news_eat_fronted.domain.repository.UserRepository
 import javax.inject.Inject
@@ -36,6 +36,13 @@ class UserRepositoryImpl @Inject constructor(
         return runCatching {
             userDataSource.updateNickname(updateNicknameRequestEntity.toUpdateNicknameRequestDto())
             updateNicknameRequestEntity
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun getNickname(): GetNicknameResponseEntity {
+        return runCatching {
+            userDataSource.getNickname()
+                .result.toGetNicknameResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }
