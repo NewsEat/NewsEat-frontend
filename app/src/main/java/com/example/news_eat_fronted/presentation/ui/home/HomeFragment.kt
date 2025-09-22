@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -7,6 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
+import com.example.news_eat_fronted.domain.entity.response.home.NewsItemEntity
+import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
@@ -33,11 +36,11 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
     }
 
     private fun setAdapter() {
-        recommendAdapter = RVAdapterNews()
-        category1Adapter = RVAdapterNews()
-        category2Adapter = RVAdapterNews()
-        category3Adapter = RVAdapterNews()
-        positiveAdapter = RVAdapterNews()
+        recommendAdapter = RVAdapterNews(::onNewsItemClick)
+        category1Adapter = RVAdapterNews(::onNewsItemClick)
+        category2Adapter = RVAdapterNews(::onNewsItemClick)
+        category3Adapter = RVAdapterNews(::onNewsItemClick)
+        positiveAdapter = RVAdapterNews(::onNewsItemClick)
 
         binding.rvNewsRecommended.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -162,5 +165,11 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
                 homeViewModel.setDetoxMode(isChecked)
             }
         }
+    }
+
+    private fun onNewsItemClick(item: NewsItemEntity) {
+        startActivity(Intent(requireContext(), NewsDetailActivity::class.java).apply {
+            putExtra("newsId", item.newsId)
+        })
     }
 }

@@ -10,7 +10,9 @@ import com.example.news_eat_fronted.databinding.RvHomeNewsItemBinding
 import com.example.news_eat_fronted.domain.entity.response.home.NewsItemEntity
 import com.example.news_eat_fronted.presentation.model.HomeNewsItem
 
-class RVAdapterNews: ListAdapter<NewsItemEntity, RVAdapterNews.ViewHolder>(DIFF_CALLBACK) {
+class RVAdapterNews(
+    private val onItemClick: (NewsItemEntity)-> Unit
+): ListAdapter<NewsItemEntity, RVAdapterNews.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RVAdapterNews.ViewHolder {
         val binding = RvHomeNewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -23,10 +25,13 @@ class RVAdapterNews: ListAdapter<NewsItemEntity, RVAdapterNews.ViewHolder>(DIFF_
     inner class ViewHolder(private val binding: RvHomeNewsItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: NewsItemEntity) {
             Glide.with(binding.root)
-//                .load(binding.root.context.resources.getIdentifier(item.imgResId, "drawable", binding.root.context.packageName))
                 .load(item.imgUrl)
                 .into(binding.ivHomeNews)
             binding.tvHomeNews.text = item.title
+
+            binding.root.setOnClickListener {
+                onItemClick(item)
+            }
         }
     }
 
