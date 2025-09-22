@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentModifyNicknameBinding
 import com.example.news_eat_fronted.util.base.BindingFragment
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import kotlinx.coroutines.launch
 
 class ModifyNicknameFragment : BindingFragment<FragmentModifyNicknameBinding>(R.layout.fragment_modify_nickname) {
@@ -27,6 +28,7 @@ class ModifyNicknameFragment : BindingFragment<FragmentModifyNicknameBinding>(R.
 
         collectData()
         addListeners()
+        setupKeyboardHide()
     }
 
     private fun collectData() {
