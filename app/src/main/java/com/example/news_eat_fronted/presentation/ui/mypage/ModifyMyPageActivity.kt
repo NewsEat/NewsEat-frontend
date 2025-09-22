@@ -20,12 +20,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layout.activity_modify_mypage) {
     private lateinit var type: String
+    private lateinit var currentNickname : String;
     private val myPageViewModel: MyPageViewModel by viewModels()
     private val modifyViewModel: ModifyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        currentNickname = intent.getStringExtra("current_nickname") ?: ""
         type = intent.getStringExtra("fragment_type") ?: "category"
 
         setFragment()

@@ -17,6 +17,13 @@ class ModifyNicknameFragment : BindingFragment<FragmentModifyNicknameBinding>(R.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 현재 닉네임 받아오기
+        val currentNickname = (activity as? ModifyMyPageActivity)
+            ?.intent?.getStringExtra("current_nickname") ?: ""
+
+        binding.inputNickname.setText(currentNickname)
+        modifyViewModel.onNicknameChanged(currentNickname)
+
         collectData()
         addListeners()
     }

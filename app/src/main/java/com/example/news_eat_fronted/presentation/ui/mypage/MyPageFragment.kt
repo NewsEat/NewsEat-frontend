@@ -107,8 +107,10 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
 
     private fun addListeners() {
         binding.btnEditNickname.setOnClickListener {
+            val currentNickname = viewModel.nickname.value
             startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "nickname")
+                putExtra("current_nickname", currentNickname)
             })
         }
 
