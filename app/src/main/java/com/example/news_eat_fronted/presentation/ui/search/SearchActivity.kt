@@ -15,6 +15,8 @@ import com.example.news_eat_fronted.databinding.ActivitySearchBinding
 import com.example.news_eat_fronted.presentation.ui.category.RVAdapterNewsList
 import com.example.news_eat_fronted.presentation.ui.news.NewsDetailActivity
 import com.example.news_eat_fronted.util.base.BindingActivity
+import com.example.news_eat_fronted.util.hideKeyboard
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -29,6 +31,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         setAdapter()
         collectData()
         addListeners()
+        setupKeyboardHide()
     }
 
     private fun addListeners() {
@@ -41,8 +44,7 @@ class SearchActivity : BindingActivity<ActivitySearchBinding>(R.layout.activity_
         }
 
         binding.btnSearch.setOnClickListener {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.inputSearch.windowToken, 0)
+            it.hideKeyboard()
 
             searchViewModel.apply {
                 resetNewsList()

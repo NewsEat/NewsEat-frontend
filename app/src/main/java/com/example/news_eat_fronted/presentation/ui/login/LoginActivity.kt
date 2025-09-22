@@ -16,6 +16,8 @@ import com.example.news_eat_fronted.databinding.ActivityLoginBinding
 import com.example.news_eat_fronted.presentation.ui.signup.SignupActivity
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingActivity
+import com.example.news_eat_fronted.util.hideKeyboard
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +36,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         addListeners()
         setPwVisibility()
         showSessionExpired()
+
+        setupKeyboardHide()
     }
 
     private fun addListeners() {
@@ -47,6 +51,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
 
         binding.loginBtn.setOnClickListener {
+            it.hideKeyboard()
             loginViewModel.login()  // 로그인 API
         }
 

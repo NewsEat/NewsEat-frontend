@@ -12,8 +12,11 @@ import com.example.news_eat_fronted.domain.usecase.auth.CheckEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SignupUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -55,7 +58,6 @@ class SignupViewModel @Inject constructor(
     val nicknameLength: StateFlow<Int> = _nicknameLength
 
     private val _selectedCategory = MutableStateFlow<List<Int>>(emptyList())
-    val selectedCategory: StateFlow<List<Int>> = _selectedCategory
 
     private val _isPwVisible = MutableStateFlow(false)
     val isPwVisible: StateFlow<Boolean> = _isPwVisible
@@ -70,16 +72,17 @@ class SignupViewModel @Inject constructor(
     val sendEmailState: StateFlow<SendEmailResponseEntity?> = _sendEmailState.asStateFlow()
 
     private val _emailAuthId = MutableStateFlow(0)
-    val emailAuthId: StateFlow<Int> = _emailAuthId
 
     private val _checkEmailState = MutableStateFlow<CheckEmailResponseEntity?>(null)
     val checkEmailState: StateFlow<CheckEmailResponseEntity?> = _checkEmailState.asStateFlow()
+
+    private val _isEmailDuplicate = MutableSharedFlow<Boolean>()
+    val isEmailDuplicate: SharedFlow<Boolean> = _isEmailDuplicate.asSharedFlow()
 
     private val _isErrorVerify = MutableStateFlow<Boolean>(false)
     val isErrorVerify: StateFlow<Boolean> = _isErrorVerify
 
     private val _isSuccessVerify =MutableStateFlow<Boolean>(false)
-    val isSuccessVerify: StateFlow<Boolean> = _isSuccessVerify
 
     private val _signupState = MutableStateFlow<SignupResponseEntity?>(null)
     val signupState: StateFlow<SignupResponseEntity?> = _signupState.asStateFlow()
@@ -95,7 +98,9 @@ class SignupViewModel @Inject constructor(
                     )
                 )
                 _sendEmailState.value = sendEmailResponseEntity
-            } catch (ex:Exception) {}
+            } catch (ex:Exception) {
+                _isEmailDuplicate.emit(true)
+            }
         }
     }
 

@@ -1,9 +1,7 @@
 package com.example.news_eat_fronted.presentation.ui.signup
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +9,7 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentSignupStep2Binding
 import com.example.news_eat_fronted.presentation.ui.mypage.ModifyViewModel
 import com.example.news_eat_fronted.util.base.BindingFragment
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import kotlinx.coroutines.launch
 
 class SignupStep2Fragment: BindingFragment<FragmentSignupStep2Binding>(R.layout.fragment_signup_step2) {
@@ -27,6 +26,7 @@ class SignupStep2Fragment: BindingFragment<FragmentSignupStep2Binding>(R.layout.
         collectData()
         addListeners()
         setModifyView()
+        setupKeyboardHide()
     }
 
     private fun collectData() {
