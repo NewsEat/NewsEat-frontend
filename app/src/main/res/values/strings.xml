@@ -124,6 +124,9 @@
     <string name="sanckbar_time_out">인증시간이 만료되었습니다.</string>
     <string name="sanckbar_select_maximum">최대 3개까지 선택가능합니다.</string>
     <string name="snackbar_session_expired">세션이 만료되었습니다. 다시 로그인해 주세요.</string>
+    <string name="snackbar_nickname_update_success">닉네임이 변경되었어요.</string>
+    <string name="snackbar_nickname_update_fail">닉네임 변경에 실패했어요. 다시 시도해주세요.</string>
+    <string name="snackbar_nickname">닉네임을 입력해주세요.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
