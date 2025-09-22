@@ -6,13 +6,13 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.home.GetHomeNewsSectionResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.home.GetLatestNewsResponseEntity
-import com.example.news_eat_fronted.domain.entity.response.home.NewsItemEntity
+import com.example.news_eat_fronted.domain.entity.response.user.GetNicknameResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.user.SetDetoxModeResponseEntity
 import com.example.news_eat_fronted.domain.usecase.home.GetHomeNewsSectionsUseCase
 import com.example.news_eat_fronted.domain.usecase.home.GetLatestNewsUseCase
+import com.example.news_eat_fronted.domain.usecase.user.GetNicknameUseCase
 import com.example.news_eat_fronted.domain.usecase.user.SetDetoxModeUseCase
 import com.example.news_eat_fronted.presentation.model.CategoryItem
-import com.example.news_eat_fronted.presentation.model.HomeNewsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +23,11 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val setDetoxModeUseCase: SetDetoxModeUseCase,
     private val getHomeNewsSectionsUseCase: GetHomeNewsSectionsUseCase,
-    private val getLatestNewsUseCase: GetLatestNewsUseCase
+    private val getLatestNewsUseCase: GetLatestNewsUseCase,
+    private val getNicknameUseCase: GetNicknameUseCase
 ): ViewModel() {
-    private val _nickname = MutableStateFlow("쫀득물만두")
-    val nickname: StateFlow<String> = _nickname
+//    private val _nickname = MutableStateFlow("쫀득물만두")
+//    val nickname: StateFlow<String> = _nickname
 
     private val _interests = MutableStateFlow<List<String>>(listOf())
     val interests: StateFlow<List<String>> = _interests
@@ -42,15 +43,17 @@ class HomeViewModel @Inject constructor(
         "세계" to CategoryItem(8, R.drawable.category_world_unselected, R.string.category_world),
     )
 
-    private val _recommendList = MutableStateFlow<List<NewsItemEntity>>(emptyList())
-    val recommendList: StateFlow<List<NewsItemEntity>> = _recommendList
-
-
     private val _homeNewsSectionsState = MutableStateFlow<GetHomeNewsSectionResponseEntity?>(null)
     val homeNewsSectionsState: StateFlow<GetHomeNewsSectionResponseEntity?> = _homeNewsSectionsState
 
     private val _latestNewsState = MutableStateFlow<GetLatestNewsResponseEntity?>(null)
     val latestNewsState: StateFlow<GetLatestNewsResponseEntity?> = _latestNewsState
+
+    private val _setDetoxState = MutableStateFlow<SetDetoxModeResponseEntity?>(null)
+    val setDetoxState: StateFlow<SetDetoxModeResponseEntity?> = _setDetoxState
+
+    private val _nicknameState = MutableStateFlow<GetNicknameResponseEntity?>(null)
+    val nicknameState: StateFlow<GetNicknameResponseEntity?> = _nicknameState
 
     fun setDetoxMode(isChecked: Boolean) {
         viewModelScope.launch {
@@ -60,6 +63,7 @@ class HomeViewModel @Inject constructor(
                         isDetoxMode = isChecked
                     )
                 )
+                _setDetoxState.value = setDetoxModeResponseEntity
             } catch (ex: Exception) {}
         }
     }
@@ -78,6 +82,15 @@ class HomeViewModel @Inject constructor(
             try {
                 val getLatestNewsResponseEntity = getLatestNewsUseCase()
                 _latestNewsState.value = getLatestNewsResponseEntity
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun getNickname() {
+        viewModelScope.launch {
+            try {
+                val getNicknameResponseEntity = getNicknameUseCase()
+                _nicknameState.value = getNicknameResponseEntity
             } catch (ex: Exception) {}
         }
     }

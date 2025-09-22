@@ -41,6 +41,7 @@
     <string name="email_verify_sent">인증번호가 발송되었습니다.</string>
     <string name="email_verify_error">인증번호를 다시 확인해주세요.</string>
     <string name="email_verify_success">인증이 완료되었습니다.</string>
+    <string name="email_verify_duplicate">이미 가입된 이메일입니다.</string>
 
     <string name="sign_up_nickname_title">뉴잇에 오신걸 환영해요!\n어떻게 불러드릴까요?</string>
     <string name="sign_up_nickname">닉네임</string>
