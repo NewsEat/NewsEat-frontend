@@ -9,6 +9,7 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.util.base.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -112,6 +113,15 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
             }
 
             launch {
+                homeViewModel.setDetoxState
+                    .filterNotNull()
+                    .collect { setDetoxState ->
+                        homeViewModel.getHomeNewsSections()
+                        homeViewModel.getLatestNews()
+                }
+            }
+
+            launch {
                 homeViewModel.homeNewsSectionsState.collect { homeNewsSectionsState ->
                     homeNewsSectionsState?.let { state ->
                         binding.switchDetoxMode.isChecked = state.isDetox
@@ -148,7 +158,9 @@ class HomeFragment : BindingFragment<FragmentHomeBinding>(R.layout.fragment_home
 
     private fun switchDetoxMode() {
         binding.switchDetoxMode.setOnCheckedChangeListener { _, isChecked ->
-            homeViewModel.setDetoxMode(isChecked)
+            if (binding.switchDetoxMode.isPressed) {
+                homeViewModel.setDetoxMode(isChecked)
+            }
         }
     }
 }

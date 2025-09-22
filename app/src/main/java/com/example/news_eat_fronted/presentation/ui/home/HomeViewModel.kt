@@ -6,13 +6,11 @@ import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.home.GetHomeNewsSectionResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.home.GetLatestNewsResponseEntity
-import com.example.news_eat_fronted.domain.entity.response.home.NewsItemEntity
 import com.example.news_eat_fronted.domain.entity.response.user.SetDetoxModeResponseEntity
 import com.example.news_eat_fronted.domain.usecase.home.GetHomeNewsSectionsUseCase
 import com.example.news_eat_fronted.domain.usecase.home.GetLatestNewsUseCase
 import com.example.news_eat_fronted.domain.usecase.user.SetDetoxModeUseCase
 import com.example.news_eat_fronted.presentation.model.CategoryItem
-import com.example.news_eat_fronted.presentation.model.HomeNewsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,15 +40,14 @@ class HomeViewModel @Inject constructor(
         "세계" to CategoryItem(8, R.drawable.category_world_unselected, R.string.category_world),
     )
 
-    private val _recommendList = MutableStateFlow<List<NewsItemEntity>>(emptyList())
-    val recommendList: StateFlow<List<NewsItemEntity>> = _recommendList
-
-
     private val _homeNewsSectionsState = MutableStateFlow<GetHomeNewsSectionResponseEntity?>(null)
     val homeNewsSectionsState: StateFlow<GetHomeNewsSectionResponseEntity?> = _homeNewsSectionsState
 
     private val _latestNewsState = MutableStateFlow<GetLatestNewsResponseEntity?>(null)
     val latestNewsState: StateFlow<GetLatestNewsResponseEntity?> = _latestNewsState
+
+    private val _setDetoxState = MutableStateFlow<SetDetoxModeResponseEntity?>(null)
+    val setDetoxState: StateFlow<SetDetoxModeResponseEntity?> = _setDetoxState
 
     fun setDetoxMode(isChecked: Boolean) {
         viewModelScope.launch {
@@ -60,6 +57,7 @@ class HomeViewModel @Inject constructor(
                         isDetoxMode = isChecked
                     )
                 )
+                _setDetoxState.value = setDetoxModeResponseEntity
             } catch (ex: Exception) {}
         }
     }
