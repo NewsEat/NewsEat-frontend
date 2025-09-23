@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layout.activity_modify_mypage) {
     private lateinit var type: String
-    private lateinit var currentNickname : String;
+    private lateinit var currentNickname : String
+    private var currentSelectedCategoryIds: ArrayList<Int>? = null
     private val myPageViewModel: MyPageViewModel by viewModels()
     private val modifyViewModel: ModifyViewModel by viewModels()
 
@@ -29,6 +30,7 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
         currentNickname = intent.getStringExtra("current_nickname") ?: ""
         type = intent.getStringExtra("fragment_type") ?: "category"
+        currentSelectedCategoryIds = intent.getIntegerArrayListExtra("selected_categories")
 
         setFragment()
         setHeaderTitle()
@@ -117,7 +119,11 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
             "userInfo" -> ModifyUserInfoFragment()
             "password" -> ModifyPwFragment()
             "category" -> SignupStep3Fragment().apply {
-                arguments = Bundle().apply { putBoolean("isModify", true) }
+                arguments = Bundle().apply {
+                    putBoolean("isModify", true)
+                    putIntegerArrayList("selected_categories", currentSelectedCategoryIds)
+                }
+
             }
             else -> SignupStep2Fragment()
         }

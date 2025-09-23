@@ -39,6 +39,29 @@ class MyPageViewModel @Inject constructor(
     private val _updateCategoryState = MutableSharedFlow<Boolean>()
     val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
 
+    private val _categoryIds = MutableStateFlow<List<Int>>(emptyList())
+    val categoryIds: StateFlow<List<Int>> = _categoryIds
+
+    // 카테고리 이름을 ID로 변환하는 함수
+    private fun getCategoryIdFromName(name: String): Int {
+        return when (name) {
+            "정치" -> 1
+            "경제" -> 2
+            "사회" -> 3
+            "생활/문화" -> 4
+            "IT/과학" -> 5
+            "연예" -> 6
+            "스포츠" -> 7
+            "세계" -> 8
+            else -> 0
+        }
+    }
+
+    // interests가 업데이트될 때 categoryIds도 함께 업데이트
+    private fun updateCategoryIds(interests: List<String>) {
+        _categoryIds.value = interests.map { getCategoryIdFromName(it) }
+    }
+
     fun withdraw() {
         viewModelScope.launch {
             try {
@@ -54,6 +77,7 @@ class MyPageViewModel @Inject constructor(
                 val profile = getMyPageProfileUseCase()
                 _nickname.value = profile.nickname
                 _interests.value = profile.categories
+                updateCategoryIds(profile.categories)
             } catch (ex: Exception) {}
         }
     }

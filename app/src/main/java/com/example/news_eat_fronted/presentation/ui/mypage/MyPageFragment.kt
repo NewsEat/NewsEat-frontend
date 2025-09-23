@@ -19,6 +19,7 @@ import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
@@ -117,6 +118,7 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
         binding.menuInterest.setOnClickListener {
             startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "category")
+                putIntegerArrayListExtra("selected_categories", ArrayList(viewModel.categoryIds.value))
             })
         }
 
