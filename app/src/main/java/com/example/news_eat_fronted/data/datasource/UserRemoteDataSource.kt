@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.data.datasource
 
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.request.user.SetDetoxModeRequestDto
+import com.example.news_eat_fronted.data.model.request.user.UpdateCategoryRequestDto
 import com.example.news_eat_fronted.data.model.request.user.UpdateNicknameRequestDto
 import com.example.news_eat_fronted.data.model.response.user.GetMyPageProfileResponseDto
 import com.example.news_eat_fronted.data.model.response.user.GetNicknameResponseDto
@@ -17,4 +18,6 @@ interface UserRemoteDataSource {
     suspend fun updateNickname(updateNicknameRequestDto: UpdateNicknameRequestDto) : BaseResponse<Unit>
 
     suspend fun getNickname(): BaseResponse<GetNicknameResponseDto>
+
+    suspend fun updateCategories(updateCategoryRequestDto: UpdateCategoryRequestDto): BaseResponse<Unit>
 }

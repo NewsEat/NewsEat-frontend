@@ -54,7 +54,12 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
                     }
                 }
                 "category" -> {
-                    // 관심사 수정 로직
+                    val selectedIds = modifyViewModel.selectedCategory.value
+                    if(selectedIds.isNotEmpty()) {
+                        myPageViewModel.updateCategory(selectedIds)
+                    } else {
+                        CustomSnackBar.make(binding.root, R.string.snackbar_category_unselected.toString()).show()
+                    }
                 }
                 "password" -> {
                     // 비밀번호 수정 로직
@@ -83,6 +88,21 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
                     CustomSnackBar.make(binding.root, message).show()
 
                     if (success) finish()
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                myPageViewModel.updateCategoryState.collect { success ->
+                    val message = if (success) {
+                        getString(R.string.snackbar_category_update_success)
+                    } else {
+                        getString(R.string.snackbar_category_update_fail)
+                    }
+
+                    CustomSnackBar.make(binding.root, message).show()
+
+                    if(success) finish()
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.user.GetMyPageProfileResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.user.GetNicknameResponseEntity
@@ -45,4 +46,23 @@ class UserRepositoryImpl @Inject constructor(
                 .result.toGetNicknameResponseEntity()
         }.getOrElse { err -> throw err }
     }
+
+//    override suspend fun updateCategories(updateCategoryRequestEntity: List<Int>): UpdateCategoryRequestEntity {
+//        return runCatching {
+//            userDataSource.updateCategories(updateCategoryRequestEntity.toUpdateCategoryRequestDto())
+//            updateCategoryRequestEntity
+//        }.getOrElse { err -> throw err }
+//    }
+
+//    override suspend fun updateCategories(updateCategoryRequestEntity: UpdateCategoryRequestEntity) : UpdateCategoryRequestEntity {
+//        return
+//    }
+
+    override suspend fun updateCategories(updateCategoryRequestEntity: UpdateCategoryRequestEntity): UpdateCategoryRequestEntity {
+        return runCatching {
+            userDataSource.updateCategories(updateCategoryRequestEntity.toUpdateCategoryRequestDto())
+            updateCategoryRequestEntity
+        }.getOrElse { err -> throw err }
+    }
+
 }

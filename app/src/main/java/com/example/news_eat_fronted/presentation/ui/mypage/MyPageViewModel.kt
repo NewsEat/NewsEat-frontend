@@ -2,8 +2,10 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
 import com.example.news_eat_fronted.domain.usecase.user.GetMyPageProfileUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateCategoryUseCase
 import com.example.news_eat_fronted.domain.usecase.user.UpdateNicknameUseCase
 import com.example.news_eat_fronted.domain.usecase.user.WithdrawUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +20,8 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val withdrawUseCase: WithdrawUseCase,
     private val getMyPageProfileUseCase: GetMyPageProfileUseCase,
-    private val updateNicknameUseCase: UpdateNicknameUseCase
+    private val updateNicknameUseCase: UpdateNicknameUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
 ): ViewModel() {
 
     private val _nickname = MutableStateFlow("")
@@ -32,6 +35,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _updateNicknameState = MutableSharedFlow<Boolean>()
     val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
+
+    private val _updateCategoryState = MutableSharedFlow<Boolean>()
+    val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
 
     fun withdraw() {
         viewModelScope.launch {
@@ -60,6 +66,18 @@ class MyPageViewModel @Inject constructor(
                 _updateNicknameState.emit(true)
             } catch (ex: Exception) {
                 _updateNicknameState.emit(false)
+            }
+        }
+    }
+
+    fun updateCategory(categoryIds: List<Int>) {
+        viewModelScope.launch {
+            try {
+                val requestEntity = UpdateCategoryRequestEntity(categoryIds)
+                updateCategoryUseCase(requestEntity)
+                _updateCategoryState.emit(true)
+            } catch (ex: Exception) {
+                _updateCategoryState.emit(false)
             }
         }
     }
