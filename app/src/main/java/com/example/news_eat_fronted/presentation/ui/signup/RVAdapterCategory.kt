@@ -11,8 +11,23 @@ import com.example.news_eat_fronted.util.CustomSnackBar
 
 class RVAdapterCategory(
     val categoryList: ArrayList<CategoryItem>,
+    private val preselectedIds: List<Int> = emptyList(),
     private val onSelectionChanged: (List<Int>) -> Unit
     ): RecyclerView.Adapter<RVAdapterCategory.ViewHolder>() {
+
+    init {
+        categoryList.forEach { category ->
+            category.isSelected = preselectedIds.contains(category.id)
+        }
+        // 초기 선택된 항목들을 콜백으로 전달
+        val initialSelected = categoryList
+            .filter { it.isSelected == true }
+            .map { it.id }
+        if (initialSelected.isNotEmpty()) {
+            onSelectionChanged(initialSelected)
+        }
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
     ): RVAdapterCategory.ViewHolder {
@@ -34,6 +49,10 @@ class RVAdapterCategory(
         fun bind(category: CategoryItem) {
             binding.categoryImg.setImageResource(category.imgResId)
             binding.categoryName.text = itemView.context.getString(category.nameResId)
+
+            // 색상 업데이트를 별도 메서드로 분리
+            updateItemAppearance(category)
+
 
             if(category.isSelected == true) {
                 val color = ContextCompat.getColor(itemView.context, R.color.Primary600)
@@ -60,9 +79,22 @@ class RVAdapterCategory(
                     }
                 }
 
+
                 onSelectionChanged(categoryList
                     .filter { it.isSelected == true }
                     .map { item -> item.id })
+            }
+        }
+
+        private fun updateItemAppearance(category: CategoryItem) {
+            if (category.isSelected == true) {
+                val selectedColor = ContextCompat.getColor(itemView.context, R.color.Primary600)
+                binding.categoryName.setTextColor(selectedColor)
+                binding.categoryImg.setColorFilter(selectedColor)
+            } else {
+                val unselectedColor = ContextCompat.getColor(itemView.context, R.color.Gray400)
+                binding.categoryName.setTextColor(unselectedColor)
+                binding.categoryImg.setColorFilter(unselectedColor)
             }
         }
     }

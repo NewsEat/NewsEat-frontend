@@ -2,6 +2,11 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
+import com.example.news_eat_fronted.domain.usecase.user.GetMyPageProfileUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateCategoryUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateNicknameUseCase
 import com.example.news_eat_fronted.domain.usecase.user.WithdrawUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,17 +18,49 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val withdrawUseCase: WithdrawUseCase
+    private val withdrawUseCase: WithdrawUseCase,
+    private val getMyPageProfileUseCase: GetMyPageProfileUseCase,
+    private val updateNicknameUseCase: UpdateNicknameUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
 ): ViewModel() {
 
-    private val _nickname = MutableStateFlow("쫀득물만두")
+    private val _nickname = MutableStateFlow("")
     val nickname: StateFlow<String> = _nickname
 
-    private val _interests = MutableStateFlow<List<String>>(listOf("연예", "IT/과학", "세계"))
+    private val _interests = MutableStateFlow<List<String>>(emptyList())
     val interests: StateFlow<List<String>> = _interests
 
     private val _withdrawState = MutableSharedFlow<Unit?>()
     val withdrawState: SharedFlow<Unit?> = _withdrawState
+
+    private val _updateNicknameState = MutableSharedFlow<Boolean>()
+    val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
+
+    private val _updateCategoryState = MutableSharedFlow<Boolean>()
+    val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
+
+    private val _categoryIds = MutableStateFlow<List<Int>>(emptyList())
+    val categoryIds: StateFlow<List<Int>> = _categoryIds
+
+    // 카테고리 이름을 ID로 변환하는 함수
+    private fun getCategoryIdFromName(name: String): Int {
+        return when (name) {
+            "정치" -> 1
+            "경제" -> 2
+            "사회" -> 3
+            "생활/문화" -> 4
+            "IT/과학" -> 5
+            "연예" -> 6
+            "스포츠" -> 7
+            "세계" -> 8
+            else -> 0
+        }
+    }
+
+    // interests가 업데이트될 때 categoryIds도 함께 업데이트
+    private fun updateCategoryIds(interests: List<String>) {
+        _categoryIds.value = interests.map { getCategoryIdFromName(it) }
+    }
 
     fun withdraw() {
         viewModelScope.launch {
@@ -31,6 +68,41 @@ class MyPageViewModel @Inject constructor(
                 withdrawUseCase()
                 _withdrawState.emit(Unit)
             } catch (ex: Exception) {}
+        }
+    }
+
+    fun loadProfile() {
+        viewModelScope.launch {
+            try {
+                val profile = getMyPageProfileUseCase()
+                _nickname.value = profile.nickname
+                _interests.value = profile.categories
+                updateCategoryIds(profile.categories)
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun updateNickname(newNickname: String) {
+        viewModelScope.launch {
+            try {
+                updateNicknameUseCase(UpdateNicknameRequestEntity(newNickname))
+                _nickname.value = newNickname
+                _updateNicknameState.emit(true)
+            } catch (ex: Exception) {
+                _updateNicknameState.emit(false)
+            }
+        }
+    }
+
+    fun updateCategory(categoryIds: List<Int>) {
+        viewModelScope.launch {
+            try {
+                val requestEntity = UpdateCategoryRequestEntity(categoryIds)
+                updateCategoryUseCase(requestEntity)
+                _updateCategoryState.emit(true)
+            } catch (ex: Exception) {
+                _updateCategoryState.emit(false)
+            }
         }
     }
 }

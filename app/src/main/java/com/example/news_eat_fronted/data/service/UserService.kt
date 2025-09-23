@@ -2,10 +2,15 @@ package com.example.news_eat_fronted.data.service
 
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.request.user.SetDetoxModeRequestDto
+import com.example.news_eat_fronted.data.model.request.user.UpdateCategoryRequestDto
+import com.example.news_eat_fronted.data.model.request.user.UpdateNicknameRequestDto
+import com.example.news_eat_fronted.data.model.response.user.GetMyPageProfileResponseDto
 import com.example.news_eat_fronted.data.model.response.user.GetNicknameResponseDto
 import com.example.news_eat_fronted.data.model.response.user.SetDetoxModeResponseDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.PUT
 
 interface UserService {
@@ -17,6 +22,19 @@ interface UserService {
         @Body setDetoxModeRequestDto: SetDetoxModeRequestDto
     ): BaseResponse<SetDetoxModeResponseDto>
 
+    @GET("member/profile")
+    suspend fun getMyPageProfile() : BaseResponse<GetMyPageProfileResponseDto>
+
+    @PATCH("member/profile/nickname")
+    suspend fun updateNickname(
+        @Body updateNicknameRequestDto: UpdateNicknameRequestDto
+    ) : BaseResponse<Unit>
+
     @PUT("member/me")
     suspend fun getNickname(): BaseResponse<GetNicknameResponseDto>
+
+    @PUT("member/categories")
+    suspend fun updateCategories(
+        @Body updateCategoryRequestDto: UpdateCategoryRequestDto
+    ) : BaseResponse<Unit>
 }

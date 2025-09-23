@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.databinding.FragmentModifyPwBinding
 import com.example.news_eat_fronted.util.base.BindingFragment
+import com.example.news_eat_fronted.util.setupKeyboardHide
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ class ModifyPwFragment: BindingFragment<FragmentModifyPwBinding>(R.layout.fragme
         addListeners()
         collectData()
         setPwVisibility()
+        setupKeyboardHide()
     }
 
     private fun addListeners() {

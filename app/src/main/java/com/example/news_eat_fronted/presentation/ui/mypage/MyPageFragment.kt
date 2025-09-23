@@ -19,6 +19,7 @@ import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
@@ -28,8 +29,15 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadProfile()
+
         collectData()
         addListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadProfile()
     }
 
     private fun collectData() {
@@ -100,14 +108,17 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
 
     private fun addListeners() {
         binding.btnEditNickname.setOnClickListener {
+            val currentNickname = viewModel.nickname.value
             startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "nickname")
+                putExtra("current_nickname", currentNickname)
             })
         }
 
         binding.menuInterest.setOnClickListener {
             startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "category")
+                putIntegerArrayListExtra("selected_categories", ArrayList(viewModel.categoryIds.value))
             })
         }
 

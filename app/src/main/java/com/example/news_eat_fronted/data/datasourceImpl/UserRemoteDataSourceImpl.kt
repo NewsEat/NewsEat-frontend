@@ -3,6 +3,9 @@ package com.example.news_eat_fronted.data.datasourceImpl
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
 import com.example.news_eat_fronted.data.model.BaseResponse
 import com.example.news_eat_fronted.data.model.request.user.SetDetoxModeRequestDto
+import com.example.news_eat_fronted.data.model.request.user.UpdateCategoryRequestDto
+import com.example.news_eat_fronted.data.model.request.user.UpdateNicknameRequestDto
+import com.example.news_eat_fronted.data.model.response.user.GetMyPageProfileResponseDto
 import com.example.news_eat_fronted.data.model.response.user.GetNicknameResponseDto
 import com.example.news_eat_fronted.data.model.response.user.SetDetoxModeResponseDto
 import com.example.news_eat_fronted.data.service.UserService
@@ -18,6 +21,16 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun setDetoxMode(setDetoxModeRequestDto: SetDetoxModeRequestDto): BaseResponse<SetDetoxModeResponseDto>
     = userService.setDetoxMod(setDetoxModeRequestDto)
 
+    override suspend fun getMyPageProfile(): BaseResponse<GetMyPageProfileResponseDto>
+    = userService.getMyPageProfile()
+
+    override suspend fun updateNickname(updateNicknameRequestDto: UpdateNicknameRequestDto): BaseResponse<Unit>
+    = userService.updateNickname(updateNicknameRequestDto)
+
     override suspend fun getNickname(): BaseResponse<GetNicknameResponseDto>
     = userService.getNickname()
+
+    override suspend fun updateCategories(updateCategoryRequestDto: UpdateCategoryRequestDto): BaseResponse<Unit>
+    = userService.updateCategories(updateCategoryRequestDto)
+
 }

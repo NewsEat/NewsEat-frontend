@@ -30,12 +30,14 @@ class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         isModify = arguments?.getBoolean("isModify") ?: false
-
-        setAdapter()
+        val preselectedIds: List<Int> = arguments?.getIntegerArrayList("selected_categories")?.toList() ?: emptyList()
+        setAdapter(preselectedIds)
     }
 
-    private fun setAdapter() {
-        val adapter = RVAdapterCategory(categoryList = ArrayList(categoryList)) { selectedList ->
+    private fun setAdapter(preselectedIds : List<Int>) {
+        val adapter = RVAdapterCategory(
+            categoryList = ArrayList(categoryList),
+            preselectedIds = preselectedIds) { selectedList ->
             if(isModify) {
                 modifyViewModel.updateSelectedCategory(selectedList)
             } else {
