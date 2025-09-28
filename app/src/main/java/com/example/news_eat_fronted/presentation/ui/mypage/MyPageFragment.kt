@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
+import com.example.news_eat_fronted.data.token.TokenManager
 import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.databinding.FragmentMypageBinding
 import com.example.news_eat_fronted.presentation.ui.login.LoginActivity
@@ -20,11 +21,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.ArrayList
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
 
     private val viewModel: MyPageViewModel by viewModels()
+    @Inject
+    lateinit var tokenManager: TokenManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +71,7 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
                 startActivity(
                     Intent(requireContext(), LoginActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        putExtra("WITHDRAW", true)
                     }
                 )
             }
@@ -136,7 +141,11 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
                 rightBtnText = getString(R.string.dialog_btn_logout),
                 clickLeftBtn = {},
                 clickRightBtn = {
-                    // 로그아웃 API
+                    tokenManager.clearAccessToken()
+                    tokenManager.clearRefreshToken()
+                    startActivity(Intent(requireContext(), LoginActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .putExtra("LOGOUT", true))
                 }
             )
             dialog.show(parentFragmentManager, "DialogLogout")

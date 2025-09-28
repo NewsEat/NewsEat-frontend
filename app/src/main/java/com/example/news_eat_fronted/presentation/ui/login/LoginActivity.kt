@@ -35,7 +35,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         collectData()
         addListeners()
         setPwVisibility()
-        showSessionExpired()
+        showSnackBar()
 
         setupKeyboardHide()
     }
@@ -107,9 +107,15 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
     }
 
-    private fun showSessionExpired() {
+    private fun showSnackBar() {
         if(intent.getBooleanExtra("EXTRA_SESSION_EXPIRED", false)) {
             CustomSnackBar(binding.root, getString(R.string.snackbar_session_expired)).show()
+        }
+        else if(intent.getBooleanExtra("LOGOUT", false)) {
+            CustomSnackBar(binding.root, getString(R.string.snackbar_logout_completed)).show()
+        }
+        else if(intent.getBooleanExtra("WITHDRAW", false)) {
+            CustomSnackBar(binding.root, getString(R.string.snackbar_withdraw_completed)).show()
         }
     }
 }
