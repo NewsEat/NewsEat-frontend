@@ -2,4 +2,8 @@
 <resources>
 
     <style name="Theme.Newseatfronted" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="LaunchTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>
