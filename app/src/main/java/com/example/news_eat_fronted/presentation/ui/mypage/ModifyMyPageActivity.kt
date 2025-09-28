@@ -2,9 +2,7 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -118,12 +116,17 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 //            }
             "userInfo" -> ModifyUserInfoFragment()
             "password" -> ModifyPwFragment()
-            "category" -> SignupStep3Fragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean("isModify", true)
-                    putIntegerArrayList("selected_categories", currentSelectedCategoryIds)
-                }
+            "category" -> {
+                modifyViewModel.updateSelectedCategory(currentSelectedCategoryIds)
+                modifyViewModel.setOriginalCategories(currentSelectedCategoryIds)
 
+                SignupStep3Fragment().apply {
+                    arguments = Bundle().apply {
+                        putBoolean("isModify", true)
+                        putIntegerArrayList("selected_categories", currentSelectedCategoryIds)
+                    }
+
+                }
             }
             else -> SignupStep2Fragment()
         }

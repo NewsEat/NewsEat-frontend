@@ -1,8 +1,5 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,6 +37,8 @@ class ModifyViewModel: ViewModel() {
 
     private var originalNickname: String = ""
 
+    private var originalCategories: List<Int> = emptyList()
+
     fun setOriginalNickname(original: String) {
         originalNickname = original
         updateEnabledForNickname()
@@ -51,8 +50,8 @@ class ModifyViewModel: ViewModel() {
         updateEnabledForNickname()
     }
 
-    fun updateSelectedCategory(selectedList: List<Int>) {
-        _selectedCategory.value = selectedList
+    fun updateSelectedCategory(selectedList: ArrayList<Int>?) {
+        _selectedCategory.value = selectedList ?: emptyList()
         updateEnabledForCategory()
     }
 
@@ -91,7 +90,10 @@ class ModifyViewModel: ViewModel() {
     }
 
     private fun updateEnabledForCategory() {
-        _isNextBtnEnabled.value = _selectedCategory.value.isNotEmpty()
+        _isNextBtnEnabled.value =
+            _selectedCategory.value.isNotEmpty() &&
+            !_selectedCategory.value.containsAll(originalCategories) ||
+            !originalCategories.containsAll(_selectedCategory.value)
     }
 
     fun togglePwVisible() {
@@ -100,5 +102,10 @@ class ModifyViewModel: ViewModel() {
 
     fun togglePwConfirmVisible() {
         _isPwConfirmVisible.value = !_isPwConfirmVisible.value
+    }
+
+    fun setOriginalCategories(original: List<Int>?) {
+        originalCategories = original ?: emptyList()
+        updateEnabledForCategory()
     }
 }

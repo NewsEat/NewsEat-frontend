@@ -1,7 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.signup
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,7 +38,7 @@ class SignupStep3Fragment: BindingFragment<FragmentSignupStep3Binding>(R.layout.
             categoryList = ArrayList(categoryList),
             preselectedIds = preselectedIds) { selectedList ->
             if(isModify) {
-                modifyViewModel.updateSelectedCategory(selectedList)
+                modifyViewModel.updateSelectedCategory(selectedList as ArrayList<Int>?)
             } else {
                 signupViewModel.updateSelectedCategory(selectedList)
             }
