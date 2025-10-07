@@ -30,7 +30,7 @@ interface UserService {
         @Body updateNicknameRequestDto: UpdateNicknameRequestDto
     ) : BaseResponse<Unit>
 
-    @PUT("member/me")
+    @GET("member/me")
     suspend fun getNickname(): BaseResponse<GetNicknameResponseDto>
 
     @PUT("member/categories")
