@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.domain.repository
 
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
@@ -19,4 +20,6 @@ interface UserRepository {
     suspend fun getNickname(): GetNicknameResponseEntity
 
     suspend fun updateCategories(updateCategoryRequestEntity : UpdateCategoryRequestEntity) : UpdateCategoryRequestEntity
+
+    suspend fun modifyPassword(modifyPwRequestEntity: ModifyPwRequestEntity)
 }

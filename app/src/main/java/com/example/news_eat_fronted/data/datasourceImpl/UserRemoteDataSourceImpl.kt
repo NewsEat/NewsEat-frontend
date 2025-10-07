@@ -2,6 +2,7 @@ package com.example.news_eat_fronted.data.datasourceImpl
 
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
 import com.example.news_eat_fronted.data.model.BaseResponse
+import com.example.news_eat_fronted.data.model.request.user.ModifyPwRequestDto
 import com.example.news_eat_fronted.data.model.request.user.SetDetoxModeRequestDto
 import com.example.news_eat_fronted.data.model.request.user.UpdateCategoryRequestDto
 import com.example.news_eat_fronted.data.model.request.user.UpdateNicknameRequestDto
@@ -32,5 +33,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun updateCategories(updateCategoryRequestDto: UpdateCategoryRequestDto): BaseResponse<Unit>
     = userService.updateCategories(updateCategoryRequestDto)
+
+    override suspend fun modifyPassword(modifyPwRequestDto: ModifyPwRequestDto): BaseResponse<Unit>
+    = userService.modifyPassword(modifyPwRequestDto)
 
 }

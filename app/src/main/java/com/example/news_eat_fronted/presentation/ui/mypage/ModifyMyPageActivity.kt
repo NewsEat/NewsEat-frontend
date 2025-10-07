@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -76,6 +77,7 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
                 }
                 "password" -> {
                     // 비밀번호 수정 로직
+                    modifyViewModel.modifyPassword()
                 }
             }
         }
@@ -85,6 +87,16 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
         lifecycleScope.launch {
             modifyViewModel.isNextBtnEnabled.collect { enabled ->
                 binding.btnModify.isEnabled = enabled
+            }
+        }
+
+        lifecycleScope.launch {
+            modifyViewModel.modifyPwState.collect {
+                val resultIntent = Intent().apply {
+                    putExtra("pwChanged", true)
+                }
+                setResult(RESULT_OK, resultIntent)
+                finish()
             }
         }
     }

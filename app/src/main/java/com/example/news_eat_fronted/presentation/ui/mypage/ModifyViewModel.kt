@@ -1,10 +1,21 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
+import com.example.news_eat_fronted.domain.usecase.user.ModifyPasswordUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ModifyViewModel: ViewModel() {
+@HiltViewModel
+class ModifyViewModel @Inject constructor(
+    private val modifyPasswordUseCase: ModifyPasswordUseCase
+): ViewModel() {
     private val _nickname = MutableStateFlow("")
     val nickname: StateFlow<String> = _nickname
 
@@ -44,6 +55,9 @@ class ModifyViewModel: ViewModel() {
 
     private val _currentPitch = MutableStateFlow(0f)
     val currentPitch: StateFlow<Float> = _currentPitch
+
+    private val _modifyPwState = MutableSharedFlow<Unit?>()
+    val modifyPwState: SharedFlow<Unit?> = _modifyPwState
 
     fun setOriginalNickname(original: String) {
         originalNickname = original
@@ -125,5 +139,17 @@ class ModifyViewModel: ViewModel() {
 
     fun setForceEnableNextBtn() {
         _isNextBtnEnabled.value = true
+    }
+
+    fun modifyPassword() {
+        viewModelScope.launch {
+            try {
+                modifyPasswordUseCase(ModifyPwRequestEntity(
+                    password = _pw.value,
+                    confirmPassword = _pwConfirm.value
+                ))
+                _modifyPwState.emit(Unit)
+            } catch (ex: Exception) {}
+        }
     }
 }
