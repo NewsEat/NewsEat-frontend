@@ -39,6 +39,12 @@ class ModifyViewModel: ViewModel() {
 
     private var originalCategories: List<Int> = emptyList()
 
+    private val _currentSpeed = MutableStateFlow(0f)
+    val currentSpeed: StateFlow<Float> = _currentSpeed
+
+    private val _currentPitch = MutableStateFlow(0f)
+    val currentPitch: StateFlow<Float> = _currentPitch
+
     fun setOriginalNickname(original: String) {
         originalNickname = original
         updateEnabledForNickname()
@@ -107,5 +113,17 @@ class ModifyViewModel: ViewModel() {
     fun setOriginalCategories(original: List<Int>?) {
         originalCategories = original ?: emptyList()
         updateEnabledForCategory()
+    }
+
+    fun setCurrentSpeed(speed: Float) {
+        _currentSpeed.value = speed
+    }
+
+    fun setCurrentPitch(pitch: Float) {
+        _currentPitch.value = pitch
+    }
+
+    fun setForceEnableNextBtn() {
+        _isNextBtnEnabled.value = true
     }
 }

@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -45,6 +46,18 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
         binding.btnModify.setOnClickListener {
             when(type) {
+                "tts" -> {
+                    val speed = modifyViewModel.currentSpeed.value
+                    val pitch = modifyViewModel.currentPitch.value
+
+                    val prefs = this.getSharedPreferences("TTS_PREFS", Context.MODE_PRIVATE)
+                    prefs.edit()
+                        .putFloat("TTS_SPEED", speed)
+                        .putFloat("TTS_PITCH", pitch)
+                        .apply()
+
+                    finish()
+                }
                 "nickname" -> {
                     val newNickname = modifyViewModel.nickname.value
                     if(newNickname.isNotEmpty()) {
@@ -110,6 +123,7 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
     private fun setFragment() {
         val fragment = when(type){
+            "tts" -> SetTTSFragment()
             "nickname" -> ModifyNicknameFragment()
 //            "nickname" -> SignupStep2Fragment().apply {
 //                arguments = Bundle().apply { putBoolean("isModify", true) }
@@ -138,6 +152,7 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
     private fun setHeaderTitle() {
         val title = when(type) {
+            "tts" -> "TTS 설정"
             "nickname" -> "닉네임 수정"
             "userInfo" -> "회원정보 수정"
             "password" -> "회원정보 수정"

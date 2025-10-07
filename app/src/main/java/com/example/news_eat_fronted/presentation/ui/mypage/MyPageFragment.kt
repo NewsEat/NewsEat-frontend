@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.data.token.TokenManager
-import com.example.news_eat_fronted.databinding.FragmentHomeBinding
 import com.example.news_eat_fronted.databinding.FragmentMypageBinding
 import com.example.news_eat_fronted.presentation.ui.login.LoginActivity
 import com.example.news_eat_fronted.util.base.BindingFragment
@@ -117,6 +116,12 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
             startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "nickname")
                 putExtra("current_nickname", currentNickname)
+            })
+        }
+
+        binding.menuTts.setOnClickListener {
+            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+                putExtra("fragment_type", "tts")
             })
         }
 

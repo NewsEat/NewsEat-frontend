@@ -79,6 +79,7 @@
     <string name="mypage_edit_nicnkame_title">닉네임</string>
 
     <!--    마이페이지 메뉴 리스트-->
+    <string name="mypage_menu_tts_title">TTS 설정</string>
     <string name="mypage_menu_interest_title">관심사 수정</string>
     <string name="mypage_menu_profile_title">회원정보 수정</string>
     <string name="mypage_menu_logout_title">로그아웃</string>
@@ -119,6 +120,18 @@
     <string name="news_summary_negative">부정</string>
 
     <string name="news_detail_recommend_title">추천 뉴스 더보기</string>
+
+    <!-- TTS 설정-->
+    <string name="tts_title_setting">슬라이더를 이용해 TTS의 목소리 속도와 높낮이를 조절해보세요!</string>
+    <string name="tts_title_speed">속도 설정</string>
+    <string name="tts_title_pitch">높낮이 설정</string>
+    <string name="tts_btn_play">샘플 재생</string>
+    <string name="tts_btn_reset">초기화</string>
+    <string name="tts_speed_slow">느리게</string>
+    <string name="tts_speed_fast">빠르게</string>
+    <string name="tts_pitch_low">낮게</string>
+    <string name="tts_pitch_high">높게</string>
+
 
     <!--    스낵바 메시지-->
     <string name="snackbar_login_error">아이디 또는 비밀번호가 잘못되었습니다.</string>

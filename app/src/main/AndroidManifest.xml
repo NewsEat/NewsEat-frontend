@@ -14,7 +14,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/news_eat_ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Theme.Newseatfronted"
         tools:targetApi="31">
         <activity
             android:name=".presentation.ui.login.SplashActivity"
