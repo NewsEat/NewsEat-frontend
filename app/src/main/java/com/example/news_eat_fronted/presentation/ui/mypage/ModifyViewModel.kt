@@ -3,7 +3,11 @@ package com.example.news_eat_fronted.presentation.ui.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
 import com.example.news_eat_fronted.domain.usecase.user.ModifyPasswordUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateCategoryUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateNicknameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ModifyViewModel @Inject constructor(
-    private val modifyPasswordUseCase: ModifyPasswordUseCase
+    private val modifyPasswordUseCase: ModifyPasswordUseCase,
+    private val updateNicknameUseCase: UpdateNicknameUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
 ): ViewModel() {
     private val _nickname = MutableStateFlow("")
     val nickname: StateFlow<String> = _nickname
@@ -58,6 +64,12 @@ class ModifyViewModel @Inject constructor(
 
     private val _modifyPwState = MutableSharedFlow<Unit?>()
     val modifyPwState: SharedFlow<Unit?> = _modifyPwState
+
+    private val _updateNicknameState = MutableSharedFlow<Boolean>()
+    val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
+
+    private val _updateCategoryState = MutableSharedFlow<Boolean>()
+    val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
 
     fun setOriginalNickname(original: String) {
         originalNickname = original
@@ -150,6 +162,32 @@ class ModifyViewModel @Inject constructor(
                 ))
                 _modifyPwState.emit(Unit)
             } catch (ex: Exception) {}
+        }
+    }
+
+    fun updateNickname() {
+        viewModelScope.launch {
+            try {
+                updateNicknameUseCase(UpdateNicknameRequestEntity(
+                    nickname = _nickname.value
+                ))
+                _updateNicknameState.emit(true)
+            } catch (ex: Exception) {
+                _updateNicknameState.emit(false)
+            }
+        }
+    }
+
+    fun updateCategory() {
+        viewModelScope.launch {
+            try {
+                updateCategoryUseCase(UpdateCategoryRequestEntity(
+                    categoryIds = _selectedCategory.value
+                ))
+                _updateCategoryState.emit(true)
+            } catch (ex: Exception) {
+                _updateCategoryState.emit(false)
+            }
         }
     }
 }

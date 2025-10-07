@@ -32,13 +32,18 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     @Inject
     lateinit var tokenManager: TokenManager
 
-    private val modifyPwLauncher = registerForActivityResult(
+    private val modifyLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val isPwChanged = result.data?.getBooleanExtra("pwChanged", false) ?: false
-            if (isPwChanged) {
+            if (result.data?.getBooleanExtra("pwChanged", false) ?: false) {
                 CustomSnackBar(binding.root, getString(R.string.snackbar_password_changed)).show()
+            }
+            if (result.data?.getBooleanExtra("nicknameChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_nickname_update_success)).show()
+            }
+            if (result.data?.getBooleanExtra("categoryChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_category_update_success)).show()
             }
         }
     }
@@ -127,10 +132,11 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     private fun addListeners() {
         binding.btnEditNickname.setOnClickListener {
             val currentNickname = viewModel.nickname.value
-            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+            val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "nickname")
                 putExtra("current_nickname", currentNickname)
-            })
+            }
+            modifyLauncher.launch(intent)
         }
 
         binding.menuTts.setOnClickListener {
@@ -140,17 +146,18 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
         }
 
         binding.menuInterest.setOnClickListener {
-            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+            val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "category")
                 putIntegerArrayListExtra("selected_categories", ArrayList(viewModel.categoryIds.value))
-            })
+            }
+            modifyLauncher.launch(intent)
         }
 
         binding.menuProfile.setOnClickListener {
             val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "userInfo")
             }
-            modifyPwLauncher.launch(intent)
+            modifyLauncher.launch(intent)
         }
 
         binding.menuLogout.setOnClickListener {

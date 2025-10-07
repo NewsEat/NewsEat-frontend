@@ -20,8 +20,6 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val withdrawUseCase: WithdrawUseCase,
     private val getMyPageProfileUseCase: GetMyPageProfileUseCase,
-    private val updateNicknameUseCase: UpdateNicknameUseCase,
-    private val updateCategoryUseCase: UpdateCategoryUseCase
 ): ViewModel() {
 
     private val _nickname = MutableStateFlow("")
@@ -32,12 +30,6 @@ class MyPageViewModel @Inject constructor(
 
     private val _withdrawState = MutableSharedFlow<Unit?>()
     val withdrawState: SharedFlow<Unit?> = _withdrawState
-
-    private val _updateNicknameState = MutableSharedFlow<Boolean>()
-    val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
-
-    private val _updateCategoryState = MutableSharedFlow<Boolean>()
-    val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
 
     private val _categoryIds = MutableStateFlow<List<Int>>(emptyList())
     val categoryIds: StateFlow<List<Int>> = _categoryIds
@@ -79,30 +71,6 @@ class MyPageViewModel @Inject constructor(
                 _interests.value = profile.categories
                 updateCategoryIds(profile.categories)
             } catch (ex: Exception) {}
-        }
-    }
-
-    fun updateNickname(newNickname: String) {
-        viewModelScope.launch {
-            try {
-                updateNicknameUseCase(UpdateNicknameRequestEntity(newNickname))
-                _nickname.value = newNickname
-                _updateNicknameState.emit(true)
-            } catch (ex: Exception) {
-                _updateNicknameState.emit(false)
-            }
-        }
-    }
-
-    fun updateCategory(categoryIds: List<Int>) {
-        viewModelScope.launch {
-            try {
-                val requestEntity = UpdateCategoryRequestEntity(categoryIds)
-                updateCategoryUseCase(requestEntity)
-                _updateCategoryState.emit(true)
-            } catch (ex: Exception) {
-                _updateCategoryState.emit(false)
-            }
         }
     }
 }
