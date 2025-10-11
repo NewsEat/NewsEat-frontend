@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.news
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -44,6 +45,7 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         setupFloatingButton()
         setupBookmarkButton()
         addListeners()
+        getTTSPrefs()
     }
 
     override fun onDestroy() {
@@ -203,8 +205,8 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
         tts = TextToSpeech(this) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 tts.language = Locale.KOREAN
-                tts.setPitch(0.8f) // 목소리 톤
-                tts.setSpeechRate(1.0f) // 말하는 속도
+                tts.setPitch(viewModel.currentPitch.value) // 목소리 톤
+                tts.setSpeechRate(viewModel.currentSpeed.value) // 말하는 속도
 
                 tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(utteranceId: String?) { }
@@ -290,5 +292,14 @@ class NewsDetailActivity : BindingActivity<ActivityNewsDetailBinding>(R.layout.a
                 }
             }
         }
+    }
+
+    private fun getTTSPrefs() {
+        val prefs = this.getSharedPreferences("TTS_PREFS", Context.MODE_PRIVATE)
+        val savedSpeed = prefs.getFloat("TTS_SPEED", 1.0f)
+        val savedPitch = prefs.getFloat("TTS_PITCH", 1.0f)
+
+        viewModel.setCurrentSpeed(savedSpeed)
+        viewModel.setCurrentPitch(savedPitch)
     }
 }

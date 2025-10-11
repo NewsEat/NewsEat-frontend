@@ -10,6 +10,7 @@
     <string name="news_eat_name">뉴잇</string>
     <!--    <string name="news_eat_name_en">News eat</string>-->
     <string name="news_eat_slogan">내 취향에 맞게\n편안한 뉴스만</string>
+    <string name="news_eat_slogan2">내 취향에 맞게 편안한 뉴스만</string>
 
     <!--    회원가입, 로그인-->
 
@@ -57,6 +58,8 @@
     <string name="category_social">사회</string>
     <string name="category_world">세계</string>
 
+    <string name="find_pw_info">이메일로 인증코드를 발송해 드려요</string>
+
     <!--    홈-->
     <string name="home_news_detox">뉴스 디톡스 모드</string>
     <string name="home_category_news_title">%s님을 위한 맞춤 뉴스</string>
@@ -78,6 +81,7 @@
     <string name="mypage_edit_nicnkame_title">닉네임</string>
 
     <!--    마이페이지 메뉴 리스트-->
+    <string name="mypage_menu_tts_title">TTS 설정</string>
     <string name="mypage_menu_interest_title">관심사 수정</string>
     <string name="mypage_menu_profile_title">회원정보 수정</string>
     <string name="mypage_menu_logout_title">로그아웃</string>
@@ -119,6 +123,18 @@
 
     <string name="news_detail_recommend_title">추천 뉴스 더보기</string>
 
+    <!-- TTS 설정-->
+    <string name="tts_title_setting">슬라이더를 이용해 TTS의 목소리 속도와 높낮이를 조절해보세요!</string>
+    <string name="tts_title_speed">속도 설정</string>
+    <string name="tts_title_pitch">높낮이 설정</string>
+    <string name="tts_btn_play">샘플 재생</string>
+    <string name="tts_btn_reset">초기화</string>
+    <string name="tts_speed_slow">느리게</string>
+    <string name="tts_speed_fast">빠르게</string>
+    <string name="tts_pitch_low">낮게</string>
+    <string name="tts_pitch_high">높게</string>
+
+
     <!--    스낵바 메시지-->
     <string name="snackbar_login_error">아이디 또는 비밀번호가 잘못되었습니다.</string>
     <string name="snackbar_bookmark_deleted">북마크에서 제거됐어요.</string>
@@ -131,6 +147,9 @@
     <string name="snackbar_category_unselected">최소 1개의 관심사를 선택해주세요.</string>
     <string name="snackbar_category_update_success">관심사가 변경되었어요.</string>
     <string name="snackbar_category_update_fail">관심사 변경에 실패했어요. 다시 시도해주세요.</string>
+    <string name="snackbar_logout_completed">로그아웃되었습니다.</string>
+    <string name="snackbar_withdraw_completed">회원 탈퇴가 완료되었습니다.</string>
+    <string name="snackbar_password_changed">비밀번호가 변경되었습니다.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

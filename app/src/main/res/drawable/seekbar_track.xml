@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 배경 트랙 -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="15dp"/>
+            <size android:height="2dp"/>
+            <solid android:color="@color/Gray200"/>
+        </shape>
+    </item>
+
+    <!-- 진행된 부분 -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="15dp"/>
+                <size android:height="2dp"/>
+                <solid android:color="@color/Primary600"/>
+            </shape>
+        </clip>
+    </item>
+</layer-list>

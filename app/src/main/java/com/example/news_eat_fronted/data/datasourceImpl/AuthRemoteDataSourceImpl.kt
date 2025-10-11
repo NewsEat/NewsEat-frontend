@@ -6,10 +6,13 @@ import com.example.news_eat_fronted.data.model.request.auth.CheckEmailRequestDto
 import com.example.news_eat_fronted.data.model.request.auth.LoginRequestDto
 import com.example.news_eat_fronted.data.model.request.auth.SendEmailRequestDto
 import com.example.news_eat_fronted.data.model.request.auth.SignupRequestDto
+import com.example.news_eat_fronted.data.model.request.auth.VerifyResetPwRequestDto
+import com.example.news_eat_fronted.data.model.request.user.ModifyPwRequestDto
 import com.example.news_eat_fronted.data.model.response.auth.CheckEmailResponseDto
 import com.example.news_eat_fronted.data.model.response.auth.LoginResponseDto
 import com.example.news_eat_fronted.data.model.response.auth.SendEmailResponseDto
 import com.example.news_eat_fronted.data.model.response.auth.SignupResponseDto
+import com.example.news_eat_fronted.data.model.response.auth.VerifyResetPwResponseDto
 import com.example.news_eat_fronted.data.service.AuthService
 import javax.inject.Inject
 
@@ -30,4 +33,10 @@ class AuthRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun reissueToken(refreshToken: String): BaseResponse<LoginResponseDto>
     = authService.reissueToken(refreshToken)
+
+    override suspend fun verifyResetPw(verifyResetPwRequestDto: VerifyResetPwRequestDto): BaseResponse<VerifyResetPwResponseDto>
+    = authService.verifyResetPw(verifyResetPwRequestDto)
+
+    override suspend fun resetPw(modifyPwRequestDto: ModifyPwRequestDto): BaseResponse<Unit>
+    = authService.resetPw(modifyPwRequestDto)
 }

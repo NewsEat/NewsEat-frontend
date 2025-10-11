@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/mypage_edit_nickname"
-                    android:textAppearance="@style/TextAppearance.NewsEat.Body9"
+                    android:textAppearance="@style/TextAppearance.NewsEat.Body7"
                     android:textColor="@color/Gray500"
 
 
@@ -108,14 +108,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- 메뉴 1: 관심사 수정 -->
+            <!-- 메뉴 1: tts 설정 -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/menu_interest"
+                android:id="@+id/menu_tts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/icon_tts"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_tts"
+                    android:tint="@color/Gray800"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_tts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/mypage_menu_tts_title"
+                    android:textAppearance="@style/TextAppearance.NewsEat.Body2"
+                    android:textColor="@color/Gray800"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/icon_tts"
+                    app:layout_constraintEnd_toStartOf="@id/arrow_tts" />
+
+                <ImageButton
+                    android:id="@+id/arrow_tts"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_mypage_arrow"
+                    android:background="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 메뉴 2: 관심사 수정 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/menu_interest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/menu_tts"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="26dp">
 
                 <ImageView
                     android:id="@+id/icon_interest"
@@ -150,7 +194,7 @@
                     app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 메뉴 2: 회원정보 수정 -->
+            <!-- 메뉴 3: 회원정보 수정 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menu_profile"
                 android:layout_width="0dp"
@@ -193,7 +237,7 @@
                     app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 메뉴 3: 로그아웃 -->
+            <!-- 메뉴 4: 로그아웃 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menu_logout"
                 android:layout_width="0dp"
@@ -236,7 +280,7 @@
                     app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 메뉴 4: 회원탈퇴 -->
+            <!-- 메뉴 5: 회원탈퇴 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menu_withdraw"
                 android:layout_width="0dp"

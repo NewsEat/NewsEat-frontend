@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.data.service
 
 import com.example.news_eat_fronted.data.model.BaseResponse
+import com.example.news_eat_fronted.data.model.request.user.ModifyPwRequestDto
 import com.example.news_eat_fronted.data.model.request.user.SetDetoxModeRequestDto
 import com.example.news_eat_fronted.data.model.request.user.UpdateCategoryRequestDto
 import com.example.news_eat_fronted.data.model.request.user.UpdateNicknameRequestDto
@@ -30,11 +31,16 @@ interface UserService {
         @Body updateNicknameRequestDto: UpdateNicknameRequestDto
     ) : BaseResponse<Unit>
 
-    @PUT("member/me")
+    @GET("member/me")
     suspend fun getNickname(): BaseResponse<GetNicknameResponseDto>
 
     @PUT("member/categories")
     suspend fun updateCategories(
         @Body updateCategoryRequestDto: UpdateCategoryRequestDto
     ) : BaseResponse<Unit>
+
+    @PATCH("member/password")
+    suspend fun modifyPassword(
+        @Body modifyPwRequestDto: ModifyPwRequestDto
+    ): BaseResponse<Unit>
 }

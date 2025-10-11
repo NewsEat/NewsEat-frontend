@@ -1,10 +1,10 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,7 +22,6 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
     private lateinit var type: String
     private lateinit var currentNickname : String
     private var currentSelectedCategoryIds: ArrayList<Int>? = null
-    private val myPageViewModel: MyPageViewModel by viewModels()
     private val modifyViewModel: ModifyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,24 +46,26 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
         binding.btnModify.setOnClickListener {
             when(type) {
+                "tts" -> {
+                    val speed = modifyViewModel.currentSpeed.value
+                    val pitch = modifyViewModel.currentPitch.value
+
+                    val prefs = this.getSharedPreferences("TTS_PREFS", Context.MODE_PRIVATE)
+                    prefs.edit()
+                        .putFloat("TTS_SPEED", speed)
+                        .putFloat("TTS_PITCH", pitch)
+                        .apply()
+
+                    finish()
+                }
                 "nickname" -> {
-                    val newNickname = modifyViewModel.nickname.value
-                    if(newNickname.isNotEmpty()) {
-                        myPageViewModel.updateNickname(newNickname)
-                    } else {
-                        CustomSnackBar.make(binding.root, R.string.snackbar_nickname.toString()).show()
-                    }
+                    modifyViewModel.updateNickname()
                 }
                 "category" -> {
-                    val selectedIds = modifyViewModel.selectedCategory.value
-                    if(selectedIds.isNotEmpty()) {
-                        myPageViewModel.updateCategory(selectedIds)
-                    } else {
-                        CustomSnackBar.make(binding.root, R.string.snackbar_category_unselected.toString()).show()
-                    }
+                    modifyViewModel.updateCategory()
                 }
                 "password" -> {
-                    // 비밀번호 수정 로직
+                    modifyViewModel.modifyPassword()
                 }
             }
         }
@@ -76,35 +77,46 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
                 binding.btnModify.isEnabled = enabled
             }
         }
+
+        lifecycleScope.launch {
+            modifyViewModel.modifyPwState.collect {
+                val resultIntent = Intent().apply {
+                    putExtra("pwChanged", true)
+                }
+                setResult(RESULT_OK, resultIntent)
+                finish()
+            }
+        }
     }
 
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                myPageViewModel.updateNicknameState.collect { success ->
-                    val message = if (success) {
-                        getString(R.string.snackbar_nickname_update_success)
+                modifyViewModel.updateNicknameState.collect { success ->
+                    if (success) {
+                        val resultIntent = Intent().apply {
+                            putExtra("nicknameChanged", true)
+                        }
+                        setResult(RESULT_OK, resultIntent)
+                        finish()
                     } else {
-                        getString(R.string.snackbar_nickname_update_fail)
+                        CustomSnackBar(binding.root, getString(R.string.snackbar_nickname_update_fail)).show()
                     }
-                    CustomSnackBar.make(binding.root, message).show()
-
-                    if (success) finish()
                 }
             }
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                myPageViewModel.updateCategoryState.collect { success ->
-                    val message = if (success) {
-                        getString(R.string.snackbar_category_update_success)
+                modifyViewModel.updateCategoryState.collect { success ->
+                    if (success) {
+                        val resultIntent = Intent().apply {
+                            putExtra("categoryChanged", true)
+                        }
+                        setResult(RESULT_OK, resultIntent)
+                        finish()
                     } else {
-                        getString(R.string.snackbar_category_update_fail)
+                        CustomSnackBar(binding.root, getString(R.string.snackbar_category_update_fail)).show()
                     }
-
-                    CustomSnackBar.make(binding.root, message).show()
-
-                    if(success) finish()
                 }
             }
         }
@@ -112,18 +124,21 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
     private fun setFragment() {
         val fragment = when(type){
+            "tts" -> SetTTSFragment()
             "nickname" -> ModifyNicknameFragment()
-//            "nickname" -> SignupStep2Fragment().apply {
-//                arguments = Bundle().apply { putBoolean("isModify", true) }
-//            }
             "userInfo" -> ModifyUserInfoFragment()
             "password" -> ModifyPwFragment()
-            "category" -> SignupStep3Fragment().apply {
-                arguments = Bundle().apply {
-                    putBoolean("isModify", true)
-                    putIntegerArrayList("selected_categories", currentSelectedCategoryIds)
-                }
+            "category" -> {
+                modifyViewModel.updateSelectedCategory(currentSelectedCategoryIds)
+                modifyViewModel.setOriginalCategories(currentSelectedCategoryIds)
 
+                SignupStep3Fragment().apply {
+                    arguments = Bundle().apply {
+                        putBoolean("isModify", true)
+                        putIntegerArrayList("selected_categories", currentSelectedCategoryIds)
+                    }
+
+                }
             }
             else -> SignupStep2Fragment()
         }
@@ -135,6 +150,7 @@ class ModifyMyPageActivity: BindingActivity<ActivityModifyMypageBinding>(R.layou
 
     private fun setHeaderTitle() {
         val title = when(type) {
+            "tts" -> "TTS 설정"
             "nickname" -> "닉네임 수정"
             "userInfo" -> "회원정보 수정"
             "password" -> "회원정보 수정"

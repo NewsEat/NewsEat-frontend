@@ -1,13 +1,27 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
+import com.example.news_eat_fronted.domain.usecase.user.ModifyPasswordUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateCategoryUseCase
+import com.example.news_eat_fronted.domain.usecase.user.UpdateNicknameUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ModifyViewModel: ViewModel() {
+@HiltViewModel
+class ModifyViewModel @Inject constructor(
+    private val modifyPasswordUseCase: ModifyPasswordUseCase,
+    private val updateNicknameUseCase: UpdateNicknameUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase
+): ViewModel() {
     private val _nickname = MutableStateFlow("")
     val nickname: StateFlow<String> = _nickname
 
@@ -40,6 +54,23 @@ class ModifyViewModel: ViewModel() {
 
     private var originalNickname: String = ""
 
+    private var originalCategories: List<Int> = emptyList()
+
+    private val _currentSpeed = MutableStateFlow(0f)
+    val currentSpeed: StateFlow<Float> = _currentSpeed
+
+    private val _currentPitch = MutableStateFlow(0f)
+    val currentPitch: StateFlow<Float> = _currentPitch
+
+    private val _modifyPwState = MutableSharedFlow<Unit?>()
+    val modifyPwState: SharedFlow<Unit?> = _modifyPwState
+
+    private val _updateNicknameState = MutableSharedFlow<Boolean>()
+    val updateNicknameState: SharedFlow<Boolean> = _updateNicknameState
+
+    private val _updateCategoryState = MutableSharedFlow<Boolean>()
+    val updateCategoryState: SharedFlow<Boolean> = _updateCategoryState
+
     fun setOriginalNickname(original: String) {
         originalNickname = original
         updateEnabledForNickname()
@@ -51,8 +82,8 @@ class ModifyViewModel: ViewModel() {
         updateEnabledForNickname()
     }
 
-    fun updateSelectedCategory(selectedList: List<Int>) {
-        _selectedCategory.value = selectedList
+    fun updateSelectedCategory(selectedList: ArrayList<Int>?) {
+        _selectedCategory.value = selectedList ?: emptyList()
         updateEnabledForCategory()
     }
 
@@ -91,7 +122,10 @@ class ModifyViewModel: ViewModel() {
     }
 
     private fun updateEnabledForCategory() {
-        _isNextBtnEnabled.value = _selectedCategory.value.isNotEmpty()
+        _isNextBtnEnabled.value =
+            _selectedCategory.value.isNotEmpty() &&
+            !_selectedCategory.value.containsAll(originalCategories) ||
+            !originalCategories.containsAll(_selectedCategory.value)
     }
 
     fun togglePwVisible() {
@@ -100,5 +134,60 @@ class ModifyViewModel: ViewModel() {
 
     fun togglePwConfirmVisible() {
         _isPwConfirmVisible.value = !_isPwConfirmVisible.value
+    }
+
+    fun setOriginalCategories(original: List<Int>?) {
+        originalCategories = original ?: emptyList()
+        updateEnabledForCategory()
+    }
+
+    fun setCurrentSpeed(speed: Float) {
+        _currentSpeed.value = speed
+    }
+
+    fun setCurrentPitch(pitch: Float) {
+        _currentPitch.value = pitch
+    }
+
+    fun setForceEnableNextBtn() {
+        _isNextBtnEnabled.value = true
+    }
+
+    fun modifyPassword() {
+        viewModelScope.launch {
+            try {
+                modifyPasswordUseCase(ModifyPwRequestEntity(
+                    password = _pw.value,
+                    confirmPassword = _pwConfirm.value
+                ))
+                _modifyPwState.emit(Unit)
+            } catch (ex: Exception) {}
+        }
+    }
+
+    fun updateNickname() {
+        viewModelScope.launch {
+            try {
+                updateNicknameUseCase(UpdateNicknameRequestEntity(
+                    nickname = _nickname.value
+                ))
+                _updateNicknameState.emit(true)
+            } catch (ex: Exception) {
+                _updateNicknameState.emit(false)
+            }
+        }
+    }
+
+    fun updateCategory() {
+        viewModelScope.launch {
+            try {
+                updateCategoryUseCase(UpdateCategoryRequestEntity(
+                    categoryIds = _selectedCategory.value
+                ))
+                _updateCategoryState.emit(true)
+            } catch (ex: Exception) {
+                _updateCategoryState.emit(false)
+            }
+        }
     }
 }

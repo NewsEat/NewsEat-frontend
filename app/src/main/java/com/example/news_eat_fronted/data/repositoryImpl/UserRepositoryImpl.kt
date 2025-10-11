@@ -1,6 +1,7 @@
 package com.example.news_eat_fronted.data.repositoryImpl
 
 import com.example.news_eat_fronted.data.datasource.UserRemoteDataSource
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.SetDetoxModeRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateCategoryRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.user.UpdateNicknameRequestEntity
@@ -65,4 +66,9 @@ class UserRepositoryImpl @Inject constructor(
         }.getOrElse { err -> throw err }
     }
 
+    override suspend fun modifyPassword(modifyPwRequestEntity: ModifyPwRequestEntity) {
+        return runCatching {
+            userDataSource.modifyPassword(modifyPwRequestEntity.toModifyPwRequestDto()).result
+        }.getOrElse { err -> throw err }
+    }
 }

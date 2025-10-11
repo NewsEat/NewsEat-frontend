@@ -36,7 +36,7 @@ interface NewsService {
         @Query("size") size: Int
     ): BaseResponse<GetSearchedNewsResponseDto>
 
-    @GET("news/{newsId}/recommendations")
+    @GET("news/{newsId}/recommendations/v2")
     suspend fun getRecommendations(
         @Path("newsId") newsId: Long
     ): BaseResponse<GetRecommendationsResponseDto>

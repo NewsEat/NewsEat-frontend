@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.mypage
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -8,23 +9,44 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.news_eat_fronted.R
-import com.example.news_eat_fronted.databinding.FragmentHomeBinding
+import com.example.news_eat_fronted.data.token.TokenManager
 import com.example.news_eat_fronted.databinding.FragmentMypageBinding
 import com.example.news_eat_fronted.presentation.ui.login.LoginActivity
+import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingFragment
 import com.example.news_eat_fronted.util.dialog.DialogPopupFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.ArrayList
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_mypage) {
 
     private val viewModel: MyPageViewModel by viewModels()
+    @Inject
+    lateinit var tokenManager: TokenManager
+
+    private val modifyLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            if (result.data?.getBooleanExtra("pwChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_password_changed)).show()
+            }
+            if (result.data?.getBooleanExtra("nicknameChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_nickname_update_success)).show()
+            }
+            if (result.data?.getBooleanExtra("categoryChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_category_update_success)).show()
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +89,7 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
                 startActivity(
                     Intent(requireContext(), LoginActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        putExtra("WITHDRAW", true)
                     }
                 )
             }
@@ -109,23 +132,32 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
     private fun addListeners() {
         binding.btnEditNickname.setOnClickListener {
             val currentNickname = viewModel.nickname.value
-            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+            val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "nickname")
                 putExtra("current_nickname", currentNickname)
+            }
+            modifyLauncher.launch(intent)
+        }
+
+        binding.menuTts.setOnClickListener {
+            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+                putExtra("fragment_type", "tts")
             })
         }
 
         binding.menuInterest.setOnClickListener {
-            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+            val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "category")
                 putIntegerArrayListExtra("selected_categories", ArrayList(viewModel.categoryIds.value))
-            })
+            }
+            modifyLauncher.launch(intent)
         }
 
         binding.menuProfile.setOnClickListener {
-            startActivity(Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
+            val intent = Intent(requireContext(), ModifyMyPageActivity::class.java).apply {
                 putExtra("fragment_type", "userInfo")
-            })
+            }
+            modifyLauncher.launch(intent)
         }
 
         binding.menuLogout.setOnClickListener {
@@ -136,7 +168,11 @@ class MyPageFragment: BindingFragment<FragmentMypageBinding>(R.layout.fragment_m
                 rightBtnText = getString(R.string.dialog_btn_logout),
                 clickLeftBtn = {},
                 clickRightBtn = {
-                    // 로그아웃 API
+                    tokenManager.clearAccessToken()
+                    tokenManager.clearRefreshToken()
+                    startActivity(Intent(requireContext(), LoginActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .putExtra("LOGOUT", true))
                 }
             )
             dialog.show(parentFragmentManager, "DialogLogout")

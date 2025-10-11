@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import com.example.news_eat_fronted.MainActivity
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.data.token.TokenManager
 import com.example.news_eat_fronted.databinding.ActivityLoginBinding
+import com.example.news_eat_fronted.presentation.ui.findpw.FindPwActivity
 import com.example.news_eat_fronted.presentation.ui.signup.SignupActivity
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingActivity
@@ -28,6 +30,16 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     @Inject
     lateinit var tokenManager: TokenManager
 
+    private val findPwLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            if (result.data?.getBooleanExtra("pwChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_password_changed)).show()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.loginViewModel = loginViewModel
@@ -35,7 +47,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         collectData()
         addListeners()
         setPwVisibility()
-        showSessionExpired()
+        showSnackBar()
 
         setupKeyboardHide()
     }
@@ -57,6 +69,11 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
         binding.gotoSingUp.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
+        }
+
+        binding.findPw.setOnClickListener {
+            val intent = Intent(this, FindPwActivity::class.java)
+            findPwLauncher.launch(intent)
         }
     }
 
@@ -107,9 +124,15 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
     }
 
-    private fun showSessionExpired() {
+    private fun showSnackBar() {
         if(intent.getBooleanExtra("EXTRA_SESSION_EXPIRED", false)) {
             CustomSnackBar(binding.root, getString(R.string.snackbar_session_expired)).show()
+        }
+        else if(intent.getBooleanExtra("LOGOUT", false)) {
+            CustomSnackBar(binding.root, getString(R.string.snackbar_logout_completed)).show()
+        }
+        else if(intent.getBooleanExtra("WITHDRAW", false)) {
+            CustomSnackBar(binding.root, getString(R.string.snackbar_withdraw_completed)).show()
         }
     }
 }

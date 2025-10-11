@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.ui.mypage.SetTTSFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp">
+
+    <TextView
+        android:id="@+id/title_select_tts_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_title_setting"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="55dp" />
+
+    <TextView
+        android:id="@+id/title_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_title_speed"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_select_tts_setting"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/tv_speed_slow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_speed_slow"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body7"
+        app:layout_constraintTop_toBottomOf="@id/title_speed"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_speed_fast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_speed_fast"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body7"
+        app:layout_constraintTop_toTopOf="@id/tv_speed_slow"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="15dp" />
+
+    <FrameLayout
+        android:id="@+id/speedSeekbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_speed_slow"
+        android:layout_marginTop="2dp">
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/tts_speed_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/seekbar_track"
+            android:thumb="@drawable/seekbar_thumb"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/title_pitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_title_pitch"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body1"
+        android:textColor="@color/Gray700"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/speedSeekbarContainer"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/tv_pitch_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_pitch_low"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body7"
+        app:layout_constraintTop_toBottomOf="@id/title_pitch"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_pitch_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tts_pitch_high"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body7"
+        app:layout_constraintTop_toTopOf="@id/tv_pitch_low"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="15dp" />
+
+    <FrameLayout
+        android:id="@+id/pitchSeekbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_pitch_low"
+        android:layout_marginTop="2dp">
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/tts_pitch_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/seekbar_track"
+            android:thumb="@drawable/seekbar_thumb"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layout_constraintTop_toBottomOf="@id/title_pitch" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_tts_play"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_tts_button"
+        android:text="@string/tts_btn_play"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+        android:textColor="@color/Primary600"
+        app:layout_constraintTop_toBottomOf="@id/pitchSeekbarContainer"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_tts_reset"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="0dp"
+        />
+
+    <Button
+        android:id="@+id/btn_tts_reset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_tts_button"
+        android:text="@string/tts_btn_reset"
+        android:textAppearance="@style/TextAppearance.NewsEat.Body3"
+        android:textColor="@color/Primary600"
+        app:layout_constraintTop_toTopOf="@id/btn_tts_play"
+        android:padding="12dp"
+        app:layout_constraintStart_toEndOf="@id/btn_tts_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="5dp"
+        android:elevation="0dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

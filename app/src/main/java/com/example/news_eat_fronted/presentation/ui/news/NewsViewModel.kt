@@ -63,6 +63,12 @@ class NewsViewModel @Inject constructor(
     private val _bookmarkedNewsDetail = MutableStateFlow<GetBookmarkedNewsDetailResponseEntity?>(null)
     val bookmarkedNewsDetail: MutableStateFlow<GetBookmarkedNewsDetailResponseEntity?> = _bookmarkedNewsDetail
 
+    private val _currentSpeed = MutableStateFlow(0f)
+    val currentSpeed: StateFlow<Float> = _currentSpeed
+
+    private val _currentPitch = MutableStateFlow(0f)
+    val currentPitch: StateFlow<Float> = _currentPitch
+
     fun getNewsDetail() {
         viewModelScope.launch {
             try {
@@ -152,5 +158,13 @@ class NewsViewModel @Inject constructor(
 
     fun setGetBookmarkedNews(boolean: Boolean) {
         _getBookmarkedNews.value = boolean
+    }
+
+    fun setCurrentSpeed(speed: Float) {
+        _currentSpeed.value = speed
+    }
+
+    fun setCurrentPitch(pitch: Float) {
+        _currentPitch.value = pitch
     }
 }
