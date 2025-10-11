@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/news_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="‘던파’ 흥행에 넥슨 네오플 평균 연봉 2.2억원…업계 1위-뉴스제목입니다 최대 두줄노출"
         android:maxLines="2"
@@ -26,6 +26,7 @@
         android:textColor="@color/Gray800"
         app:layout_constraintTop_toTopOf="@id/news_image"
         app:layout_constraintStart_toEndOf="@id/news_image"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="10dp" />
 
     <TextView
