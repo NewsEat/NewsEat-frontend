@@ -58,6 +58,8 @@
     <string name="category_social">사회</string>
     <string name="category_world">세계</string>
 
+    <string name="find_pw_info">이메일로 인증코드를 발송해 드려요</string>
+
     <!--    홈-->
     <string name="home_news_detox">뉴스 디톡스 모드</string>
     <string name="home_category_news_title">%s님을 위한 맞춤 뉴스</string>

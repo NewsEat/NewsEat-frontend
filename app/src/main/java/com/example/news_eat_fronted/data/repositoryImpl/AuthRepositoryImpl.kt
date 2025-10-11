@@ -5,10 +5,12 @@ import com.example.news_eat_fronted.domain.entity.request.auth.CheckEmailRequest
 import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.auth.VerifyResetPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SignupResponseEntity
+import com.example.news_eat_fronted.domain.entity.response.auth.VerifyResetPwResponseEntity
 import com.example.news_eat_fronted.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -47,6 +49,13 @@ class AuthRepositoryImpl @Inject constructor(
         return runCatching {
             authDataSource.reissueToken(refreshToken)
                 .result.toLoginResponseEntity()
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun verifyResetPw(verifyResetPwRequestEntity: VerifyResetPwRequestEntity): VerifyResetPwResponseEntity {
+        return runCatching {
+            authDataSource.verifyResetPw(verifyResetPwRequestEntity.toVerifyResetPwRequestDto())
+                .result.toVerifyResetPwResponseEntity()
         }.getOrElse { err -> throw err }
     }
 }

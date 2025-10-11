@@ -13,6 +13,7 @@ import com.example.news_eat_fronted.MainActivity
 import com.example.news_eat_fronted.R
 import com.example.news_eat_fronted.data.token.TokenManager
 import com.example.news_eat_fronted.databinding.ActivityLoginBinding
+import com.example.news_eat_fronted.presentation.ui.findpw.FindPwActivity
 import com.example.news_eat_fronted.presentation.ui.signup.SignupActivity
 import com.example.news_eat_fronted.util.CustomSnackBar
 import com.example.news_eat_fronted.util.base.BindingActivity
@@ -57,6 +58,10 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
 
         binding.gotoSingUp.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
+        }
+
+        binding.findPw.setOnClickListener {
+            startActivity(Intent(this, FindPwActivity::class.java))
         }
     }
 

@@ -9,6 +9,6 @@ interface HomeService {
     @GET("home/news-sections")
     suspend fun getHomeNewsSections(): BaseResponse<GetHomeNewsSectionsResponseDto>
 
-    @GET("home/latest-news")
+    @GET("home/recommendation")
     suspend fun getLatestNews(): BaseResponse<GetLatestNewsResponseDto>
 }
