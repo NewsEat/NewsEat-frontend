@@ -1,5 +1,6 @@
 package com.example.news_eat_fronted.presentation.ui.findpw
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
@@ -38,13 +39,33 @@ class FindPwActivity : BindingActivity<ActivityFindPwBinding>(R.layout.activity_
 
                 launch {
                     findPwViewModel.isNextBtnEnabled.collect { enabled ->
-                        binding.btnNext.isEnabled = enabled
+                        if(findPwViewModel.currentStep.value == 0) {
+                            binding.btnNext.isEnabled = enabled
+                        }
+                    }
+                }
+
+                launch {
+                    modifyViewModel.isNextBtnEnabled.collect { enabled ->
+                        if(findPwViewModel.currentStep.value == 1) {
+                            binding.btnNext.isEnabled = enabled
+                        }
                     }
                 }
 
                 launch {
                     findPwViewModel.verifyResetPw.collect { state ->
                         state?.let { findPwViewModel.setUserId(it.userId) }
+                    }
+                }
+
+                launch {
+                    findPwViewModel.modifyPwState.collect { state ->
+                        val resultIntent = Intent().apply {
+                            putExtra("pwChanged", true)
+                        }
+                        setResult(RESULT_OK, resultIntent)
+                        finish()
                     }
                 }
             }
@@ -59,10 +80,9 @@ class FindPwActivity : BindingActivity<ActivityFindPwBinding>(R.layout.activity_
                 findPwViewModel.updateNextEnabled(false)
             }
             else if(findPwViewModel.currentStep.value == 1) {
-            // 비밀번호 재설정 API
-
+                // 비밀번호 재설정 API
+                findPwViewModel.resetPw(modifyViewModel.pw.value, modifyViewModel.pwConfirm.value)
             }
-
         }
 
         binding.btnBack.setOnClickListener {
@@ -89,6 +109,7 @@ class FindPwActivity : BindingActivity<ActivityFindPwBinding>(R.layout.activity_
     private fun handleVisibility(step: Int) {
         if(step == 1) {
             binding.btnNext.text = getString(R.string.button_finish)
+            binding.btnNext.isEnabled = false
         }
     }
 }

@@ -6,6 +6,7 @@ import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntit
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.VerifyResetPwRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
@@ -56,6 +57,13 @@ class AuthRepositoryImpl @Inject constructor(
         return runCatching {
             authDataSource.verifyResetPw(verifyResetPwRequestEntity.toVerifyResetPwRequestDto())
                 .result.toVerifyResetPwResponseEntity()
+        }.getOrElse { err -> throw err }
+    }
+
+    override suspend fun resetPw(modifyPwRequestEntity: ModifyPwRequestEntity) {
+        return runCatching {
+            authDataSource.resetPw(modifyPwRequestEntity.toModifyPwRequestDto())
+                .result
         }.getOrElse { err -> throw err }
     }
 }

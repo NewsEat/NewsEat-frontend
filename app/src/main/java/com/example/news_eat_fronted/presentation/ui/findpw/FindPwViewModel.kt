@@ -1,20 +1,22 @@
 package com.example.news_eat_fronted.presentation.ui.findpw
 
-import android.R.attr.enabled
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.news_eat_fronted.domain.entity.request.auth.CheckEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.VerifyResetPwRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.VerifyResetPwResponseEntity
 import com.example.news_eat_fronted.domain.usecase.auth.CheckEmailUseCase
+import com.example.news_eat_fronted.domain.usecase.auth.ResetPwUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.SendEmailUseCase
 import com.example.news_eat_fronted.domain.usecase.auth.VerifyResetPwUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +27,7 @@ class FindPwViewModel @Inject constructor(
     private val sendEmailUseCase: SendEmailUseCase,
     private val checkEmailUseCase: CheckEmailUseCase,
     private val verifyResetPwUseCase: VerifyResetPwUseCase,
+    private val resetPwUseCase: ResetPwUseCase
 ): ViewModel() {
     private val _currentStep = MutableStateFlow(0)
     val currentStep: StateFlow<Int> = _currentStep
@@ -58,6 +61,9 @@ class FindPwViewModel @Inject constructor(
 
     private val _verifyResetPw = MutableStateFlow<VerifyResetPwResponseEntity?>(null)
     val verifyResetPw: StateFlow<VerifyResetPwResponseEntity?> = _verifyResetPw.asStateFlow()
+
+    private val _modifyPwState = MutableSharedFlow<Unit?>()
+    val modifyPwState: SharedFlow<Unit?> = _modifyPwState
 
     fun sendEmail() {
         viewModelScope.launch {
@@ -100,6 +106,19 @@ class FindPwViewModel @Inject constructor(
                 )
                 _verifyResetPw.value = verifyResetPwResponseEntity
             } catch (ex:Exception) {}
+        }
+    }
+
+    fun resetPw(pw: String, pwConfirm: String) {
+        viewModelScope.launch {
+            try {
+                resetPwUseCase(ModifyPwRequestEntity(
+                    userId = _userId.value,
+                    password = pw,
+                    confirmPassword = pwConfirm
+                ))
+                _modifyPwState.emit(Unit)
+            } catch (ex: Exception) {}
         }
     }
 

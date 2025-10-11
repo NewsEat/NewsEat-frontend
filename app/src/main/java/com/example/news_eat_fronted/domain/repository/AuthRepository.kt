@@ -5,6 +5,7 @@ import com.example.news_eat_fronted.domain.entity.request.auth.LoginRequestEntit
 import com.example.news_eat_fronted.domain.entity.request.auth.SendEmailRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.SignupRequestEntity
 import com.example.news_eat_fronted.domain.entity.request.auth.VerifyResetPwRequestEntity
+import com.example.news_eat_fronted.domain.entity.request.user.ModifyPwRequestEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.CheckEmailResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.LoginResponseEntity
 import com.example.news_eat_fronted.domain.entity.response.auth.SendEmailResponseEntity
@@ -23,4 +24,6 @@ interface AuthRepository {
     suspend fun reissueToken(refreshToken: String): LoginResponseEntity
 
     suspend fun verifyResetPw(verifyResetPwRequestEntity: VerifyResetPwRequestEntity): VerifyResetPwResponseEntity
+
+    suspend fun resetPw(modifyPwRequestEntity: ModifyPwRequestEntity)
 }

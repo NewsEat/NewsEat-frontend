@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
@@ -28,6 +29,16 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     private val loginViewModel by viewModels<LoginViewModel>()
     @Inject
     lateinit var tokenManager: TokenManager
+
+    private val findPwLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            if (result.data?.getBooleanExtra("pwChanged", false) ?: false) {
+                CustomSnackBar(binding.root, getString(R.string.snackbar_password_changed)).show()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +72,8 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
         }
 
         binding.findPw.setOnClickListener {
-            startActivity(Intent(this, FindPwActivity::class.java))
+            val intent = Intent(this, FindPwActivity::class.java)
+            findPwLauncher.launch(intent)
         }
     }
 
